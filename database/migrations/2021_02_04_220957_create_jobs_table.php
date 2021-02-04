@@ -19,7 +19,6 @@ class CreateJobsTable extends Migration
             $table->string('city');
             $table->string('type');
             $table->string('style');
-            $table->timestamp('last_posted_at');
             $table->timestamps();
         });
     }

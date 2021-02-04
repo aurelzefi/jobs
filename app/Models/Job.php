@@ -15,10 +15,6 @@ class Job extends Model
 
     protected $guarded = [];
 
-    protected $casts = [
-        'last_posted_at' => 'datetime',
-    ];
-
     public function company(): BelongsTo
     {
         return $this->belongsTo(Company::class);
