@@ -11,7 +11,7 @@ class SetupCountriesTable extends Migration
 	public function up(): void
 	{
 		Schema::create(config('countries.table_name'), function(Blueprint $table) {
-		    $table->integer('id')->unsigned()->index();
+		    $table->id();
 		    $table->string('capital', 255)->nullable();
 		    $table->string('citizenship', 255)->nullable();
 		    $table->char('country_code', 3)->default('');
@@ -29,8 +29,6 @@ class SetupCountriesTable extends Migration
 		    $table->boolean('eea')->default(0);
 		    $table->string('calling_code', 3)->nullable();
 		    $table->string('flag', 6)->nullable();
-
-		    $table->primary('id');
 		});
 	}
 
