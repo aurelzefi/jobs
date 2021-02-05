@@ -14,6 +14,7 @@ class CreateAlertsTable extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained();
             $table->foreignId('country_id')->constrained();
+            $table->string('name');
             $table->string('keywords');
             $table->boolean('has_all_keywords');
             $table->string('city');
