@@ -18,11 +18,7 @@ class HorizonServiceProvider extends HorizonApplicationServiceProvider
         parent::boot();
 
         // Horizon::routeSmsNotificationsTo('15556667777');
-
-        foreach (config('app.admins') as $email) {
-            Horizon::routeMailNotificationsTo($email);
-        }
-
+        Horizon::routeMailNotificationsTo(config('app.admins.0'));
         // Horizon::routeSlackNotificationsTo('slack-webhook-url', '#channel');
 
         // Horizon::night();
