@@ -18,12 +18,6 @@ class ErrorOccurred extends Notification implements ShouldQueue
         //
     }
 
-    /**
-     * Get the notification's delivery channels.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
     public function via($notifiable): array
     {
         return ['mail'];
@@ -32,7 +26,7 @@ class ErrorOccurred extends Notification implements ShouldQueue
     public function toMail($notifiable): MailMessage
     {
         return (new MailMessage)
-            ->line(__('An error occurred on :app.', ['app' => config('app.name')]))
+            ->line(__('An error occurred on :name.', ['name' => config('app.name')]))
             ->action(__('Check On Telescope'), url('/telescope'));
     }
 
