@@ -18,7 +18,7 @@ class CreateAlertsTable extends Migration
             $table->string('keywords');
             $table->boolean('has_all_keywords');
             $table->string('city');
-            $table->string('type');
+            $table->string('types');
             $table->string('style');
             $table->timestamps();
         });

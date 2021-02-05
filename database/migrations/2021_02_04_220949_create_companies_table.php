@@ -15,7 +15,7 @@ class CreateCompaniesTable extends Migration
             $table->foreignId('user_id')->constrained();
             $table->foreignId('country_id')->constrained();
             $table->string('name');
-            $table->string('logo');
+            $table->string('logo')->nullable();
             $table->text('description');
             $table->string('website');
             $table->string('address');
