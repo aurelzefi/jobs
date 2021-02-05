@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
+use App\Models\Country;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use Webpatser\Countries\Countries;
 
 class CountriesSeeder extends Seeder
 {
@@ -14,7 +14,7 @@ class CountriesSeeder extends Seeder
     {
         DB::table(config('countries.table_name'))->delete();
 
-        $countries = (new Countries())->getList();
+        $countries = (new Country())->getList();
 
         foreach ($countries as $countryId => $country) {
             DB::table(config('countries.table_name'))->insert([
