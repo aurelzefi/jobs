@@ -13,11 +13,30 @@ class Job extends Model
 {
     use HasFactory;
 
+    const TYPES = [
+        'full-time',
+        'part-time',
+        'freelance',
+        'contract',
+        'internship',
+    ];
+
+    const STYLES = [
+        'office',
+        'remote',
+        'optional',
+    ];
+
     protected $guarded = [];
 
     public function company(): BelongsTo
     {
         return $this->belongsTo(Company::class);
+    }
+
+    public function country(): BelongsTo
+    {
+        return $this->belongsTo(Country::class);
     }
 
     protected function orders(): HasMany

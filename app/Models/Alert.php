@@ -18,4 +18,19 @@ class Alert extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function country(): BelongsTo
+    {
+        return $this->belongsTo(Country::class);
+    }
+
+    public function setTypesAttribute(array $value): string
+    {
+        return implode(',', $value);
+    }
+
+    public function getTypesAttribute(string $value): array
+    {
+        return explode(',', $value);
+    }
 }

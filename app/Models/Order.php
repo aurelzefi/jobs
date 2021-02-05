@@ -12,6 +12,11 @@ class Order extends Model
 {
     use HasFactory;
 
+    const TYPES = [
+        'basic',
+        'pinned',
+    ];
+
     public function job(): BelongsTo
     {
         return $this->belongsTo(Job::class);
