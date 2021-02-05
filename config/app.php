@@ -236,4 +236,10 @@ return [
         'aurelzefi1994@gmail.com',
     ],
 
+    // Order Prices
+    'orders' => [
+        'basic' => 9.99 * 100,
+        'pinned' => 9.99 * 100 * 2,
+    ]
+
 ];
