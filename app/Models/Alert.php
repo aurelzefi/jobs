@@ -24,9 +24,9 @@ class Alert extends Model
         return $this->belongsTo(Country::class);
     }
 
-    public function setTypesAttribute(array $value): string
+    public function setTypesAttribute(array $value): void
     {
-        return implode(',', $value);
+        $this->attributes['types'] = implode(',', $value);
     }
 
     public function getTypesAttribute(string $value): array

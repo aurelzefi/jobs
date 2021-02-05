@@ -19,7 +19,7 @@ class AlertFactory extends Factory
         return [
             'user_id' => User::factory(),
             'country_id' => Country::query()->inRandomOrder()->first(),
-            'name' => $this->faker->word,
+            'name' => $this->faker->words(rand(1, 3), true),
             'keywords' => $this->fakeKeywords(),
             'has_all_keywords' => $this->faker->randomElement([true, false]),
             'city' => $this->faker->city,

@@ -39,7 +39,7 @@ class Job extends Model
         return $this->belongsTo(Country::class);
     }
 
-    protected function orders(): HasMany
+    public function orders(): HasMany
     {
         return $this->hasMany(Order::class);
     }
