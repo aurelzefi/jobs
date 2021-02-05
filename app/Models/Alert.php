@@ -29,8 +29,8 @@ class Alert extends Model
         $this->attributes['types'] = implode(',', $value);
     }
 
-    public function getTypesAttribute(string $value): array
+    public function getTypesAttribute(): array
     {
-        return explode(',', $value);
+        return explode(',', $this->attributes['types']);
     }
 }
