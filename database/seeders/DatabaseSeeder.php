@@ -36,8 +36,8 @@ class DatabaseSeeder extends Seeder
     protected function seedCompanies(): Factory
     {
         return Company::factory()->has(
-            Job::factory()->has(Order::factory())
-        );
+            Job::factory()->has(Order::factory())->count(rand(0, 3))
+        )->count(rand(0, 3));
     }
 
     protected function seedAlerts(): Factory
