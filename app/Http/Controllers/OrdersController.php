@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\OrderRequest;
 use App\Models\Order;
+use App\Paypal\Payment;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -16,16 +16,22 @@ class OrdersController extends Controller
         return response()->json($orders);
     }
 
-    public function store(OrderRequest $request): JsonResponse
+    public function show(Order $order): JsonResponse
     {
-        $order = Order::create($request->only('job_id', 'type'));
+        $this->authorize('view', $order);
 
         return response()->json($order);
     }
 
-    public function show(Order $order): JsonResponse
+    public function capture(Order $order, Payment $payment): JsonResponse
     {
-        $this->authorize('view', $order);
+        $this->authorize('capture', $order);
+
+        $payload = $payment->forOrder($order)->create();
+
+        $order->fill([
+            'paypal_order_id' => $payload['id'],
+        ])->save();
 
         return response()->json($order);
     }

@@ -16,4 +16,9 @@ class OrderPolicy
     {
         return $user->id === $order->job->company->user_id;
     }
+
+    public function capture(User $user, Order $order): bool
+    {
+        return $user->id === $order->job->company->user_id;
+    }
 }

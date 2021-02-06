@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Requests;
 
 use App\Models\Job;
+use App\Models\Order;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -25,6 +26,7 @@ class JobRequest extends FormRequest
             'city' => ['required', 'string', 'max:255'],
             'type' => ['required', 'string', Rule::in(Job::TYPES)],
             'style' => ['required', 'string', Rule::in(Job::STYLES)],
+            'order_type' => ['required', Rule::in(Order::TYPES)],
         ];
     }
 }

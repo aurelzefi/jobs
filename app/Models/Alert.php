@@ -14,6 +14,10 @@ class Alert extends Model
 
     protected $guarded = [];
 
+    protected $casts = [
+        'has_all_keywords' => 'boolean',
+    ];
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

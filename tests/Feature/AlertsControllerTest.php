@@ -6,13 +6,12 @@ use App\Models\Alert;
 use App\Models\User;
 use Database\Seeders\CountriesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
 class AlertsControllerTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase;
 
     public function setUp(): void
     {
@@ -113,8 +112,8 @@ class AlertsControllerTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $alert = $user->alerts()->create(
-            Alert::factory()->make()->toArray()
+        $alert = $user->alerts()->save(
+            Alert::factory()->make()
         );
 
         $data = Alert::factory()->make()->toArray();
@@ -130,8 +129,8 @@ class AlertsControllerTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $alert = $user->alerts()->create(
-            Alert::factory()->make()->toArray()
+        $alert = $user->alerts()->save(
+            Alert::factory()->make()
         );
 
         $response = $this->actingAs($user)->put("/alerts/{$alert->id}");
@@ -194,8 +193,8 @@ class AlertsControllerTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $alert = $user->alerts()->create(
-            Alert::factory()->make()->toArray()
+        $alert = $user->alerts()->save(
+            Alert::factory()->make()
         );
 
         $response = $this->actingAs($user)->delete("/alerts/{$alert->id}");

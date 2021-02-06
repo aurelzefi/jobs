@@ -22,6 +22,8 @@ class Order extends Model
         'pinned',
     ];
 
+    protected $guarded = [];
+
     public function job(): BelongsTo
     {
         return $this->belongsTo(Job::class);

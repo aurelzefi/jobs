@@ -25,9 +25,17 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
-Route::apiResource('alerts', AlertsController::class);
-Route::apiResource('companies', CompaniesController::class)->except('destroy');
-Route::apiResource('jobs', JobsController::class)->except('destroy');
-Route::apiResource('orders', OrdersController::class)->only(['index', 'store', 'show']);
-
 require __DIR__.'/auth.php';
+
+// Alerts Routes...
+Route::apiResource('alerts', AlertsController::class);
+
+// Companies Routes...
+Route::apiResource('companies', CompaniesController::class)->except('destroy');
+
+// Jobs Routes...
+Route::apiResource('jobs', JobsController::class)->except('destroy');
+
+// Orders Routes...
+Route::apiResource('orders', OrdersController::class)->only(['index', 'store', 'show']);
+Route::put('/orders/{order}/capture', [OrdersController::class, 'capture'])->name('orders.capture');
