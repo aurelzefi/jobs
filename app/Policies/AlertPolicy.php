@@ -12,38 +12,18 @@ class AlertPolicy
 {
     use HandlesAuthorization;
 
-    public function viewAny(User $user): bool
-    {
-        //
-    }
-
     public function view(User $user, Alert $alert): bool
     {
-        //
-    }
-
-    public function create(User $user): bool
-    {
-        //
+        return $user->id === $alert->user_id;
     }
 
     public function update(User $user, Alert $alert): bool
     {
-        //
+        return $user->id === $alert->user_id;
     }
 
     public function delete(User $user, Alert $alert): bool
     {
-        //
-    }
-
-    public function restore(User $user, Alert $alert): bool
-    {
-        //
-    }
-
-    public function forceDelete(User $user, Alert $alert): bool
-    {
-        //
+        return $user->id === $alert->user_id;
     }
 }
