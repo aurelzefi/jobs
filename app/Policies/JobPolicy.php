@@ -12,38 +12,13 @@ class JobPolicy
 {
     use HandlesAuthorization;
 
-    public function viewAny(User $user): bool
-    {
-        //
-    }
-
     public function view(User $user, Job $job): bool
     {
-        //
-    }
-
-    public function create(User $user): bool
-    {
-        //
+        return $user->id === $job->company->user_id;
     }
 
     public function update(User $user, Job $job): bool
     {
-        //
-    }
-
-    public function delete(User $user, Job $job): bool
-    {
-        //
-    }
-
-    public function restore(User $user, Job $job): bool
-    {
-        //
-    }
-
-    public function forceDelete(User $user, Job $job): bool
-    {
-        //
+        return $user->id === $job->company->user_id;
     }
 }

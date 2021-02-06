@@ -1,6 +1,9 @@
 <?php
 
 use App\Http\Controllers\AlertsController;
+use App\Http\Controllers\CompaniesController;
+use App\Http\Controllers\JobsController;
+use App\Http\Controllers\OrdersController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,5 +26,8 @@ Route::get('/dashboard', function () {
 })->middleware(['auth'])->name('dashboard');
 
 Route::apiResource('alerts', AlertsController::class);
+Route::apiResource('companies', CompaniesController::class)->except('destroy');
+Route::apiResource('jobs', JobsController::class)->except('destroy');
+Route::apiResource('orders', OrdersController::class)->only(['index', 'store', 'show']);
 
 require __DIR__.'/auth.php';
