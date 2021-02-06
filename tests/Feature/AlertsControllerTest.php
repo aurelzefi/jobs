@@ -49,9 +49,6 @@ class AlertsControllerTest extends TestCase
         ]);
     }
 
-    /**
-     * @group current
-     */
     public function test_alerts_cant_be_created_with_invalid_data()
     {
         $user = User::factory()->create();
@@ -175,7 +172,7 @@ class AlertsControllerTest extends TestCase
 
         $data = Alert::factory()->make()->toArray();
 
-        $response = $this->actingAs($user)->post("/alerts/{$alert->id}", [
+        $response = $this->actingAs($user)->put("/alerts/{$alert->id}", [
             'country_id' => $data['country_id'],
             'name' => $data['name'],
             'keywords' => $data['keywords'],

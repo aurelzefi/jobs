@@ -20,8 +20,6 @@ class AlertsController extends Controller
 
     public function store(AlertRequest $request): JsonResponse
     {
-        dd(1);
-
         $alert = $request->user()->alerts()->create([
             'country_id' => $request->input('country_id'),
             'name' => $request->input('name'),
