@@ -7,6 +7,7 @@ namespace Database\Seeders;
 use App\Models\Alert;
 use App\Models\Company;
 use App\Models\Job;
+use App\Models\Keyword;
 use App\Models\Order;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -35,13 +36,15 @@ class DatabaseSeeder extends Seeder
 
     protected function seedCompanies(): Factory
     {
-        return Company::factory()->has(
-            Job::factory()->has(Order::factory())->count(rand(0, 3))
-        )->count(rand(0, 3));
+        return Company::factory(rand(0, 3))->has(
+            Job::factory(rand(0, 3))->has(Order::factory())
+        );
     }
 
     protected function seedAlerts(): Factory
     {
-        return Alert::factory()->count(rand(0, 3));
+        return Alert::factory(rand(0, 3))->has(
+            Keyword::factory(rand(1, 3))
+        );
     }
 }

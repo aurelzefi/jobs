@@ -28,4 +28,9 @@ class AlertRequest extends FormRequest
             'style' => ['required', 'string', 'max:255'],
         ];
     }
+
+    public function keywords(): array
+    {
+        return explode(',', $this->input('keywords'));
+    }
 }

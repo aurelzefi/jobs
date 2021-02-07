@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Events\JobCreated;
+use App\Events\JobPosted;
 use App\Http\Requests\JobRequest;
 use App\Models\Job;
 use Illuminate\Http\JsonResponse;
@@ -29,6 +31,8 @@ class JobsController extends Controller
             'type' => $request->input('type'),
             'style' => $request->input('style'),
         ]);
+
+        event(new JobCreated($job));
 
         return response()->json($job);
     }
