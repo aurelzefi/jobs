@@ -40,4 +40,9 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasManyThrough(Job::class, Company::class);
     }
+
+    public function isEligibleForFreeOrder(): bool
+    {
+        return Order::forUser($this)->count() < Order::AMOUNT_OF_FREE_ORDERS;
+    }
 }
