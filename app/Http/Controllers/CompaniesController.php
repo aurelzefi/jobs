@@ -21,13 +21,15 @@ class CompaniesController extends Controller
 
     public function store(CompanyRequest $request): JsonResponse
     {
-        $data = $request->only('country_id', 'name', 'description', 'website', 'address', 'city');
-
-        if ($request->hasFile('logo')) {
-            $data = array_merge($data, ['logo' => $request->file('logo')->store('images', 'public')]);
-        }
-
-        $company = $request->user()->companies()->create($data);
+        $company = $request->user()->companies()->create([
+            'country_id' => $request->input('country_id'),
+            'name' => $request->input('name'),
+            'logo' => $this->logo($request),
+            'description' => $request->input('description'),
+            'website' => $request->input('website'),
+            'address' => $request->input('address'),
+            'city' => $request->input('city'),
+        ]);
 
         return response()->json($company);
     }
@@ -43,18 +45,27 @@ class CompaniesController extends Controller
     {
         $this->authorize('update', $company);
 
-        $data = $request->only('country_id', 'name', 'description', 'website', 'address', 'city');
-
-        if ($request->hasFile('logo')) {
-            $data = array_merge($data, ['logo' => $request->file('logo')->store('images', 'public')]);
-
-            if ($company->logo) {
-                Storage::disk('public')->delete($company->logo);
-            }
+        if ($request->hasFile('logo') && $company->logo) {
+            Storage::disk('public')->delete($company->logo);
         }
 
-        $company->fill($data)->save();
+        $company->fill([
+            'country_id' => $request->input('country_id'),
+            'name' => $request->input('name'),
+            'logo' => $this->logo($request),
+            'description' => $request->input('description'),
+            'website' => $request->input('website'),
+            'address' => $request->input('address'),
+            'city' => $request->input('city'),
+        ])->save();
 
         return response()->json($company);
+    }
+
+    protected function logo(Request $request): string
+    {
+        if ($request->hasFile('logo')) {
+            return $request->file('logo')->store('images', 'public');
+        }
     }
 }

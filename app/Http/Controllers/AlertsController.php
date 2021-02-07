@@ -20,9 +20,15 @@ class AlertsController extends Controller
 
     public function store(AlertRequest $request): JsonResponse
     {
-        $alert = $request->user()->alerts()->create(
-            $request->only('country_id', 'name', 'keywords', 'has_all_keywords', 'city', 'types', 'style')
-        );
+        $alert = $request->user()->alerts()->create([
+            'country_id' => $request->input('country_id'),
+            'name' => $request->input('name'),
+            'keywords' => $request->input('keywords'),
+            'has_all_keywords' => $request->has('has_all_keywords'),
+            'city' => $request->input('city'),
+            'types' => $request->input('types'),
+            'style' => $request->input('style'),
+        ]);
 
         return response()->json($alert);
     }
@@ -38,9 +44,15 @@ class AlertsController extends Controller
     {
         $this->authorize('update', $alert);
 
-        $alert->fill(
-            $request->only('country_id', 'name', 'keywords', 'has_all_keywords', 'city', 'types', 'style')
-        )->save();
+        $alert->fill([
+            'country_id' => $request->input('country_id'),
+            'name' => $request->input('name'),
+            'keywords' => $request->input('keywords'),
+            'has_all_keywords' => $request->has('has_all_keywords'),
+            'city' => $request->input('city'),
+            'types' => $request->input('types'),
+            'style' => $request->input('style'),
+        ])->save();
 
         return response()->json($alert);
     }

@@ -108,6 +108,21 @@ class AlertsControllerTest extends TestCase
         ]);
     }
 
+    public function test_alerts_can_be_shown()
+    {
+        $user = User::factory()->create();
+
+        $alert = $user->alerts()->save(
+            Alert::factory()->make()
+        );
+
+        $response = $this->actingAs($user)->get("/alerts/{$alert->id}");
+
+        $response->assertJson([
+            'name' => $alert->name,
+        ]);
+    }
+
     public function test_alerts_can_be_updated()
     {
         $user = User::factory()->create();
