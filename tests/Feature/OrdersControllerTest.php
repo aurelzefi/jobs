@@ -60,7 +60,7 @@ class OrdersControllerTest extends TestCase
         $response = $this->actingAs($user)->get("/orders/{$order->id}");
 
         $response->assertJson([
-            'paypal_order_id' => $order->paypal_order_id,
+            'type' => $order->type,
         ]);
     }
 }

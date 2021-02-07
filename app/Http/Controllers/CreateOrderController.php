@@ -14,8 +14,8 @@ class CreateOrderController extends Controller
         $this->authorize('update', $job);
 
         $order = $job->orders()->create([
-            'type' => $request->input('type'),
-            'amount' => config('app.orders.'.$request->input('type')),
+            'type' => $type = $request->input('type'),
+            'amount' => config("app.orders.{$type}"),
         ]);
 
         $paypalOrder = $payment->forOrder($order)->create();

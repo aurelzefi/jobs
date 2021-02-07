@@ -4,13 +4,9 @@ namespace Tests\Feature;
 
 use App\Models\Company;
 use App\Models\Job;
-use App\Models\Order;
 use App\Models\User;
-use App\Paypal\Payment;
-use App\Paypal\Order as PaypalOrder;
 use Database\Seeders\CountriesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Mockery;
 use Tests\TestCase;
 
 class JobsControllerTest extends TestCase

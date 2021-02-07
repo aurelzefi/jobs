@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
-use App\Paypal\Payment;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
