@@ -6,8 +6,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\JobRequest;
 use App\Models\Job;
-use App\Models\Order;
-use App\Paypal\Payment;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -20,7 +18,7 @@ class JobsController extends Controller
         return response()->json($jobs);
     }
 
-    public function store(JobRequest $request, Payment $payment): JsonResponse
+    public function store(JobRequest $request): JsonResponse
     {
         $job = $request->user()->jobs()->create([
             'company_id' => $request->input('company_id'),
@@ -31,17 +29,6 @@ class JobsController extends Controller
             'type' => $request->input('type'),
             'style' => $request->input('style'),
         ]);
-
-        $order = $job->orders()->create([
-            'type' => $request->input('order_type'),
-            'amount' => config('app.orders.'.$request->input('order_type')),
-        ]);
-
-        $paypalOrder = $payment->forOrder($order)->create();
-
-        $order->fill([
-            'paypal_order_id' => $paypalOrder->id(),
-        ])->save();
 
         return response()->json($job);
     }

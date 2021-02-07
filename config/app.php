@@ -238,8 +238,8 @@ return [
 
     // Order Prices
     'orders' => [
-        \App\Models\Order::TYPE_BASIC => 9.99 * 100,
-        \App\Models\Order::TYPE_PINNED => 9.99 * 100 * 2,
+        'basic' => 9.99 * 100,
+        'pinned' => 19.99 * 100,
     ]
 
 ];

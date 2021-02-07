@@ -6,7 +6,7 @@ use App\Models\Order;
 use App\Paypal\Payment;
 use Illuminate\Http\JsonResponse;
 
-class OrderCaptureController extends Controller
+class CaptureOrderController extends Controller
 {
     public function __invoke(Order $order, Payment $payment): JsonResponse
     {

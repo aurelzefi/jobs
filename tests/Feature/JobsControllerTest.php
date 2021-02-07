@@ -28,6 +28,20 @@ class JobsControllerTest extends TestCase
         ]);
     }
 
+    public function test_jobs_can_be_listed()
+    {
+        $user = User::factory()
+            ->has(
+                Company::factory()
+                    ->has(Job::factory()->count(3))
+            )
+            ->create();
+
+        $response = $this->actingAs($user)->get('/jobs');
+
+        $response->assertJsonCount(3);
+    }
+
     public function test_jobs_can_be_created()
     {
         $user = User::factory()->create();
@@ -36,24 +50,62 @@ class JobsControllerTest extends TestCase
             Company::factory()->make()
         );
 
-        $data = array_merge(
-            Job::factory()->make(['company_id' => $company,])->toArray(),
-            ['order_type' => Order::factory()->make()->type]
-        );
-
-        $paypalOrder = Mockery::mock(PaypalOrder::class);
-        $paypalOrder->shouldReceive('id')->andReturn('some-id');
-
-        $payment = Mockery::mock(Payment::class);
-        $payment->shouldReceive('forOrder')->andReturn($payment);
-        $payment->shouldReceive('create')->andReturn($paypalOrder);
-
-        $this->app->instance(Payment::class, $payment);
+        $data = Job::factory()->make(['company_id' => $company])->toArray();
 
         $response = $this->actingAs($user)->post('/jobs', $data);
 
         $response->assertJson([
             'title' => $data['title'],
         ]);
+    }
+
+    public function test_jobs_cant_be_created_with_invalid_data()
+    {
+        $this->assertTrue(true);
+    }
+
+    public function test_jobs_can_be_shown()
+    {
+        $user = User::factory()->create();
+
+        $company = $user->companies()->save(
+            Company::factory()->make()
+        );
+
+        $job = $company->jobs()->save(
+            Job::factory()->make()
+        );
+
+        $response = $this->actingAs($user)->get("/jobs/{$job->id}");
+
+        $response->assertJson([
+            'title' => $job->title,
+        ]);
+    }
+
+    public function test_jobs_can_be_updated()
+    {
+        $user = User::factory()->create();
+
+        $company = $user->companies()->save(
+            Company::factory()->make()
+        );
+
+        $job = $company->jobs()->save(
+            Job::factory()->make()
+        );
+
+        $data = Job::factory()->make(['company_id' => $company])->toArray();
+
+        $response = $this->actingAs($user)->put("/jobs/{$job->id}", $data);
+
+        $response->assertJson([
+            'title' => $data['title'],
+        ]);
+    }
+
+    public function test_jobs_cant_be_updated_with_invalid_data()
+    {
+        $this->assertTrue(true);
     }
 }
