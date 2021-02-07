@@ -2,7 +2,7 @@
 
 namespace App\Paypal;
 
-use App\Models\Order;
+use App\Models\Order as EloquentOrder;
 use PayPalCheckoutSdk\Core\PayPalHttpClient;
 use PayPalCheckoutSdk\Core\SandboxEnvironment;
 use PayPalCheckoutSdk\Orders\OrdersCaptureRequest;
@@ -22,14 +22,14 @@ class Payment
         );
     }
 
-    public function forOrder(Order $order): self
+    public function forOrder(EloquentOrder $order): self
     {
         $this->order = $order;
 
         return $this;
     }
 
-    public function create(): Response
+    public function create(): Order
     {
         $request = new OrdersCreateRequest();
 
@@ -37,16 +37,16 @@ class Payment
 
         $request->body = $this->payload();
 
-        return new Response(
+        return new Order(
             $this->client()->execute($request)
         );
     }
 
-    public function capture(): Response
+    public function capture(): Order
     {
         $request = new OrdersCaptureRequest($this->order->paypal_order_id);
 
-        return new Response(
+        return new Order(
             $this->client()->execute($request)
         );
     }

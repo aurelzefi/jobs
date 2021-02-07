@@ -3,6 +3,7 @@
 use App\Http\Controllers\AlertsController;
 use App\Http\Controllers\CompaniesController;
 use App\Http\Controllers\JobsController;
+use App\Http\Controllers\OrderCaptureController;
 use App\Http\Controllers\OrdersController;
 use Illuminate\Support\Facades\Route;
 
@@ -37,5 +38,5 @@ Route::apiResource('companies', CompaniesController::class)->except('destroy');
 Route::apiResource('jobs', JobsController::class)->except('destroy');
 
 // Orders Routes...
-Route::apiResource('orders', OrdersController::class)->only(['index', 'store', 'show']);
-Route::put('/orders/{order}/capture', [OrdersController::class, 'capture'])->name('orders.capture');
+Route::apiResource('orders', OrdersController::class)->only(['index', 'show']);
+Route::put('/orders/{order}/capture', OrderCaptureController::class)->name('orders.capture');
