@@ -23,12 +23,17 @@ class AlertsController extends Controller
         $alert = $request->user()->alerts()->create([
             'country_id' => $request->input('country_id'),
             'name' => $request->input('name'),
-            'keywords' => $request->input('keywords'),
             'has_all_keywords' => $request->has('has_all_keywords'),
             'city' => $request->input('city'),
             'types' => $request->input('types'),
             'style' => $request->input('style'),
         ]);
+
+        $alert->keywords()->createMany(
+            collect($request->keywords())->map(function ($word) {
+                return ['word' => $word];
+            })
+        );
 
         return response()->json($alert);
     }
@@ -47,12 +52,19 @@ class AlertsController extends Controller
         $alert->fill([
             'country_id' => $request->input('country_id'),
             'name' => $request->input('name'),
-            'keywords' => $request->input('keywords'),
             'has_all_keywords' => $request->has('has_all_keywords'),
             'city' => $request->input('city'),
             'types' => $request->input('types'),
             'style' => $request->input('style'),
         ])->save();
+
+        $alert->keywords()->delete();
+
+        $alert->keywords()->createMany(
+            collect($request->keywords())->map(function ($word) {
+                return ['word' => $word];
+            })
+        );
 
         return response()->json($alert);
     }
