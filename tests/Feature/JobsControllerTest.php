@@ -7,6 +7,7 @@ use App\Models\Job;
 use App\Models\Order;
 use App\Models\User;
 use App\Paypal\Payment;
+use App\Paypal\Response;
 use Database\Seeders\CountriesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Mockery;
@@ -40,12 +41,12 @@ class JobsControllerTest extends TestCase
             ['order_type' => Order::factory()->make()->type]
         );
 
-        $payment = Mockery::mock(Payment::class);
+        $response = Mockery::mock(Response::class);
+        $response->shouldReceive('id')->andReturn('some-id');
 
+        $payment = Mockery::mock(Payment::class);
         $payment->shouldReceive('forOrder')->andReturn($payment);
-        $payment->shouldReceive('create')->andReturn([
-            'id' => 'some-id',
-        ]);
+        $payment->shouldReceive('create')->andReturn($response);
 
         $this->app->instance(Payment::class, $payment);
 

@@ -29,7 +29,7 @@ class Payment
         return $this;
     }
 
-    public function create(): array
+    public function create(): Response
     {
         $request = new OrdersCreateRequest();
 
@@ -37,14 +37,18 @@ class Payment
 
         $request->body = $this->payload();
 
-        return (array) $this->client()->execute($request)->result;
+        return new Response(
+            $this->client()->execute($request)
+        );
     }
 
-    public function capture(): array
+    public function capture(): Response
     {
         $request = new OrdersCaptureRequest($this->order->paypal_order_id);
 
-        return (array) $this->client()->execute($request)->result;
+        return new Response(
+            $this->client()->execute($request)
+        );
     }
 
     protected function payload(): array

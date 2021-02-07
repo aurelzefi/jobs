@@ -31,10 +31,10 @@ class JobsController extends Controller
             'amount' => config('app.orders.'.$request->input('order_type')),
         ]);
 
-        $payload = $payment->forOrder($order)->create();
+        $paypalOrder = $payment->forOrder($order)->create();
 
         $order->fill([
-            'paypal_order_id' => $payload['id'],
+            'paypal_order_id' => $paypalOrder->id(),
         ])->save();
 
         return response()->json($job);

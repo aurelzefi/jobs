@@ -27,10 +27,10 @@ class OrdersController extends Controller
     {
         $this->authorize('capture', $order);
 
-        $payload = $payment->forOrder($order)->create();
+        $paypalOrder = $payment->forOrder($order)->capture();
 
         $order->fill([
-            'paypal_order_id' => $payload['id'],
+            'capture_id' => $paypalOrder->captureId(),
         ])->save();
 
         return response()->json($order);
