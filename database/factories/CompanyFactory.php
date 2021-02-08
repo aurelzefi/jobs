@@ -14,6 +14,8 @@ class CompanyFactory extends Factory
 {
     protected $model = Company::class;
 
+    protected $fakeLogo = false;
+
     public function definition(): array
     {
         $this->ensureImagesDirectoryExists();
@@ -37,9 +39,16 @@ class CompanyFactory extends Factory
         }
     }
 
+    public function withLogo(): self
+    {
+        $this->fakeLogo = true;
+
+        return $this;
+    }
+
     protected function logoPath()
     {
-        if (env('STORE_LOGOS')) {
+        if ($this->fakeLogo) {
             return 'images/'.$this->faker->image(storage_path('app/public/images'), 640, 480, null, false);
         }
     }

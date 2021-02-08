@@ -62,7 +62,7 @@ class CompaniesController extends Controller
         return response()->json($company);
     }
 
-    protected function logo(Request $request): string
+    protected function logo(Request $request)
     {
         if ($request->hasFile('logo')) {
             return $request->file('logo')->store('images', 'public');

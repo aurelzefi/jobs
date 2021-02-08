@@ -74,7 +74,9 @@ class CreateOrderControllerTest extends TestCase
         );
 
         $job->orders()->saveMany(
-            Order::factory(3)->make()
+            Order::factory(3)->make([
+                'capture_id' => 'fake-capture-id',
+            ])
         );
 
         $data = Order::factory()->make()->toArray();
