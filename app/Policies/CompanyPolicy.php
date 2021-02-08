@@ -12,7 +12,7 @@ class CompanyPolicy
 {
     use HandlesAuthorization;
 
-    public function view(User $user, Company $company): bool
+    public function view(?User $user, Company $company): bool
     {
         return true;
     }

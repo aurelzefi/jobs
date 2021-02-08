@@ -12,7 +12,7 @@ class JobPolicy
 {
     use HandlesAuthorization;
 
-    public function view(User $user, Job $job): bool
+    public function view(?User $user, Job $job): bool
     {
         return true;
     }
