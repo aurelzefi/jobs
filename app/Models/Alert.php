@@ -47,24 +47,24 @@ class Alert extends Model
         return $this->hasMany(Keyword::class);
     }
 
-    public function setJobTypesAttribute(array $value): void
-    {
-        $this->attributes['job_types'] = implode(',', $value);
-    }
-
     public function getJobTypesAttribute(): array
     {
         return explode(',', $this->attributes['job_types']);
     }
 
-    public function setJobStylesAttribute(array $value): void
+    public function setJobTypesAttribute(array $value): void
     {
-        $this->attributes['job_styles'] = implode(',', $value);
+        $this->attributes['job_types'] = implode(',', $value);
     }
 
     public function getJobStylesAttribute(): array
     {
         return explode(',', $this->attributes['job_styles']);
+    }
+
+    public function setJobStylesAttribute(array $value): void
+    {
+        $this->attributes['job_styles'] = implode(',', $value);
     }
 
     public function scopeInstant(Builder $query): Builder
