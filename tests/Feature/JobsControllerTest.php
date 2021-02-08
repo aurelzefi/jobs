@@ -9,6 +9,7 @@ use App\Models\User;
 use Database\Seeders\CountriesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Str;
 use Tests\TestCase;
 
 class JobsControllerTest extends TestCase
@@ -63,7 +64,47 @@ class JobsControllerTest extends TestCase
 
     public function test_jobs_cant_be_created_with_invalid_data()
     {
-        $this->assertTrue(true);
+        $user = User::factory()->create();
+
+        $response = $this->actingAs($user)->post('/jobs');
+
+        $response->assertJsonValidationErrors([
+            'company_id', 'country_id', 'title', 'description', 'city', 'type', 'style',
+        ]);
+
+        $response = $this->actingAs($user)->post('/jobs', [
+            'company_id' => 'wrong-company',
+            'country_id' => 'wrong-country',
+            'title' => ['wrong-title'],
+            'description' => ['wrong-description'],
+            'city' => ['wrong-city'],
+            'type' => ['wrong-type'],
+            'style' => ['wrong-style'],
+        ]);
+
+        $response->assertJsonValidationErrors([
+            'company_id', 'country_id', 'title', 'description', 'city', 'type', 'style',
+        ]);
+
+        $company = $user->companies()->save(
+            Company::factory()->make()
+        );
+
+        $data = Job::factory()->make();
+
+        $response = $this->actingAs($user)->post('/jobs', [
+            'company_id' => $company->id,
+            'country_id' => $data['country_id'],
+            'title' => Str::random(256),
+            'description' => $data['description'],
+            'city' => Str::random(256),
+            'type' => 'wrong-type',
+            'style' => 'wrong-style',
+        ]);
+
+        $response->assertJsonValidationErrors([
+            'title', 'city', 'type', 'style',
+        ]);
     }
 
     public function test_jobs_can_be_shown()
@@ -108,6 +149,50 @@ class JobsControllerTest extends TestCase
 
     public function test_jobs_cant_be_updated_with_invalid_data()
     {
-        $this->assertTrue(true);
+        $user = User::factory()->create();
+
+        $company = $user->companies()->save(
+            Company::factory()->make()
+        );
+
+        $job = $company->jobs()->save(
+            Job::factory()->make()
+        );
+
+        $response = $this->actingAs($user)->put("/jobs/{$job->id}");
+
+        $response->assertJsonValidationErrors([
+            'company_id', 'country_id', 'title', 'description', 'city', 'type', 'style',
+        ]);
+
+        $response = $this->actingAs($user)->put("/jobs/{$job->id}", [
+            'company_id' => 'wrong-company',
+            'country_id' => 'wrong-country',
+            'title' => ['wrong-title'],
+            'description' => ['wrong-description'],
+            'city' => ['wrong-city'],
+            'type' => ['wrong-type'],
+            'style' => ['wrong-style'],
+        ]);
+
+        $response->assertJsonValidationErrors([
+            'company_id', 'country_id', 'title', 'description', 'city', 'type', 'style',
+        ]);
+
+        $data = Job::factory()->make();
+
+        $response = $this->actingAs($user)->post('/jobs', [
+            'company_id' => $company->id,
+            'country_id' => $data['country_id'],
+            'title' => Str::random(256),
+            'description' => $data['description'],
+            'city' => Str::random(256),
+            'type' => 'wrong-type',
+            'style' => 'wrong-style',
+        ]);
+
+        $response->assertJsonValidationErrors([
+            'title', 'city', 'type', 'style',
+        ]);
     }
 }
