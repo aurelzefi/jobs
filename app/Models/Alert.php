@@ -54,12 +54,17 @@ class Alert extends Model
         return explode(',', $this->attributes['job_types']);
     }
 
+    public function scopeInstant(Builder $query): Builder
+    {
+        return $query->where('type', static::TYPE_INSTANT);
+    }
+
     public function scopeForJob(Builder $query, Job $job): Builder
     {
         return $query->withCount([
                     'keywords',
                     'keywords as matching_keywords_count' => function (Builder $query) use ($job) {
-                        $query->whereRaw('instr(:description, word)', ['description' => $job->description]);
+                        $query->whereRaw('instr(?, word)', ['description' => $job->description]);
                     }])
                     ->havingRaw(
                         'case when has_all_keywords = 1

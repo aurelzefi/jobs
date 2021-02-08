@@ -2,11 +2,13 @@
 
 namespace Tests\Feature;
 
+use App\Events\JobCreated;
 use App\Models\Company;
 use App\Models\Job;
 use App\Models\User;
 use Database\Seeders\CountriesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
 class JobsControllerTest extends TestCase
@@ -40,6 +42,8 @@ class JobsControllerTest extends TestCase
 
     public function test_jobs_can_be_created()
     {
+        Event::fake();
+
         $user = User::factory()->create();
 
         $company = $user->companies()->save(
@@ -53,6 +57,8 @@ class JobsControllerTest extends TestCase
         $response->assertJson([
             'title' => $data['title'],
         ]);
+
+        Event::assertDispatched(JobCreated::class);
     }
 
     public function test_jobs_cant_be_created_with_invalid_data()
