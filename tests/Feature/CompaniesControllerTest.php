@@ -90,9 +90,6 @@ class CompaniesControllerTest extends TestCase
         ]);
     }
 
-    /**
-     * @group current
-     */
     public function test_companies_can_be_updated_without_logo()
     {
         $user = User::factory()->create();
@@ -112,7 +109,28 @@ class CompaniesControllerTest extends TestCase
 
     public function test_companies_can_be_updated_with_logo()
     {
+        Storage::fake('public');
 
+        $user = User::factory()->create();
+
+        $previousFile = UploadedFile::fake()->image('image.jpg');
+
+        $company = $user->companies()->save(
+            Company::factory()->make(['logo' => "/images/{$previousFile->hashName()}"])
+        );
+
+        $data = Company::factory()->make()->makeHidden('logo')->toArray();
+
+        $file = UploadedFile::fake()->image('image.jpg');
+
+        $response = $this->actingAs($user)->put("/companies/{$company->id}", array_merge($data, ['logo' => $file]));
+
+        $response->assertJson([
+            'name' => $data['name'],
+        ]);
+
+        Storage::disk('public')->assertExists("/images/{$file->hashName()}");
+        Storage::disk('public')->assertMissing("/images/{$previousFile->hashName()}");
     }
 
     public function test_companies_cant_be_updated_with_invalid_data()
