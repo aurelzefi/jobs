@@ -5,8 +5,6 @@ namespace Tests\Feature;
 use App\Models\Company;
 use App\Models\Country;
 use App\Models\Job;
-use App\Models\User;
-use Carbon\Carbon;
 use Database\Seeders\CountriesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -26,6 +24,9 @@ class JobsDashboardControllerTest extends TestCase
         ]);
     }
 
+    /**
+     * @group current
+     */
     public function test_jobs_can_be_searched_for_query()
     {
         $company = Company::factory()->create();
@@ -47,10 +48,13 @@ class JobsDashboardControllerTest extends TestCase
 
         $response = $this->get("/jobs/dashboard?{$parameters}");
 
-        $response->assertJsonCount(1);
+        $response->assertJsonCount(1, 'data');
+
         $response->assertJson([
-            [
-                'title' => $jobOne->title,
+            'data' => [
+                [
+                    'title' => $jobOne->title,
+                ],
             ],
         ]);
 
@@ -60,11 +64,13 @@ class JobsDashboardControllerTest extends TestCase
 
         $response = $this->get("/jobs/dashboard?{$parameters}");
 
-        $response->assertJsonCount(1);
+        $response->assertJsonCount(1, 'data');
 
         $response->assertJson([
-            [
-                'title' => $jobOne->title,
+            'data' => [
+                [
+                    'title' => $jobOne->title,
+                ],
             ],
         ]);
     }
@@ -95,14 +101,16 @@ class JobsDashboardControllerTest extends TestCase
 
         $response = $this->get("/jobs/dashboard?{$parameters}");
 
-        $response->assertJsonCount(2);
+        $response->assertJsonCount(2, 'data');
 
         $response->assertJson([
-            [
-                'title' => $jobOne->title,
-            ],
-            [
-                'title' => $jobTwo->title,
+            'data' => [
+                [
+                    'title' => $jobOne->title,
+                ],
+                [
+                    'title' => $jobTwo->title,
+                ],
             ],
         ]);
     }
@@ -122,11 +130,13 @@ class JobsDashboardControllerTest extends TestCase
 
         $response = $this->get("/jobs/dashboard?{$parameters}");
 
-        $response->assertJsonCount(1);
+        $response->assertJsonCount(1, 'data');
 
         $response->assertJson([
-            [
-                'title' => $jobOne->title,
+            'data' => [
+                [
+                    'title' => $jobOne->title,
+                ],
             ],
         ]);
     }
@@ -146,11 +156,13 @@ class JobsDashboardControllerTest extends TestCase
 
         $response = $this->get("/jobs/dashboard?{$parameters}");
 
-        $response->assertJsonCount(1);
+        $response->assertJsonCount(1, 'data');
 
         $response->assertJson([
-            [
-                'title' => $jobOne->title,
+            'data' => [
+                [
+                    'title' => $jobOne->title,
+                ],
             ],
         ]);
     }
@@ -170,11 +182,13 @@ class JobsDashboardControllerTest extends TestCase
 
         $response = $this->get("/jobs/dashboard?{$parameters}");
 
-        $response->assertJsonCount(1);
+        $response->assertJsonCount(1, 'data');
 
         $response->assertJson([
-            [
-                'title' => $jobOne->title,
+            'data' => [
+                [
+                    'title' => $jobOne->title,
+                ],
             ],
         ]);
     }
@@ -194,11 +208,13 @@ class JobsDashboardControllerTest extends TestCase
 
         $response = $this->get("/jobs/dashboard?{$parameters}");
 
-        $response->assertJsonCount(1);
+        $response->assertJsonCount(1, 'data');
 
         $response->assertJson([
-            [
-                'title' => $jobOne->title,
+            'data' => [
+                [
+                    'title' => $jobOne->title,
+                ],
             ],
         ]);
     }
@@ -218,11 +234,13 @@ class JobsDashboardControllerTest extends TestCase
 
         $response = $this->get("/jobs/dashboard?{$parameters}");
 
-        $response->assertJsonCount(1);
+        $response->assertJsonCount(1, 'data');
 
         $response->assertJson([
-            [
-                'title' => $jobOne->title,
+            'data' => [
+                [
+                    'title' => $jobOne->title,
+                ],
             ],
         ]);
     }
@@ -242,11 +260,13 @@ class JobsDashboardControllerTest extends TestCase
 
         $response = $this->get("/jobs/dashboard?{$parameters}");
 
-        $response->assertJsonCount(1);
+        $response->assertJsonCount(1, 'data');
 
         $response->assertJson([
-            [
-                'title' => $jobOne->title,
+            'data' => [
+                [
+                    'title' => $jobOne->title,
+                ],
             ],
         ]);
     }
@@ -272,12 +292,14 @@ class JobsDashboardControllerTest extends TestCase
 
         $response = $this->get("/jobs/dashboard?{$parameters}");
 
-        $response->assertJsonCount(1);
+        $response->assertJsonCount(1, 'data');
 
         $response->assertJson([
-            [
-                'title' => $jobOne->title,
-            ]
+            'data' => [
+                [
+                    'title' => $jobOne->title,
+                ],
+            ],
         ]);
     }
 
@@ -303,12 +325,14 @@ class JobsDashboardControllerTest extends TestCase
 
         $response = $this->get("/jobs/dashboard?{$parameters}");
 
-        $response->assertJsonCount(1);
+        $response->assertJsonCount(1, 'data');
 
         $response->assertJson([
-            [
-                'title' => $jobOne->title,
-            ]
+            'data' => [
+                [
+                    'title' => $jobOne->title,
+                ],
+            ],
         ]);
     }
 
@@ -318,7 +342,9 @@ class JobsDashboardControllerTest extends TestCase
 
         $company->jobs()->saveMany([
             $jobOne = Job::factory(['created_at' => now()])->make(),
-            $jobTwo = Job::factory(['created_at' => now()->subDays(3)])->make(),
+            $jobTwo = Job::factory(['created_at' => now()->subDay()])->make(),
+            $jobThree = Job::factory(['created_at' => now()->subDays(2)])->make(),
+            $jobFour = Job::factory(['created_at' => now()->subDays(3)])->make(),
         ]);
 
         $parameters = http_build_query([
@@ -327,12 +353,17 @@ class JobsDashboardControllerTest extends TestCase
 
         $response = $this->get("/jobs/dashboard?{$parameters}");
 
-        $response->assertJsonCount(1);
+        $response->assertJsonCount(2, 'data');
 
         $response->assertJson([
-            [
-                'title' => $jobOne->title,
-            ]
+            'data' => [
+                [
+                    'title' => $jobOne->title,
+                ],
+                [
+                    'title' => $jobTwo->title,
+                ],
+            ],
         ]);
     }
 
@@ -341,22 +372,29 @@ class JobsDashboardControllerTest extends TestCase
         $company = Company::factory()->create();
 
         $company->jobs()->saveMany([
-            $jobOne = Job::factory(['created_at' => now()->subDay()])->make(),
-            $jobTwo = Job::factory(['created_at' => now()])->make(),
+            $jobOne = Job::factory(['created_at' => now()])->make(),
+            $jobTwo = Job::factory(['created_at' => now()->subDay()])->make(),
+            $jobThree = Job::factory(['created_at' => now()->subDays(2)])->make(),
+            $jobFour = Job::factory(['created_at' => now()->subDays(3)])->make(),
         ]);
 
         $parameters = http_build_query([
-            'to_created_at' => now()->subDay()->toDateString(),
+            'to_created_at' => now()->subDays(2)->toDateString(),
         ]);
 
         $response = $this->get("/jobs/dashboard?{$parameters}");
 
-        $response->assertJsonCount(1);
+        $response->assertJsonCount(2, 'data');
 
         $response->assertJson([
-            [
-                'title' => $jobOne->title,
-            ]
+            'data' => [
+                [
+                    'title' => $jobThree->title,
+                ],
+                [
+                    'title' => $jobFour->title,
+                ],
+            ],
         ]);
     }
 }
