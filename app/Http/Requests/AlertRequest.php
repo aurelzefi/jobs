@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Requests;
 
+use App\Models\Alert;
 use App\Models\Job;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -23,9 +24,10 @@ class AlertRequest extends FormRequest
             'keywords' => ['required', 'string'],
             'has_all_keywords' => ['boolean'],
             'city' => ['required', 'string', 'max:255'],
-            'types' => ['required', 'array'],
-            'types.*' => ['required', 'string', Rule::in(Job::TYPES)],
-            'style' => ['required', 'string', 'max:255'],
+            'type' => ['required', Rule::in(Alert::TYPES)],
+            'job_types' => ['required', 'array'],
+            'job_types.*' => ['required', 'string', Rule::in(Job::TYPES)],
+            'job_style' => ['required', 'string', 'max:255'],
         ];
     }
 

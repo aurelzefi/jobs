@@ -57,7 +57,7 @@ class AlertsControllerTest extends TestCase
         $response = $this->actingAs($user)->post('/alerts');
 
         $response->assertJsonValidationErrors([
-            'country_id', 'name', 'keywords', 'city', 'types', 'style',
+            'country_id', 'name', 'keywords', 'city', 'type', 'job_types', 'job_style',
         ]);
 
         $response = $this->actingAs($user)->post('/alerts', [
@@ -66,12 +66,13 @@ class AlertsControllerTest extends TestCase
             'keywords' => ['wrong-keywords'],
             'has_all_keywords' => 'wrong-has-all-keywords',
             'city' => ['wrong-city'],
-            'types' => 'wrong-types',
-            'style' => ['wrong-style'],
+            'type' => 'wrong-type',
+            'job_types' => 'wrong-types',
+            'job_style' => ['wrong-style'],
         ]);
 
         $response->assertJsonValidationErrors([
-            'country_id', 'name', 'keywords', 'has_all_keywords', 'city', 'types', 'style',
+            'country_id', 'name', 'keywords', 'has_all_keywords', 'city', 'type', 'job_types', 'job_style',
         ]);
 
         $data = Alert::factory()->make()->toArray();
@@ -83,12 +84,13 @@ class AlertsControllerTest extends TestCase
             'keywords' => $keywords,
             'has_all_keywords' => $data['has_all_keywords'],
             'city' => Str::random(256),
-            'types' => [],
-            'style' => Str::random(256),
+            'type' => $data['type'],
+            'job_types' => [],
+            'job_style' => Str::random(256),
         ]);
 
         $response->assertJsonValidationErrors([
-            'name', 'city', 'types', 'style',
+            'name', 'city', 'job_types', 'job_style',
         ]);
 
         $data = Alert::factory()->make()->toArray();
@@ -100,15 +102,16 @@ class AlertsControllerTest extends TestCase
             'keywords' => $keywords,
             'has_all_keywords' => $data['has_all_keywords'],
             'city' => $data['city'],
-            'types' => [
+            'type' => $data['type'],
+            'job_types' => [
                 [],
                 'wrong-type',
             ],
-            'style' => $data['style'],
+            'job_style' => $data['job_style'],
         ]);
 
         $response->assertJsonValidationErrors([
-            'types.0', 'types.1',
+            'job_types.0', 'job_types.1',
         ]);
     }
 
@@ -156,7 +159,7 @@ class AlertsControllerTest extends TestCase
         $response = $this->actingAs($user)->put("/alerts/{$alert->id}");
 
         $response->assertJsonValidationErrors([
-            'country_id', 'name', 'keywords', 'city', 'types', 'style',
+            'country_id', 'name', 'keywords', 'city', 'type', 'job_types', 'job_style',
         ]);
 
         $response = $this->actingAs($user)->put("/alerts/{$alert->id}", [
@@ -165,12 +168,13 @@ class AlertsControllerTest extends TestCase
             'keywords' => ['wrong-keywords'],
             'has_all_keywords' => 'wrong-has-all-keywords',
             'city' => ['wrong-city'],
-            'types' => 'wrong-types',
-            'style' => ['wrong-style'],
+            'type' => 'wrong-type',
+            'job_types' => 'wrong-types',
+            'job_style' => ['wrong-style'],
         ]);
 
         $response->assertJsonValidationErrors([
-            'country_id', 'name', 'keywords', 'has_all_keywords', 'city', 'types', 'style',
+            'country_id', 'name', 'keywords', 'has_all_keywords', 'city', 'type', 'job_types', 'job_style',
         ]);
 
         $data = Alert::factory()->make()->toArray();
@@ -182,12 +186,13 @@ class AlertsControllerTest extends TestCase
             'keywords' => $keywords,
             'has_all_keywords' => $data['has_all_keywords'],
             'city' => Str::random(256),
-            'types' => [],
-            'style' => Str::random(256),
+            'type' => $data['type'],
+            'job_types' => [],
+            'job_style' => Str::random(256),
         ]);
 
         $response->assertJsonValidationErrors([
-            'name', 'city', 'types', 'style',
+            'name', 'city', 'job_types', 'job_style',
         ]);
 
         $data = Alert::factory()->make()->toArray();
@@ -199,15 +204,16 @@ class AlertsControllerTest extends TestCase
             'keywords' => $keywords,
             'has_all_keywords' => $data['has_all_keywords'],
             'city' => $data['city'],
-            'types' => [
+            'type' => $data['type'],
+            'job_types' => [
                 [],
                 'wrong-type',
             ],
-            'style' => $data['style'],
+            'job_style' => $data['job_style'],
         ]);
 
         $response->assertJsonValidationErrors([
-            'types.0', 'types.1',
+            'job_types.0', 'job_types.1',
         ]);
     }
 

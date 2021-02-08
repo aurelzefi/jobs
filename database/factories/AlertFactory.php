@@ -23,8 +23,9 @@ class AlertFactory extends Factory
             'name' => $this->faker->words(rand(1, 3), true),
             'has_all_keywords' => $this->faker->randomElement([true, false]),
             'city' => $this->faker->city,
-            'types' => $this->faker->randomElements(Job::TYPES, rand(1, 5)),
-            'style' => $this->faker->randomElement(Job::STYLES),
+            'type' => $this->faker->randomElement(['instant', 'weekly']),
+            'job_types' => $this->faker->randomElements(Job::TYPES, rand(1, 5)),
+            'job_style' => $this->faker->randomElement(Job::STYLES),
         ];
     }
 }

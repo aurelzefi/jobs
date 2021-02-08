@@ -29,18 +29,13 @@ Route::get('/dashboard', function () {
 
 require __DIR__.'/auth.php';
 
-// Alerts Routes...
 Route::apiResource('alerts', AlertsController::class);
 
-// Companies Routes...
 Route::apiResource('companies', CompaniesController::class)->except('destroy');
 
-// Jobs Routes...
 Route::apiResource('jobs', JobsController::class)->except('destroy');
 
-// Orders Routes...
 Route::apiResource('orders', OrdersController::class)->only(['index', 'show']);
 
-// Payment Routes...
 Route::post('/jobs/{job}/orders', CreateOrderController::class)->name('jobs.orders.store');
 Route::put('/orders/{order}/capture', CaptureOrderController::class)->name('orders.capture');

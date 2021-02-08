@@ -25,8 +25,9 @@ class AlertsController extends Controller
             'name' => $request->input('name'),
             'has_all_keywords' => $request->has('has_all_keywords'),
             'city' => $request->input('city'),
-            'types' => $request->input('types'),
-            'style' => $request->input('style'),
+            'type' => $request->input('type'),
+            'job_types' => $request->input('job_types'),
+            'job_style' => $request->input('job_style'),
         ]);
 
         $alert->keywords()->createMany(
@@ -54,8 +55,9 @@ class AlertsController extends Controller
             'name' => $request->input('name'),
             'has_all_keywords' => $request->has('has_all_keywords'),
             'city' => $request->input('city'),
-            'types' => $request->input('types'),
-            'style' => $request->input('style'),
+            'type' => $request->input('type'),
+            'job_types' => $request->input('job_types'),
+            'job_style' => $request->input('job_style'),
         ])->save();
 
         $alert->keywords()->delete();
