@@ -28,7 +28,7 @@ class JobsDashboardControllerTest extends TestCase
 
     public function test_jobs_can_be_searched_for_query()
     {
-        $company = Company::factory()->make();
+        $company = Company::factory()->create();
 
         $company->jobs()->saveMany([
             $jobOne = Job::factory()->make([
@@ -71,11 +71,11 @@ class JobsDashboardControllerTest extends TestCase
 
     public function test_jobs_can_be_searched_for_company()
     {
-        $companyOne = Company::factory()->make([
+        $companyOne = Company::factory()->create([
             'name' => 'Laravel',
         ]);
 
-        $companyTwo = Company::factory()->make([
+        $companyTwo = Company::factory()->create([
             'name' => 'Toyota',
         ]);
 
@@ -109,7 +109,7 @@ class JobsDashboardControllerTest extends TestCase
 
     public function test_jobs_can_be_searched_for_country()
     {
-        $company = Company::factory()->make();
+        $company = Company::factory()->create();
 
         $company->jobs()->saveMany([
             $jobOne = Job::factory(['country_id' => Country::query()->first()])->make(),
@@ -133,7 +133,7 @@ class JobsDashboardControllerTest extends TestCase
 
     public function test_jobs_can_be_searched_for_title()
     {
-        $company = Company::factory()->make();
+        $company = Company::factory()->create();
 
         $company->jobs()->saveMany([
             $jobOne = Job::factory(['title' => 'Job One Title'])->make(),
@@ -157,7 +157,7 @@ class JobsDashboardControllerTest extends TestCase
 
     public function test_jobs_can_be_searched_for_description()
     {
-        $company = Company::factory()->make();
+        $company = Company::factory()->create();
 
         $company->jobs()->saveMany([
             $jobOne = Job::factory(['description' => 'Job One Description'])->make(),
@@ -181,7 +181,7 @@ class JobsDashboardControllerTest extends TestCase
 
     public function test_jobs_can_be_searched_for_city()
     {
-        $company = Company::factory()->make();
+        $company = Company::factory()->create();
 
         $company->jobs()->saveMany([
             $jobOne = Job::factory(['city' => 'Job One City'])->make(),
@@ -205,7 +205,7 @@ class JobsDashboardControllerTest extends TestCase
 
     public function test_jobs_can_be_searched_for_type()
     {
-        $company = Company::factory()->make();
+        $company = Company::factory()->create();
 
         $company->jobs()->saveMany([
             $jobOne = Job::factory(['type' => 'full-time'])->make(),
@@ -229,7 +229,7 @@ class JobsDashboardControllerTest extends TestCase
 
     public function test_jobs_can_be_searched_for_style()
     {
-        $company = Company::factory()->make();
+        $company = Company::factory()->create();
 
         $company->jobs()->saveMany([
             $jobOne = Job::factory(['style' => 'office'])->make(),
@@ -253,7 +253,7 @@ class JobsDashboardControllerTest extends TestCase
 
     public function test_jobs_can_be_searched_for_has_at_least_one_keyword()
     {
-        $company = Company::factory()->make();
+        $company = Company::factory()->create();
 
         $company->jobs()->saveMany([
             $jobOne = Job::factory([
@@ -283,7 +283,38 @@ class JobsDashboardControllerTest extends TestCase
 
     public function test_jobs_can_be_searched_for_has_all_keywords()
     {
-        $company = Company::factory()->make();
+        $company = Company::factory()->create();
+
+        $company->jobs()->saveMany([
+            $jobOne = Job::factory([
+                'title' => 'Job One Title',
+                'description' => 'Job One Description'
+            ])->make(),
+            $jobTwo = Job::factory([
+                'title' => 'Job Two Title',
+                'description' => 'Job Two Description',
+            ])->make(),
+        ]);
+
+        $parameters = http_build_query([
+            'has_all_keywords' => true,
+            'keywords' => 'one,description',
+        ]);
+
+        $response = $this->get("/jobs/dashboard?{$parameters}");
+
+        $response->assertJsonCount(1);
+
+        $response->assertJson([
+            [
+                'title' => $jobOne->title,
+            ]
+        ]);
+    }
+
+    public function test_jobs_can_be_searched_for_from_created_at_date()
+    {
+        $company = Company::factory()->create();
 
         $company->jobs()->saveMany([
             $jobOne = Job::factory(['created_at' => now()])->make(),
@@ -291,34 +322,41 @@ class JobsDashboardControllerTest extends TestCase
         ]);
 
         $parameters = http_build_query([
-            'from' => now()->toDateString(),
+            'from' => now()->subDay()->toDateString(),
         ]);
 
         $response = $this->get("/jobs/dashboard?{$parameters}");
 
         $response->assertJsonCount(1);
-    }
 
-    public function test_jobs_can_be_searched_for_from_created_at_date()
-    {
-        $company = Company::factory()->make();
-
-        $company->jobs()->saveMany([
-            $jobOne = Job::factory()->make(),
-            $jobTwo = Job::factory()->make(),
+        $response->assertJson([
+            [
+                'title' => $jobOne->title,
+            ]
         ]);
-
-        $parameters = http_build_query([
-            'from' => '',
-        ]);
-
-        $response = $this->get("/jobs/dashboard?{$parameters}");
-
-        $response->assertJsonCount(1);
     }
 
     public function test_jobs_can_be_searched_for_to_created_at_date()
     {
-        $this->assertTrue(true);
+        $company = Company::factory()->create();
+
+        $company->jobs()->saveMany([
+            $jobOne = Job::factory(['created_at' => now()->subDay()])->make(),
+            $jobTwo = Job::factory(['created_at' => now()])->make(),
+        ]);
+
+        $parameters = http_build_query([
+            'to' => now()->subDay()->toDateString(),
+        ]);
+
+        $response = $this->get("/jobs/dashboard?{$parameters}");
+
+        $response->assertJsonCount(1);
+
+        $response->assertJson([
+            [
+                'title' => $jobOne->title,
+            ]
+        ]);
     }
 }
