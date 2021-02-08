@@ -8,6 +8,7 @@ use Database\Seeders\CountriesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Tests\TestCase;
 
 class CompaniesControllerTest extends TestCase
@@ -59,20 +60,62 @@ class CompaniesControllerTest extends TestCase
 
         $data = Company::factory()->make()->makeHidden('logo')->toArray();
 
-        $file = UploadedFile::fake()->image('image.jpg');
+        $logo = UploadedFile::fake()->image('image.jpg');
 
-        $response = $this->actingAs($user)->post('/companies', array_merge($data, ['logo' => $file]));
+        $response = $this->actingAs($user)->post('/companies', array_merge($data, ['logo' => $logo]));
 
         $response->assertJson([
             'name' => $data['name'],
         ]);
 
-        Storage::disk('public')->assertExists("/images/{$file->hashName()}");
+        Storage::disk('public')->assertExists("/images/{$logo->hashName()}");
     }
 
     public function test_companies_cant_be_created_with_invalid_data()
     {
+        Storage::fake('public');
 
+        $user = User::factory()->create();
+
+        $logo = UploadedFile::fake()->create('document.pdf');
+
+        $response = $this->actingAs($user)->post('/companies', [
+            'logo' => $logo,
+            'website' => ['wrong-website'],
+        ]);
+
+        $response->assertJsonValidationErrors([
+            'country_id', 'name', 'logo', 'description', 'website', 'address', 'city',
+        ]);
+
+        $logo = UploadedFile::fake()->image('image.jpg')->size(2048);
+
+        $response = $this->actingAs($user)->post('/companies', [
+            'country_id' => 'wrong-country',
+            'name' => ['wrong-name'],
+            'logo' => $logo,
+            'description' => ['wrong-description'],
+            'website' => 'wrong-website',
+            'address' => Str::random(256),
+            'city' => Str::random(256),
+        ]);
+
+        $response->assertJsonValidationErrors([
+            'country_id', 'name', 'logo', 'description', 'website', 'address', 'city',
+        ]);
+
+        $data = Company::factory()->make()->toArray();
+
+        $response = $this->actingAs($user)->post('/companies', [
+            'country_id' => $data['country_id'],
+            'name' => Str::random(256),
+            'description' => $data['description'],
+            'website' => Str::random(256),
+            'address' => Str::random(256),
+            'city' => Str::random(256),
+        ]);
+
+        $response->assertJsonValidationErrors(['name', 'website', 'address', 'city']);
     }
 
     public function test_companies_can_be_shown()
@@ -113,28 +156,74 @@ class CompaniesControllerTest extends TestCase
 
         $user = User::factory()->create();
 
-        $previousFile = UploadedFile::fake()->image('image.jpg');
+        $previousLogo = UploadedFile::fake()->image('image.jpg');
 
         $company = $user->companies()->save(
-            Company::factory()->make(['logo' => "/images/{$previousFile->hashName()}"])
+            Company::factory()->make(['logo' => "/images/{$previousLogo->hashName()}"])
         );
 
         $data = Company::factory()->make()->makeHidden('logo')->toArray();
 
-        $file = UploadedFile::fake()->image('image.jpg');
+        $logo = UploadedFile::fake()->image('image.jpg');
 
-        $response = $this->actingAs($user)->put("/companies/{$company->id}", array_merge($data, ['logo' => $file]));
+        $response = $this->actingAs($user)->put("/companies/{$company->id}", array_merge($data, ['logo' => $logo]));
 
         $response->assertJson([
             'name' => $data['name'],
         ]);
 
-        Storage::disk('public')->assertExists("/images/{$file->hashName()}");
-        Storage::disk('public')->assertMissing("/images/{$previousFile->hashName()}");
+        Storage::disk('public')->assertExists("/images/{$logo->hashName()}");
+        Storage::disk('public')->assertMissing("/images/{$previousLogo->hashName()}");
     }
 
     public function test_companies_cant_be_updated_with_invalid_data()
     {
+        Storage::fake('public');
 
+        $user = User::factory()->create();
+
+        $company = $user->companies()->save(
+            Company::factory()->make()
+        );
+
+        $logo = UploadedFile::fake()->create('document.pdf');
+
+        $response = $this->actingAs($user)->put("/companies/{$company->id}", [
+            'logo' => $logo,
+            'website' => ['wrong-website'],
+        ]);
+
+        $response->assertJsonValidationErrors([
+            'country_id', 'name', 'logo', 'description', 'website', 'address', 'city',
+        ]);
+
+        $logo = UploadedFile::fake()->image('image.jpg')->size(2048);
+
+        $response = $this->actingAs($user)->put("/companies/{$company->id}", [
+            'country_id' => 'wrong-country',
+            'name' => ['wrong-name'],
+            'logo' => $logo,
+            'description' => ['wrong-description'],
+            'website' => 'wrong-website',
+            'address' => Str::random(256),
+            'city' => Str::random(256),
+        ]);
+
+        $response->assertJsonValidationErrors([
+            'country_id', 'name', 'logo', 'description', 'website', 'address', 'city',
+        ]);
+
+        $data = Company::factory()->make()->toArray();
+
+        $response = $this->actingAs($user)->put("/companies/{$company->id}", [
+            'country_id' => $data['country_id'],
+            'name' => Str::random(256),
+            'description' => $data['description'],
+            'website' => Str::random(256),
+            'address' => Str::random(256),
+            'city' => Str::random(256),
+        ]);
+
+        $response->assertJsonValidationErrors(['name', 'website', 'address', 'city']);
     }
 }

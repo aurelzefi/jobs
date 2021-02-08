@@ -26,7 +26,7 @@ class CompanyFactory extends Factory
             'name' => $this->faker->company,
             'logo' => $this->logoPath(),
             'description' => $this->faker->text,
-            'website' => $this->faker->url,
+            'website' => $this->faker->randomElement([$this->faker->url, null]),
             'address' => $this->faker->address,
             'city' => $this->faker->city,
         ];
