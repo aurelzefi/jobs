@@ -29,13 +29,31 @@ Route::get('/dashboard', function () {
 
 require __DIR__.'/auth.php';
 
-Route::apiResource('alerts', AlertsController::class);
+Route::apiResource('alerts', AlertsController::class)
+    ->middleware('auth');
 
-Route::apiResource('companies', CompaniesController::class)->except('destroy');
+Route::apiResource('companies', CompaniesController::class)
+    ->middleware('auth')
+    ->only('index', 'store', 'update');
 
-Route::apiResource('jobs', JobsController::class)->except('destroy');
+Route::apiResource('companies', CompaniesController::class)
+    ->only('show');
 
-Route::apiResource('orders', OrdersController::class)->only(['index', 'show']);
+Route::apiResource('jobs', JobsController::class)
+    ->middleware('auth')
+    ->only('index', 'store', 'update');
 
-Route::post('/jobs/{job}/orders', CreateOrderController::class)->name('jobs.orders.store');
-Route::put('/orders/{order}/capture', CaptureOrderController::class)->name('orders.capture');
+Route::apiResource('jobs', JobsController::class)
+    ->only('show');
+
+Route::apiResource('orders', OrdersController::class)
+    ->middleware('auth')
+    ->only(['index', 'show']);
+
+Route::post('/jobs/{job}/orders', CreateOrderController::class)
+    ->middleware('auth')
+    ->name('jobs.orders.store');
+
+Route::put('/orders/{order}/capture', CaptureOrderController::class)
+    ->middleware('auth')
+    ->name('orders.capture');
