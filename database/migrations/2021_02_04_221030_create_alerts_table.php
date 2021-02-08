@@ -19,7 +19,7 @@ class CreateAlertsTable extends Migration
             $table->string('city');
             $table->string('type');
             $table->text('job_types');
-            $table->string('job_style');
+            $table->string('job_styles');
             $table->timestamps();
         });
     }

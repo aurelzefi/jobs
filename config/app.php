@@ -240,6 +240,8 @@ return [
     'orders' => [
         'basic' => 9.99 * 100,
         'pinned' => 19.99 * 100,
-    ]
+    ],
 
+    // Free Orders Amount
+    'free_orders_amount' => 3,
 ];

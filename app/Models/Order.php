@@ -13,8 +13,6 @@ class Order extends Model
 {
     use HasFactory;
 
-    const AMOUNT_OF_FREE_ORDERS = 3;
-
     const ORDER_TYPE_FREE = 'free';
 
     const TYPES = [
@@ -34,5 +32,10 @@ class Order extends Model
         return $query->whereHas('job.company', function (Builder $query) use ($user) {
             $query->where('user_id', $user->id);
         });
+    }
+
+    public function scopePaid(Builder $query): Builder
+    {
+        return $query->whereNotNull('capture_id');
     }
 }

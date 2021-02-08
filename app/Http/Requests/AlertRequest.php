@@ -27,7 +27,8 @@ class AlertRequest extends FormRequest
             'type' => ['required', Rule::in(Alert::TYPES)],
             'job_types' => ['required', 'array'],
             'job_types.*' => ['required', 'string', Rule::in(Job::TYPES)],
-            'job_style' => ['required', 'string', 'max:255'],
+            'job_styles' => ['required', 'array'],
+            'job_styles.*' => ['required', 'string', Rule::in(Job::STYLES)],
         ];
     }
 

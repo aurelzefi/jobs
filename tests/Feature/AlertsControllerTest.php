@@ -57,7 +57,7 @@ class AlertsControllerTest extends TestCase
         $response = $this->actingAs($user)->post('/alerts');
 
         $response->assertJsonValidationErrors([
-            'country_id', 'name', 'keywords', 'city', 'type', 'job_types', 'job_style',
+            'country_id', 'name', 'keywords', 'city', 'type', 'job_types', 'job_styles',
         ]);
 
         $response = $this->actingAs($user)->post('/alerts', [
@@ -68,11 +68,11 @@ class AlertsControllerTest extends TestCase
             'city' => ['wrong-city'],
             'type' => 'wrong-type',
             'job_types' => 'wrong-types',
-            'job_style' => ['wrong-style'],
+            'job_styles' => 'wrong-styles',
         ]);
 
         $response->assertJsonValidationErrors([
-            'country_id', 'name', 'keywords', 'has_all_keywords', 'city', 'type', 'job_types', 'job_style',
+            'country_id', 'name', 'keywords', 'has_all_keywords', 'city', 'type', 'job_types', 'job_styles',
         ]);
 
         $data = Alert::factory()->make()->toArray();
@@ -86,11 +86,11 @@ class AlertsControllerTest extends TestCase
             'city' => Str::random(256),
             'type' => $data['type'],
             'job_types' => [],
-            'job_style' => Str::random(256),
+            'job_styles' => [],
         ]);
 
         $response->assertJsonValidationErrors([
-            'name', 'city', 'job_types', 'job_style',
+            'name', 'city', 'job_types', 'job_styles',
         ]);
 
         $data = Alert::factory()->make()->toArray();
@@ -107,11 +107,14 @@ class AlertsControllerTest extends TestCase
                 [],
                 'wrong-type',
             ],
-            'job_style' => $data['job_style'],
+            'job_styles' => [
+                [],
+                'wrong-style',
+            ],
         ]);
 
         $response->assertJsonValidationErrors([
-            'job_types.0', 'job_types.1',
+            'job_types.0', 'job_types.1', 'job_styles.0', 'job_styles.1',
         ]);
     }
 
@@ -159,7 +162,7 @@ class AlertsControllerTest extends TestCase
         $response = $this->actingAs($user)->put("/alerts/{$alert->id}");
 
         $response->assertJsonValidationErrors([
-            'country_id', 'name', 'keywords', 'city', 'type', 'job_types', 'job_style',
+            'country_id', 'name', 'keywords', 'city', 'type', 'job_types', 'job_styles',
         ]);
 
         $response = $this->actingAs($user)->put("/alerts/{$alert->id}", [
@@ -170,11 +173,11 @@ class AlertsControllerTest extends TestCase
             'city' => ['wrong-city'],
             'type' => 'wrong-type',
             'job_types' => 'wrong-types',
-            'job_style' => ['wrong-style'],
+            'job_styles' => 'wrong-styles',
         ]);
 
         $response->assertJsonValidationErrors([
-            'country_id', 'name', 'keywords', 'has_all_keywords', 'city', 'type', 'job_types', 'job_style',
+            'country_id', 'name', 'keywords', 'has_all_keywords', 'city', 'type', 'job_types', 'job_styles',
         ]);
 
         $data = Alert::factory()->make()->toArray();
@@ -188,11 +191,11 @@ class AlertsControllerTest extends TestCase
             'city' => Str::random(256),
             'type' => $data['type'],
             'job_types' => [],
-            'job_style' => Str::random(256),
+            'job_styles' => [],
         ]);
 
         $response->assertJsonValidationErrors([
-            'name', 'city', 'job_types', 'job_style',
+            'name', 'city', 'job_types', 'job_styles',
         ]);
 
         $data = Alert::factory()->make()->toArray();
@@ -209,11 +212,14 @@ class AlertsControllerTest extends TestCase
                 [],
                 'wrong-type',
             ],
-            'job_style' => $data['job_style'],
+            'job_styles' => [
+                [],
+                'wrong-type',
+            ],
         ]);
 
         $response->assertJsonValidationErrors([
-            'job_types.0', 'job_types.1',
+            'job_types.0', 'job_types.1', 'job_styles.0', 'job_styles.1',
         ]);
     }
 

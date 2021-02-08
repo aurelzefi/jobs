@@ -16,10 +16,13 @@ class Alert extends Model
 
     const TYPE_INSTANT = 'instant';
 
+    const TYPE_DAILY = 'daily';
+
     const TYPE_WEEKLY = 'weekly';
 
     const TYPES = [
         'instant',
+        'daily',
         'weekly',
     ];
 
@@ -54,9 +57,29 @@ class Alert extends Model
         return explode(',', $this->attributes['job_types']);
     }
 
+    public function setJobStylesAttribute(array $value): void
+    {
+        $this->attributes['job_styles'] = implode(',', $value);
+    }
+
+    public function getJobStylesAttribute(): array
+    {
+        return explode(',', $this->attributes['job_styles']);
+    }
+
     public function scopeInstant(Builder $query): Builder
     {
         return $query->where('type', static::TYPE_INSTANT);
+    }
+
+    public function scopeDaily(Builder $query): Builder
+    {
+        return $query->where('type', static::TYPE_DAILY);
+    }
+
+    public function scopeWeekly(Builder $query): Builder
+    {
+        return $query->where('type', static::TYPE_WEEKLY);
     }
 
     public function scopeForJob(Builder $query, Job $job): Builder
@@ -64,13 +87,17 @@ class Alert extends Model
         return $query->withCount([
                     'keywords',
                     'keywords as matching_keywords_count' => function (Builder $query) use ($job) {
-                        $query->whereRaw('instr(?, word)', ['description' => $job->description]);
+                        $query->whereRaw('instr(?, word)', [$job->description]);
                     }])
                     ->havingRaw(
                         'case when has_all_keywords = 1
                             then keywords_count = matching_keywords_count
                             else matching_keywords_count > 0
                         end'
-                    );
+                    )
+                    ->where('country_id', $job->country_id)
+                    ->where('city', 'like', "%{$job->city}%")
+                    ->whereRaw('instr(job_types, ?)', [$job->type])
+                    ->whereRaw('instr(job_styles, ?)', [$job->style]);
     }
 }

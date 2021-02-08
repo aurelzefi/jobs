@@ -43,6 +43,6 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function isEligibleForFreeOrder(): bool
     {
-        return Order::forUser($this)->count() < Order::AMOUNT_OF_FREE_ORDERS;
+        return Order::forUser($this)->paid()->count() < config('app.free_orders_amount');
     }
 }
