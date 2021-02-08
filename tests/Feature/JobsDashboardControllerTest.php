@@ -322,7 +322,7 @@ class JobsDashboardControllerTest extends TestCase
         ]);
 
         $parameters = http_build_query([
-            'from' => now()->subDay()->toDateString(),
+            'from_created_at' => now()->subDay()->toDateString(),
         ]);
 
         $response = $this->get("/jobs/dashboard?{$parameters}");
@@ -346,7 +346,7 @@ class JobsDashboardControllerTest extends TestCase
         ]);
 
         $parameters = http_build_query([
-            'to' => now()->subDay()->toDateString(),
+            'to_created_at' => now()->subDay()->toDateString(),
         ]);
 
         $response = $this->get("/jobs/dashboard?{$parameters}");

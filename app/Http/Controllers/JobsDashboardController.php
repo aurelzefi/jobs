@@ -72,11 +72,11 @@ class JobsDashboardController extends Controller
             });
         }
 
-        if ($from = $request->input('from')) {
+        if ($from = $request->input('from_created_at')) {
             $jobs->whereDate('created_at', '>=', $from);
         }
 
-        if ($to = $request->input('to')) {
+        if ($to = $request->input('to_created_at')) {
             $jobs->whereDate('created_at', '<=', $to);
         }
 
