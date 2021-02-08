@@ -12,7 +12,7 @@ class CreateKeywordsTable extends Migration
     {
         Schema::create('keywords', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('alert_id')->constrained();
+            $table->foreignId('alert_id')->constrained()->cascadeOnDelete();
             $table->string('word');
             $table->timestamps();
         });
