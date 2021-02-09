@@ -40,13 +40,13 @@ class JobsDashboardControllerTest extends TestCase
         ]);
 
         Order::factory()->for($jobOne)->create([
-            'type' => Order::ORDER_TYPE_BASIC,
+            'type' => Order::TYPE_BASIC,
             'capture_id' => 'fake-capture-id',
             'captured_at' => now()->subDays(3),
         ]);
 
         Order::factory()->for($jobTwo)->create([
-            'type' => Order::ORDER_TYPE_BASIC,
+            'type' => Order::TYPE_BASIC,
             'capture_id' => 'fake-capture-id',
             'captured_at' => now()->subDays(2),
         ]);
@@ -96,13 +96,13 @@ class JobsDashboardControllerTest extends TestCase
         Job::factory()->for($companyTwo)->create();
 
         Order::factory()->for($jobOne)->create([
-            'type' => Order::ORDER_TYPE_BASIC,
+            'type' => Order::TYPE_BASIC,
             'capture_id' => 'fake-capture-id',
             'captured_at' => now()->subDays(3),
         ]);
 
         Order::factory()->for($jobTwo)->create([
-            'type' => Order::ORDER_TYPE_BASIC,
+            'type' => Order::TYPE_BASIC,
             'capture_id' => 'fake-capture-id',
             'captured_at' => now()->subDays(2),
         ]);
@@ -135,13 +135,13 @@ class JobsDashboardControllerTest extends TestCase
         $jobTwo = Job::factory()->for($company)->create(['country_id' => Country::query()->orderByDesc('id')->first()]);
 
         Order::factory()->for($jobOne)->create([
-            'type' => Order::ORDER_TYPE_BASIC,
+            'type' => Order::TYPE_BASIC,
             'capture_id' => 'fake-capture-id',
             'captured_at' => now()->subDays(3),
         ]);
 
         Order::factory()->for($jobTwo)->create([
-            'type' => Order::ORDER_TYPE_BASIC,
+            'type' => Order::TYPE_BASIC,
             'capture_id' => 'fake-capture-id',
             'captured_at' => now()->subDays(2),
         ]);
@@ -171,13 +171,13 @@ class JobsDashboardControllerTest extends TestCase
         $jobTwo = Job::factory()->for($company)->create(['title' => 'Job Two Title']);
 
         Order::factory()->for($jobOne)->create([
-            'type' => Order::ORDER_TYPE_BASIC,
+            'type' => Order::TYPE_BASIC,
             'capture_id' => 'fake-capture-id',
             'captured_at' => now()->subDays(3),
         ]);
 
         Order::factory()->for($jobTwo)->create([
-            'type' => Order::ORDER_TYPE_BASIC,
+            'type' => Order::TYPE_BASIC,
             'capture_id' => 'fake-capture-id',
             'captured_at' => now()->subDays(2),
         ]);
@@ -207,13 +207,13 @@ class JobsDashboardControllerTest extends TestCase
         $jobTwo = Job::factory()->for($company)->create(['description' => 'Job Two Description']);
 
         Order::factory()->for($jobOne)->create([
-            'type' => Order::ORDER_TYPE_BASIC,
+            'type' => Order::TYPE_BASIC,
             'capture_id' => 'fake-capture-id',
             'captured_at' => now()->subDays(3),
         ]);
 
         Order::factory()->for($jobTwo)->create([
-            'type' => Order::ORDER_TYPE_BASIC,
+            'type' => Order::TYPE_BASIC,
             'capture_id' => 'fake-capture-id',
             'captured_at' => now()->subDays(2),
         ]);
@@ -243,13 +243,13 @@ class JobsDashboardControllerTest extends TestCase
         $jobTwo = Job::factory()->for($company)->create(['city' => 'Job Two City']);
 
         Order::factory()->for($jobOne)->create([
-            'type' => Order::ORDER_TYPE_BASIC,
+            'type' => Order::TYPE_BASIC,
             'capture_id' => 'fake-capture-id',
             'captured_at' => now()->subDays(3),
         ]);
 
         Order::factory()->for($jobTwo)->create([
-            'type' => Order::ORDER_TYPE_BASIC,
+            'type' => Order::TYPE_BASIC,
             'capture_id' => 'fake-capture-id',
             'captured_at' => now()->subDays(2),
         ]);
@@ -279,13 +279,13 @@ class JobsDashboardControllerTest extends TestCase
         $jobTwo = Job::factory()->for($company)->create(['type' => 'part-time']);
 
         Order::factory()->for($jobOne)->create([
-            'type' => Order::ORDER_TYPE_BASIC,
+            'type' => Order::TYPE_BASIC,
             'capture_id' => 'fake-capture-id',
             'captured_at' => now()->subDays(3),
         ]);
 
         Order::factory()->for($jobTwo)->create([
-            'type' => Order::ORDER_TYPE_BASIC,
+            'type' => Order::TYPE_BASIC,
             'capture_id' => 'fake-capture-id',
             'captured_at' => now()->subDays(2),
         ]);
@@ -315,13 +315,13 @@ class JobsDashboardControllerTest extends TestCase
         $jobTwo = Job::factory()->for($company)->create(['style' => 'optional']);
 
         Order::factory()->for($jobOne)->create([
-            'type' => Order::ORDER_TYPE_BASIC,
+            'type' => Order::TYPE_BASIC,
             'capture_id' => 'fake-capture-id',
             'captured_at' => now()->subDays(3),
         ]);
 
         Order::factory()->for($jobTwo)->create([
-            'type' => Order::ORDER_TYPE_BASIC,
+            'type' => Order::TYPE_BASIC,
             'capture_id' => 'fake-capture-id',
             'captured_at' => now()->subDays(2),
         ]);
@@ -348,19 +348,19 @@ class JobsDashboardControllerTest extends TestCase
         $company = Company::factory()->create();
 
         $jobOne = Job::factory()->for($company)->create([
-            'type' => Order::ORDER_TYPE_BASIC,
+            'type' => Order::TYPE_BASIC,
             'title' => 'Job One Title',
             'description' => 'Job One Description'
         ]);
 
         Job::factory()->for($company)->create([
-            'type' => Order::ORDER_TYPE_BASIC,
+            'type' => Order::TYPE_BASIC,
             'title' => 'Job Two Title',
             'description' => 'Job Two Description',
         ]);
 
         Order::factory()->for($jobOne)->create([
-            'type' => Order::ORDER_TYPE_BASIC,
+            'type' => Order::TYPE_BASIC,
             'capture_id' => 'fake-capture-id',
             'captured_at' => now()->subDays(3),
         ]);
@@ -392,13 +392,13 @@ class JobsDashboardControllerTest extends TestCase
         ]);
 
         Job::factory()->for($company)->create([
-            'type' => Order::ORDER_TYPE_BASIC,
+            'type' => Order::TYPE_BASIC,
             'title' => 'Job Two Title',
             'description' => 'Job Two Description',
         ]);
 
         Order::factory()->for($jobOne)->create([
-            'type' => Order::ORDER_TYPE_BASIC,
+            'type' => Order::TYPE_BASIC,
             'capture_id' => 'fake-capture-id',
             'captured_at' => now()->subDays(3),
         ]);
@@ -432,13 +432,13 @@ class JobsDashboardControllerTest extends TestCase
         Job::factory()->for($company)->create(['created_at' => now()->subDays(3)]);
 
         Order::factory()->for($jobOne)->create([
-            'type' => Order::ORDER_TYPE_BASIC,
+            'type' => Order::TYPE_BASIC,
             'capture_id' => 'fake-capture-id',
             'captured_at' => now()->subDays(3),
         ]);
 
         Order::factory()->for($jobTwo)->create([
-            'type' => Order::ORDER_TYPE_BASIC,
+            'type' => Order::TYPE_BASIC,
             'capture_id' => 'fake-capture-id',
             'captured_at' => now()->subDays(2),
         ]);
@@ -474,13 +474,13 @@ class JobsDashboardControllerTest extends TestCase
         Job::factory()->for($company)->create(['created_at' => now()->subDay()]);
 
         Order::factory()->for($jobOne)->create([
-            'type' => Order::ORDER_TYPE_BASIC,
+            'type' => Order::TYPE_BASIC,
             'capture_id' => 'fake-capture-id',
             'captured_at' => now()->subDays(3),
         ]);
 
         Order::factory()->for($jobTwo)->create([
-            'type' => Order::ORDER_TYPE_BASIC,
+            'type' => Order::TYPE_BASIC,
             'capture_id' => 'fake-capture-id',
             'captured_at' => now()->subDays(2),
         ]);
@@ -517,7 +517,7 @@ class JobsDashboardControllerTest extends TestCase
 
         // Job One Last Order
         Order::factory()->for($jobOne)->create([
-            'type' => Order::ORDER_TYPE_BASIC,
+            'type' => Order::TYPE_BASIC,
             'capture_id' => 'fake-capture-id',
             'captured_at' => now()->subDay(),
         ]);
@@ -530,7 +530,7 @@ class JobsDashboardControllerTest extends TestCase
 
         // Job Two Last Order
         Order::factory()->for($jobTwo)->create([
-            'type' => Order::ORDER_TYPE_PINNED,
+            'type' => Order::TYPE_PINNED,
             'capture_id' => 'fake-capture-id',
             'captured_at' => now()->subDay(),
         ]);
@@ -543,7 +543,7 @@ class JobsDashboardControllerTest extends TestCase
 
         // Job Three Last Order
         Order::factory()->for($jobThree)->create([
-            'type' => Order::ORDER_TYPE_FREE,
+            'type' => Order::TYPE_FREE,
             'capture_id' => 'fake-capture-id',
             'captured_at' => now(),
         ]);
@@ -556,7 +556,7 @@ class JobsDashboardControllerTest extends TestCase
 
         // Job Four Last Order
         Order::factory()->for($jobFour)->create([
-            'type' => Order::ORDER_TYPE_PINNED,
+            'type' => Order::TYPE_PINNED,
             'capture_id' => 'fake-capture-id',
             'captured_at' => now(),
         ]);
@@ -569,7 +569,7 @@ class JobsDashboardControllerTest extends TestCase
 
         // Job Five Last Order
         Order::factory()->for($jobFive)->create([
-            'type' => Order::ORDER_TYPE_PINNED,
+            'type' => Order::TYPE_PINNED,
             'capture_id' => null,
             'captured_at' => null,
         ]);

@@ -37,7 +37,7 @@ class CreateOrderControllerTest extends TestCase
         $job = Job::factory()->for($company)->create();
 
         $order = Order::factory()->for($job)->make([
-            'type' => Order::ORDER_TYPE_FREE,
+            'type' => Order::TYPE_FREE,
         ]);
 
         $this->mockPayment();
@@ -61,13 +61,13 @@ class CreateOrderControllerTest extends TestCase
         $job = Job::factory()->for($company)->create();
 
         Order::factory(3)->for($job)->create([
-            'type' => Order::ORDER_TYPE_FREE,
+            'type' => Order::TYPE_FREE,
             'capture_id' => 'fake-capture-id',
             'captured_at' => now(),
         ]);
 
         $order = Order::factory()->for($job)->make([
-            'type' => $type = Order::ORDER_TYPE_BASIC,
+            'type' => $type = Order::TYPE_BASIC,
             'amount' => config("app.orders.{$type}"),
         ]);
 
@@ -102,13 +102,13 @@ class CreateOrderControllerTest extends TestCase
         $response->assertJsonValidationErrors(['type']);
 
         Order::factory(3)->for($job)->create([
-            'type' => Order::ORDER_TYPE_FREE,
+            'type' => Order::TYPE_FREE,
             'capture_id' => 'fake-capture-id',
             'captured_at' => now(),
         ]);
 
         $order = Order::factory()->for($job)->make([
-            'type' => Order::ORDER_TYPE_FREE,
+            'type' => Order::TYPE_FREE,
         ]);
 
         $this->mockPayment();
