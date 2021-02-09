@@ -41,6 +41,17 @@ class CaptureOrderControllerTest extends TestCase
             'captured_at' => null,
         ]);
 
+        $this->mockPayment();
+
+        $response = $this->actingAs($user)->put("/orders/{$order->id}/capture");
+
+        $response->assertJson([
+            'capture_id' => 'fake-capture-id',
+        ]);
+    }
+
+    protected function mockPayment()
+    {
         $paypalOrder = Mockery::mock(PaypalOrder::class);
         $paypalOrder->shouldReceive('captureId')->andReturn('fake-capture-id');
 
@@ -50,10 +61,5 @@ class CaptureOrderControllerTest extends TestCase
 
         $this->app->instance(Payment::class, $payment);
 
-        $response = $this->actingAs($user)->put("/orders/{$order->id}/capture");
-
-        $response->assertJson([
-            'capture_id' => 'fake-capture-id',
-        ]);
     }
 }
