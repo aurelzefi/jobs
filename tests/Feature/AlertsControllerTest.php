@@ -40,13 +40,13 @@ class AlertsControllerTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $data = Alert::factory()->make()->toArray();
-        $keywords = Keyword::factory(3)->make()->pluck('word')->implode(',');
+        $alert = Alert::factory()->for($user)->make();
+        $keywords = Keyword::factory(3)->for($alert)->make()->pluck('word')->implode(',');
 
-        $response = $this->actingAs($user)->post('/alerts', array_merge($data, ['keywords' => $keywords]));
+        $response = $this->actingAs($user)->post('/alerts', array_merge($alert->toArray(), ['keywords' => $keywords]));
 
         $response->assertJson([
-            'name' => $data['name'],
+            'name' => $alert->name,
         ]);
     }
 
@@ -75,16 +75,16 @@ class AlertsControllerTest extends TestCase
             'country_id', 'name', 'keywords', 'has_all_keywords', 'city', 'type', 'job_types', 'job_styles',
         ]);
 
-        $data = Alert::factory()->make()->toArray();
-        $keywords = Keyword::factory(3)->make()->pluck('word')->implode(',');
+        $alert = Alert::factory()->for($user)->make();
+        $keywords = Keyword::factory(3)->for($alert)->make()->pluck('word')->implode(',');
 
         $response = $this->actingAs($user)->post('/alerts', [
-            'country_id' => $data['country_id'],
+            'country_id' => $alert->country_id,
             'name' => Str::random(256),
             'keywords' => $keywords,
-            'has_all_keywords' => $data['has_all_keywords'],
+            'has_all_keywords' => $alert->has_all_keywords,
             'city' => Str::random(256),
-            'type' => $data['type'],
+            'type' => $alert->type,
             'job_types' => [],
             'job_styles' => [],
         ]);
@@ -93,16 +93,16 @@ class AlertsControllerTest extends TestCase
             'name', 'city', 'job_types', 'job_styles',
         ]);
 
-        $data = Alert::factory()->make()->toArray();
-        $keywords = Keyword::factory(3)->make()->pluck('word')->implode(',');
+        $alert = Alert::factory()->for($user)->make();
+        $keywords = Keyword::factory(3)->for($alert)->make()->pluck('word')->implode(',');
 
         $response = $this->actingAs($user)->post('/alerts', [
-            'country_id' => $data['country_id'],
-            'name' => $data['name'],
+            'country_id' => $alert->country_id,
+            'name' => $alert->name,
             'keywords' => $keywords,
-            'has_all_keywords' => $data['has_all_keywords'],
-            'city' => $data['city'],
-            'type' => $data['type'],
+            'has_all_keywords' => $alert->has_all_keywords,
+            'city' => $alert->city,
+            'type' => $alert->type,
             'job_types' => [
                 [],
                 'wrong-type',
@@ -135,15 +135,15 @@ class AlertsControllerTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $alert = Alert::factory()->for($user)->create();
+        $alertOne = Alert::factory()->for($user)->create();
 
-        $data = Alert::factory()->make()->toArray();
-        $keywords = Keyword::factory(3)->make()->pluck('word')->implode(',');
+        $newAlert = Alert::factory()->for($user)->make();
+        $keywords = Keyword::factory(3)->for($newAlert)->make()->pluck('word')->implode(',');
 
-        $response = $this->actingAs($user)->put("/alerts/{$alert->id}", array_merge($data, ['keywords' => $keywords]));
+        $response = $this->actingAs($user)->put("/alerts/{$alertOne->id}", array_merge($newAlert->toArray(), ['keywords' => $keywords]));
 
         $response->assertJson([
-            'name' => $data['name'],
+            'name' => $newAlert->name,
         ]);
     }
 
@@ -174,16 +174,16 @@ class AlertsControllerTest extends TestCase
             'country_id', 'name', 'keywords', 'has_all_keywords', 'city', 'type', 'job_types', 'job_styles',
         ]);
 
-        $data = Alert::factory()->make()->toArray();
-        $keywords = Keyword::factory(3)->make()->pluck('word')->implode(',');
+        $newAlert = Alert::factory()->for($user)->make();
+        $keywords = Keyword::factory(3)->for($newAlert)->make()->pluck('word')->implode(',');
 
         $response = $this->actingAs($user)->put("/alerts/{$alert->id}", [
-            'country_id' => $data['country_id'],
+            'country_id' => $newAlert->country_id,
             'name' => Str::random(256),
             'keywords' => $keywords,
-            'has_all_keywords' => $data['has_all_keywords'],
+            'has_all_keywords' => $newAlert->has_all_keywords,
             'city' => Str::random(256),
-            'type' => $data['type'],
+            'type' => $newAlert->type,
             'job_types' => [],
             'job_styles' => [],
         ]);
@@ -192,16 +192,16 @@ class AlertsControllerTest extends TestCase
             'name', 'city', 'job_types', 'job_styles',
         ]);
 
-        $data = Alert::factory()->make()->toArray();
-        $keywords = Keyword::factory(3)->make()->pluck('word')->implode(',');
+        $newAlert = Alert::factory()->for($user)->make();
+        $keywords = Keyword::factory(3)->for($newAlert)->make()->pluck('word')->implode(',');
 
         $response = $this->actingAs($user)->put("/alerts/{$alert->id}", [
-            'country_id' => $data['country_id'],
-            'name' => $data['name'],
+            'country_id' => $newAlert->country_id,
+            'name' => $newAlert->name,
             'keywords' => $keywords,
-            'has_all_keywords' => $data['has_all_keywords'],
-            'city' => $data['city'],
-            'type' => $data['type'],
+            'has_all_keywords' => $newAlert->has_all_keywords,
+            'city' => $newAlert->city,
+            'type' => $newAlert->type,
             'job_types' => [
                 [],
                 'wrong-type',
