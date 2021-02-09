@@ -22,6 +22,10 @@ class Order extends Model
 
     protected $guarded = [];
 
+    protected $casts = [
+        'captured_at' => 'datetime',
+    ];
+
     public function job(): BelongsTo
     {
         return $this->belongsTo(Job::class);
@@ -36,6 +40,6 @@ class Order extends Model
 
     public function scopePaid(Builder $query): Builder
     {
-        return $query->whereNotNull('capture_id');
+        return $query->whereNotNull('captured_at');
     }
 }

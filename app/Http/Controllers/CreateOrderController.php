@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\OrderRequest;
 use App\Models\Job;
 use App\Models\Order;
 use App\Paypal\Payment;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class CreateOrderController extends Controller
 {
-    public function __invoke(Request $request, Job $job, Payment $payment): JsonResponse
+    public function __invoke(OrderRequest $request, Job $job, Payment $payment): JsonResponse
     {
         $this->authorize('update', $job);
 
@@ -29,7 +29,7 @@ class CreateOrderController extends Controller
         return response()->json($order);
     }
 
-    protected function determineOrderTypeAndAmount(Request $request): array
+    protected function determineOrderTypeAndAmount(OrderRequest $request): array
     {
         if ($request->user()->isEligibleForFreeOrder()) {
             return [

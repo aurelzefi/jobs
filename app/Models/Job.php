@@ -45,6 +45,11 @@ class Job extends Model
         return $this->hasMany(Order::class);
     }
 
+    public function scopeOrderByCapturedAtDesc()
+    {
+
+    }
+
     public function scopeForInput(Builder $query, array $data): Builder
     {
         if (isset($data['query'])) {
@@ -77,25 +82,23 @@ class Job extends Model
         }
 
         if (isset($data['types'])) {
-            $query->whereIn('type', explode(',', $data['types']));
+            $query->whereIn('type', $data['types']);
         }
 
         if (isset($data['styles'])) {
-            $query->whereIn('style', explode(',', $data['styles']));
+            $query->whereIn('style', $data['styles']);
         }
 
-        $keywords = isset($data['keywords']) ? explode(',', $data['keywords']) : [];
-
         if (isset($data['has_all_keywords'])) {
-            foreach ($keywords as $keyword) {
+            foreach ($data['keywords'] ?? [] as $keyword) {
                 $query->where(function (Builder $query) use ($keyword) {
                     $query->where('title', 'like', "%{$keyword}%")
                         ->orWhere('description', 'like', "%{$keyword}%");
                 });
             }
         } else {
-            $query->where(function (Builder $query) use ($keywords) {
-                foreach ($keywords as $keyword) {
+            $query->where(function (Builder $query) use ($data) {
+                foreach ($data['keywords'] ?? [] as $keyword) {
                     $query->orWhere(function (Builder $query) use ($keyword) {
                         $query->where('title', 'like', "%{$keyword}%")
                             ->orWhere('description', 'like', "%{$keyword}%");

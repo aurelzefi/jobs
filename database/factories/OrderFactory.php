@@ -18,9 +18,10 @@ class OrderFactory extends Factory
         return [
             'job_id' => Job::factory(),
             'paypal_order_id' => Str::random(),
-            'capture_id' => $this->faker->randomElement([Str::random(), null]),
+            'capture_id' => $captureId = $this->faker->randomElement([Str::random(), null]),
             'type' => $type = $this->faker->randomElement(Order::TYPES),
             'amount' => config("app.orders.{$type}"),
+            'captured_at' => $captureId ? now() : null,
         ];
     }
 }

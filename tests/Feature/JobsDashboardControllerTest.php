@@ -229,7 +229,7 @@ class JobsDashboardControllerTest extends TestCase
         ]);
 
         $parameters = http_build_query([
-            'types' => 'full-time,freelance,contract',
+            'types' => ['full-time', 'freelance', 'contract'],
         ]);
 
         $response = $this->get("/jobs/dashboard?{$parameters}");
@@ -255,7 +255,7 @@ class JobsDashboardControllerTest extends TestCase
         ]);
 
         $parameters = http_build_query([
-            'styles' => 'office,remote',
+            'styles' => ['office', 'remote'],
         ]);
 
         $response = $this->get("/jobs/dashboard?{$parameters}");
@@ -287,7 +287,7 @@ class JobsDashboardControllerTest extends TestCase
         ]);
 
         $parameters = http_build_query([
-            'keywords' => 'one,three,four',
+            'keywords' => ['one', 'three', 'four'],
         ]);
 
         $response = $this->get("/jobs/dashboard?{$parameters}");
@@ -320,7 +320,7 @@ class JobsDashboardControllerTest extends TestCase
 
         $parameters = http_build_query([
             'has_all_keywords' => true,
-            'keywords' => 'one,description',
+            'keywords' => ['one', 'description'],
         ]);
 
         $response = $this->get("/jobs/dashboard?{$parameters}");

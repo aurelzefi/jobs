@@ -214,7 +214,7 @@ class AlertsControllerTest extends TestCase
             ],
             'job_styles' => [
                 [],
-                'wrong-type',
+                'wrong-style',
             ],
         ]);
 
