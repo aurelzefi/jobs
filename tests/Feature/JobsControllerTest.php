@@ -47,16 +47,14 @@ class JobsControllerTest extends TestCase
 
         $user = User::factory()->create();
 
-        $company = $user->companies()->save(
-            Company::factory()->make()
-        );
+        $company = Company::factory()->for($user)->create();
 
-        $data = Job::factory()->make(['company_id' => $company])->toArray();
+        $job = Job::factory()->for($company)->make();
 
-        $response = $this->actingAs($user)->post('/jobs', $data);
+        $response = $this->actingAs($user)->post('/jobs', $job->toArray());
 
         $response->assertJson([
-            'title' => $data['title'],
+            'title' => $job->title,
         ]);
 
         Event::assertDispatched(JobCreated::class);
@@ -86,17 +84,15 @@ class JobsControllerTest extends TestCase
             'company_id', 'country_id', 'title', 'description', 'city', 'type', 'style',
         ]);
 
-        $company = $user->companies()->save(
-            Company::factory()->make()
-        );
+        $company = Company::factory()->for($user)->create();
 
-        $data = Job::factory()->make();
+        $job = Job::factory()->for($company)->make();
 
         $response = $this->actingAs($user)->post('/jobs', [
             'company_id' => $company->id,
-            'country_id' => $data['country_id'],
+            'country_id' => $job->country_id,
             'title' => Str::random(256),
-            'description' => $data['description'],
+            'description' => $job->description,
             'city' => Str::random(256),
             'type' => 'wrong-type',
             'style' => 'wrong-style',
@@ -111,13 +107,9 @@ class JobsControllerTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $company = $user->companies()->save(
-            Company::factory()->make()
-        );
+        $company = Company::factory()->for($user)->create();
 
-        $job = $company->jobs()->save(
-            Job::factory()->make()
-        );
+        $job = Job::factory()->for($company)->create();
 
         $response = $this->actingAs($user)->get("/jobs/{$job->id}");
 
@@ -130,20 +122,16 @@ class JobsControllerTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $company = $user->companies()->save(
-            Company::factory()->make()
-        );
+        $company = Company::factory()->for($user)->create();
 
-        $job = $company->jobs()->save(
-            Job::factory()->make()
-        );
+        $job = Job::factory()->for($company)->create();
 
-        $data = Job::factory()->make(['company_id' => $company])->toArray();
+        $newJob = Job::factory()->for($company)->make();
 
-        $response = $this->actingAs($user)->put("/jobs/{$job->id}", $data);
+        $response = $this->actingAs($user)->put("/jobs/{$job->id}", $newJob->toArray());
 
         $response->assertJson([
-            'title' => $data['title'],
+            'title' => $newJob->title,
         ]);
     }
 
@@ -151,13 +139,9 @@ class JobsControllerTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $company = $user->companies()->save(
-            Company::factory()->make()
-        );
+        $company = Company::factory()->for($user)->create();
 
-        $job = $company->jobs()->save(
-            Job::factory()->make()
-        );
+        $job = Job::factory()->for($company)->create();
 
         $response = $this->actingAs($user)->put("/jobs/{$job->id}");
 
@@ -179,13 +163,13 @@ class JobsControllerTest extends TestCase
             'company_id', 'country_id', 'title', 'description', 'city', 'type', 'style',
         ]);
 
-        $data = Job::factory()->make();
+        $newJob = Job::factory()->for($company)->make();
 
         $response = $this->actingAs($user)->post('/jobs', [
             'company_id' => $company->id,
-            'country_id' => $data['country_id'],
+            'country_id' => $newJob->country_id,
             'title' => Str::random(256),
-            'description' => $data['description'],
+            'description' => $newJob->description,
             'city' => Str::random(256),
             'type' => 'wrong-type',
             'style' => 'wrong-style',

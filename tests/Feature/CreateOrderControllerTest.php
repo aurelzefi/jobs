@@ -95,11 +95,9 @@ class CreateOrderControllerTest extends TestCase
 
         $response->assertJsonValidationErrors(['type']);
 
-        Order::factory()->for($job)->create([
+        $response = $this->actingAs($user)->post("/jobs/{$job->id}/orders", [
             'type' => 'wrong-type',
         ]);
-
-        $response = $this->actingAs($user)->post("/jobs/{$job->id}/orders");
 
         $response->assertJsonValidationErrors(['type']);
 

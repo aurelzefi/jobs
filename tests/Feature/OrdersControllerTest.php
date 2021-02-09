@@ -44,18 +44,9 @@ class OrdersControllerTest extends TestCase
     public function test_orders_can_be_shown()
     {
         $user = User::factory()->create();
-
-        $company = $user->companies()->save(
-            Company::factory()->make()
-        );
-
-        $job = $company->jobs()->save(
-            Job::factory()->make()
-        );
-
-        $order = $job->orders()->save(
-            Order::factory()->make()
-        );
+        $company = Company::factory()->for($user)->create();
+        $job = Job::factory()->for($company)->create();
+        $order = Order::factory()->for($job)->create();
 
         $response = $this->actingAs($user)->get("/orders/{$order->id}");
 
