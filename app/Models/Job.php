@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Query\Builder as QueryBuilder;
 
 class Job extends Model
 {
@@ -43,11 +44,6 @@ class Job extends Model
     public function orders(): HasMany
     {
         return $this->hasMany(Order::class);
-    }
-
-    public function scopeOrderByCapturedAtDesc()
-    {
-
     }
 
     public function scopeForInput(Builder $query, array $data): Builder
@@ -115,6 +111,29 @@ class Job extends Model
             $query->whereDate('created_at', '<=', $data['to_created_at']);
         }
 
-        return $query;
+        return $query->withLastCapturedAt()->captured()->lastMonth()->orderByDesc('last_captured_at');
+    }
+
+    public function scopeWithLastCapturedAt(Builder $query): Builder
+    {
+        return $query->addSelect([
+            'last_captured_at' => function (QueryBuilder $query) {
+                $query->select('captured_at')
+                    ->from('orders')
+                    ->whereColumn('jobs.id', 'orders.job_id')
+                    ->orderByDesc('captured_at')
+                    ->limit(1);
+            }
+        ]);
+    }
+
+    public function scopeCaptured(Builder $query): Builder
+    {
+        return $query->having('last_captured_at', '<>', 'null');
+    }
+
+    public function scopeLastMonth(Builder $query): Builder
+    {
+        return $query->having('last_captured_at', '>=', now()->subMonth());
     }
 }

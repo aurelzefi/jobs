@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\Company;
 use App\Models\Country;
 use App\Models\Job;
+use App\Models\Order;
 use Database\Seeders\CountriesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -24,9 +25,6 @@ class JobsDashboardControllerTest extends TestCase
         ]);
     }
 
-    /**
-     * @group current
-     */
     public function test_jobs_can_be_searched_for_query()
     {
         $company = Company::factory()->create();
@@ -54,6 +52,9 @@ class JobsDashboardControllerTest extends TestCase
             'data' => [
                 [
                     'title' => $jobOne->title,
+                ],
+                [
+                    'title' => $jobTwo->title,
                 ],
             ],
         ]);
@@ -120,8 +121,8 @@ class JobsDashboardControllerTest extends TestCase
         $company = Company::factory()->create();
 
         $company->jobs()->saveMany([
-            $jobOne = Job::factory(['country_id' => Country::query()->first()])->make(),
-            $jobTwo = Job::factory(['country_id' => Country::query()->orderByDesc('id')->first()])->make(),
+            $jobOne = Job::factory()->make(['country_id' => Country::query()->first()]),
+            $jobTwo = Job::factory()->make(['country_id' => Country::query()->orderByDesc('id')->first()]),
         ]);
 
         $parameters = http_build_query([
@@ -146,8 +147,8 @@ class JobsDashboardControllerTest extends TestCase
         $company = Company::factory()->create();
 
         $company->jobs()->saveMany([
-            $jobOne = Job::factory(['title' => 'Job One Title'])->make(),
-            $jobTwo = Job::factory(['title' => 'Job Two Title'])->make(),
+            $jobOne = Job::factory()->make(['title' => 'Job One Title']),
+            $jobTwo = Job::factory()->make(['title' => 'Job Two Title']),
         ]);
 
         $parameters = http_build_query([
@@ -172,8 +173,8 @@ class JobsDashboardControllerTest extends TestCase
         $company = Company::factory()->create();
 
         $company->jobs()->saveMany([
-            $jobOne = Job::factory(['description' => 'Job One Description'])->make(),
-            $jobTwo = Job::factory(['description' => 'Job Two Description'])->make(),
+            $jobOne = Job::factory()->make(['description' => 'Job One Description']),
+            $jobTwo = Job::factory()->make(['description' => 'Job Two Description']),
         ]);
 
         $parameters = http_build_query([
@@ -198,8 +199,8 @@ class JobsDashboardControllerTest extends TestCase
         $company = Company::factory()->create();
 
         $company->jobs()->saveMany([
-            $jobOne = Job::factory(['city' => 'Job One City'])->make(),
-            $jobTwo = Job::factory(['city' => 'Job Two City'])->make(),
+            $jobOne = Job::factory()->make(['city' => 'Job One City']),
+            $jobTwo = Job::factory()->make(['city' => 'Job Two City']),
         ]);
 
         $parameters = http_build_query([
@@ -224,8 +225,8 @@ class JobsDashboardControllerTest extends TestCase
         $company = Company::factory()->create();
 
         $company->jobs()->saveMany([
-            $jobOne = Job::factory(['type' => 'full-time'])->make(),
-            $jobTwo = Job::factory(['type' => 'part-time'])->make(),
+            $jobOne = Job::factory()->make(['type' => 'full-time']),
+            $jobTwo = Job::factory()->make(['type' => 'part-time']),
         ]);
 
         $parameters = http_build_query([
@@ -308,14 +309,14 @@ class JobsDashboardControllerTest extends TestCase
         $company = Company::factory()->create();
 
         $company->jobs()->saveMany([
-            $jobOne = Job::factory([
+            $jobOne = Job::factory()->make([
                 'title' => 'Job One Title',
-                'description' => 'Job One Description'
-            ])->make(),
-            $jobTwo = Job::factory([
+                'description' => 'Job One Description',
+            ]),
+            Job::factory()->make([
                 'title' => 'Job Two Title',
                 'description' => 'Job Two Description',
-            ])->make(),
+            ]),
         ]);
 
         $parameters = http_build_query([
@@ -341,10 +342,10 @@ class JobsDashboardControllerTest extends TestCase
         $company = Company::factory()->create();
 
         $company->jobs()->saveMany([
-            $jobOne = Job::factory(['created_at' => now()])->make(),
-            $jobTwo = Job::factory(['created_at' => now()->subDay()])->make(),
-            $jobThree = Job::factory(['created_at' => now()->subDays(2)])->make(),
-            $jobFour = Job::factory(['created_at' => now()->subDays(3)])->make(),
+            $jobOne = Job::factory()->make(['created_at' => now()]),
+            $jobTwo = Job::factory()->make(['created_at' => now()->subDay()]),
+            Job::factory()->make(['created_at' => now()->subDays(2)]),
+            Job::factory()->make(['created_at' => now()->subDays(3)]),
         ]);
 
         $parameters = http_build_query([
@@ -372,10 +373,10 @@ class JobsDashboardControllerTest extends TestCase
         $company = Company::factory()->create();
 
         $company->jobs()->saveMany([
-            $jobOne = Job::factory(['created_at' => now()])->make(),
-            $jobTwo = Job::factory(['created_at' => now()->subDay()])->make(),
-            $jobThree = Job::factory(['created_at' => now()->subDays(2)])->make(),
-            $jobFour = Job::factory(['created_at' => now()->subDays(3)])->make(),
+            $jobOne = Job::factory()->make(['created_at' => now()->subDays(2)]),
+            $jobTwo = Job::factory()->make(['created_at' => now()->subDays(3)]),
+            Job::factory()->make(['created_at' => now()]),
+            Job::factory()->make(['created_at' => now()->subDay()]),
         ]);
 
         $parameters = http_build_query([
@@ -389,10 +390,68 @@ class JobsDashboardControllerTest extends TestCase
         $response->assertJson([
             'data' => [
                 [
-                    'title' => $jobThree->title,
+                    'title' => $jobOne->title,
                 ],
                 [
-                    'title' => $jobFour->title,
+                    'title' => $jobTwo->title,
+                ],
+            ],
+        ]);
+    }
+
+    /**
+     * @group current
+     */
+    public function test_jobs_are_order_by_last_captured_at_desc()
+    {
+        $company = Company::factory()->create();
+
+        $jobOne = Job::factory()->for($company)->create();
+        $jobTwo = Job::factory()->for($company)->create();
+        $jobThree = Job::factory()->for($company)->create();
+        $jobFour = Job::factory()->for($company)->create();
+
+        Order::factory()->for($jobOne)->create([
+            'capture_id' => 'fake-capture-id',
+            'captured_at' => now()->subDays(3),
+        ]);
+
+        Order::factory()->for($jobOne)->create([
+            'capture_id' => 'fake-capture-id',
+            'captured_at' => now()->subDays(2),
+        ]);
+
+        Order::factory()->for($jobTwo)->create([
+            'capture_id' => 'fake-capture-id',
+            'captured_at' => now()->subDay(),
+        ]);
+
+        Order::factory()->for($jobTwo)->create([
+            'capture_id' => null,
+            'captured_at' => now(),
+        ]);
+
+        Order::factory()->for($jobThree)->create([
+            'capture_id' => null,
+            'captured_at' => null,
+        ]);
+
+        Order::factory()->for($jobFour)->create([
+            'capture_id' => 'fake-capture-id',
+            'captured_at' => now()->subMonths(2),
+        ]);
+
+        $response = $this->get('/jobs/dashboard');
+
+        $response->assertJsonCount(2, 'data');
+
+        $response->assertJson([
+            'data' => [
+                [
+                    'title' => $jobTwo->title,
+                ],
+                [
+                    'title' => $jobOne->title,
                 ],
             ],
         ]);
