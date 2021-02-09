@@ -399,9 +399,6 @@ class JobsDashboardControllerTest extends TestCase
         ]);
     }
 
-    /**
-     * @group current
-     */
     public function test_jobs_are_order_by_last_captured_at_desc()
     {
         $company = Company::factory()->create();

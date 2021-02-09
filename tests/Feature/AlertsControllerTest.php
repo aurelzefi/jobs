@@ -122,9 +122,7 @@ class AlertsControllerTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $alert = $user->alerts()->save(
-            Alert::factory()->make()
-        );
+        $alert = Alert::factory()->for($user)->create();
 
         $response = $this->actingAs($user)->get("/alerts/{$alert->id}");
 
@@ -137,9 +135,7 @@ class AlertsControllerTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $alert = $user->alerts()->save(
-            Alert::factory()->make()
-        );
+        $alert = Alert::factory()->for($user)->create();
 
         $data = Alert::factory()->make()->toArray();
         $keywords = Keyword::factory(3)->make()->pluck('word')->implode(',');
@@ -155,9 +151,7 @@ class AlertsControllerTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $alert = $user->alerts()->save(
-            Alert::factory()->make()
-        );
+        $alert = Alert::factory()->for($user)->create();
 
         $response = $this->actingAs($user)->put("/alerts/{$alert->id}");
 
@@ -227,9 +221,7 @@ class AlertsControllerTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $alert = $user->alerts()->save(
-            Alert::factory()->make()
-        );
+        $alert = Alert::factory()->for($user)->create();
 
         $response = $this->actingAs($user)->delete("/alerts/{$alert->id}");
 
