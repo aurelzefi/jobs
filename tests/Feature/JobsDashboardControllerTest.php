@@ -505,7 +505,7 @@ class JobsDashboardControllerTest extends TestCase
         ]);
     }
 
-    public function test_jobs_can_be_ordered_by_pinned_and_captured_at()
+    public function test_jobs_are_ordered_by_pinned_and_captured_at()
     {
         $company = Company::factory()->create();
 
