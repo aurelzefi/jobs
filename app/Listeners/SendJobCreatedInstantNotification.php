@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Listeners;
 
 use App\Events\JobCreated;
@@ -9,7 +11,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 
 class SendJobCreatedInstantNotification implements ShouldQueue
 {
-    public function handle(JobCreated $event)
+    public function handle(JobCreated $event): void
     {
         Alert::with('user')->forJob($event->job)->instant()->get()
             ->each(function (Alert $alert) use ($event) {

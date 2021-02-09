@@ -574,12 +574,6 @@ class JobsDashboardControllerTest extends TestCase
             'captured_at' => null,
         ]);
 
-        // Job Five Previous Order
-        Order::factory()->for($jobFive)->create([
-            'capture_id' => 'fake-capture-id',
-            'captured_at' => now()->subDay(),
-        ]);
-
         $response = $this->get('/jobs/dashboard');
 
         $response->assertJsonCount(4, 'data');
