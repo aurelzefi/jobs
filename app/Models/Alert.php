@@ -89,15 +89,15 @@ class Alert extends Model
                     'keywords as matching_keywords_count' => function (Builder $query) use ($job) {
                         $query->whereRaw('instr(?, word)', [$job->description]);
                     }])
+                    ->where('country_id', $job->country_id)
+                    ->whereRaw('instr(?, city)', [$job->city])
+                    ->whereRaw('instr(job_types, ?)', [$job->type])
+                    ->whereRaw('instr(job_styles, ?)', [$job->style])
                     ->havingRaw(
                         'case when has_all_keywords = 1
                             then keywords_count = matching_keywords_count
                             else matching_keywords_count > 0
                         end'
-                    )
-                    ->where('country_id', $job->country_id)
-                    ->where('city', 'like', "%{$job->city}%")
-                    ->whereRaw('instr(job_types, ?)', [$job->type])
-                    ->whereRaw('instr(job_styles, ?)', [$job->style]);
+                    );
     }
 }

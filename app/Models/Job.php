@@ -15,6 +15,18 @@ class Job extends Model
 {
     use HasFactory;
 
+    const TYPE_FULL_TIME = 'full-time';
+
+    const TYPE_PART_TIME = 'part-time';
+
+    const TYPE_FREELANCE = 'freelance';
+
+    const STYLE_OFFICE = 'office';
+
+    const STYLE_REMOTE = 'remote';
+
+    const STYLE_OPTIONAL = 'optional';
+
     const TYPES = [
         'full-time',
         'part-time',
@@ -137,7 +149,7 @@ class Job extends Model
     {
         return $query->addSelect([
             'pinned' => function (QueryBuilder $query) {
-                $query->selectRaw(sprintf('type = \'%s\'', Order::ORDER_TYPE_PINNED))
+                $query->selectRaw(sprintf('type = \'%s\'', Order::TYPE_PINNED))
                     ->from('orders')
                     ->whereColumn('jobs.id', 'orders.job_id')
                     ->orderByDesc('captured_at')
