@@ -111,7 +111,12 @@ class Job extends Model
             $query->whereDate('created_at', '<=', $data['to_created_at']);
         }
 
-        return $query->withLastCapturedAt()->captured()->lastMonth()->orderByDesc('last_captured_at');
+        return $query->withLastCapturedAt()
+                    ->withPinned()
+                    ->captured()
+                    ->lastMonth()
+                    ->orderByDesc('pinned')
+                    ->orderByDesc('last_captured_at');
     }
 
     public function scopeWithLastCapturedAt(Builder $query): Builder
@@ -119,6 +124,20 @@ class Job extends Model
         return $query->addSelect([
             'last_captured_at' => function (QueryBuilder $query) {
                 $query->select('captured_at')
+                    ->from('orders')
+                    ->whereColumn('jobs.id', 'orders.job_id')
+                    ->orderByRaw('captured_at is null desc')
+                    ->orderByDesc('captured_at')
+                    ->limit(1);
+            }
+        ]);
+    }
+
+    public function scopeWithPinned(Builder $query): Builder
+    {
+        return $query->addSelect([
+            'pinned' => function (QueryBuilder $query) {
+                $query->selectRaw(sprintf('type = \'%s\'', Order::ORDER_TYPE_PINNED))
                     ->from('orders')
                     ->whereColumn('jobs.id', 'orders.job_id')
                     ->orderByDesc('captured_at')

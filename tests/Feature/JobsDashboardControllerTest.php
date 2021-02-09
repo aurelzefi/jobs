@@ -480,7 +480,10 @@ class JobsDashboardControllerTest extends TestCase
         ]);
     }
 
-    public function test_jobs_are_ordered_by_last_captured_at_desc()
+    /**
+     * @group current
+     */
+    public function test_jobs_can_be_ordered_by_pinned_and_captured_at()
     {
         $company = Company::factory()->create();
 
@@ -488,45 +491,87 @@ class JobsDashboardControllerTest extends TestCase
         $jobTwo = Job::factory()->for($company)->create();
         $jobThree = Job::factory()->for($company)->create();
         $jobFour = Job::factory()->for($company)->create();
+        $jobFive = Job::factory()->for($company)->create();
 
+        // Job One Last Order
         Order::factory()->for($jobOne)->create([
+            'type' => Order::ORDER_TYPE_BASIC,
             'capture_id' => 'fake-capture-id',
-            'captured_at' => now()->subDays(3),
+            'captured_at' => now()->subDay(),
         ]);
 
+        // Job One Previous Order
         Order::factory()->for($jobOne)->create([
             'capture_id' => 'fake-capture-id',
             'captured_at' => now()->subDays(2),
         ]);
 
+        // Job Two Last Order
         Order::factory()->for($jobTwo)->create([
+            'type' => Order::ORDER_TYPE_PINNED,
             'capture_id' => 'fake-capture-id',
             'captured_at' => now()->subDay(),
         ]);
 
+        // Job Two Previous Order
         Order::factory()->for($jobTwo)->create([
-            'capture_id' => null,
+            'capture_id' => 'fake-capture-id',
+            'captured_at' => now()->subDays(2),
+        ]);
+
+        // Job Three Last Order
+        Order::factory()->for($jobThree)->create([
+            'type' => Order::ORDER_TYPE_FREE,
+            'capture_id' => 'fake-capture-id',
             'captured_at' => now(),
         ]);
 
+        // Job Three Previous Order
         Order::factory()->for($jobThree)->create([
+            'capture_id' => 'fake-capture-id',
+            'captured_at' => now()->subDay(),
+        ]);
+
+        // Job Four Last Order
+        Order::factory()->for($jobFour)->create([
+            'type' => Order::ORDER_TYPE_PINNED,
+            'capture_id' => 'fake-capture-id',
+            'captured_at' => now(),
+        ]);
+
+        // Job Four Previous Order
+        Order::factory()->for($jobFour)->create([
+            'capture_id' => 'fake-capture-id',
+            'captured_at' => now()->subDay(),
+        ]);
+
+        // Job Five Last Order
+        Order::factory()->for($jobFive)->create([
+            'type' => Order::ORDER_TYPE_PINNED,
             'capture_id' => null,
             'captured_at' => null,
         ]);
 
-        Order::factory()->for($jobFour)->create([
+        // Job Five Previous Order
+        Order::factory()->for($jobFive)->create([
             'capture_id' => 'fake-capture-id',
-            'captured_at' => now()->subMonths(2),
+            'captured_at' => now()->subDay(),
         ]);
 
         $response = $this->get('/jobs/dashboard');
 
-        $response->assertJsonCount(2, 'data');
+        $response->assertJsonCount(4, 'data');
 
         $response->assertJson([
             'data' => [
                 [
+                    'title' => $jobFour->title,
+                ],
+                [
                     'title' => $jobTwo->title,
+                ],
+                [
+                    'title' => $jobThree->title,
                 ],
                 [
                     'title' => $jobOne->title,

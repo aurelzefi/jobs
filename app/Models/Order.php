@@ -15,7 +15,12 @@ class Order extends Model
 
     const ORDER_TYPE_FREE = 'free';
 
+    const ORDER_TYPE_BASIC = 'basic';
+
+    const ORDER_TYPE_PINNED = 'pinned';
+
     const TYPES = [
+        'free',
         'basic',
         'pinned',
     ];

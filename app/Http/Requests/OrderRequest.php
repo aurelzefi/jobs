@@ -21,4 +21,9 @@ class OrderRequest extends FormRequest
             'type' => ['required', Rule::in(Order::TYPES)],
         ];
     }
+
+    public function creatingFreeOrder(): bool
+    {
+        return $this->input('type') === Order::ORDER_TYPE_FREE;
+    }
 }

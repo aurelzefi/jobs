@@ -6,9 +6,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\OrderRequest;
 use App\Models\Job;
-use App\Models\Order;
 use App\Paypal\Payment;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Validation\ValidationException;
 
 class CreateOrderController extends Controller
 {
@@ -16,9 +16,16 @@ class CreateOrderController extends Controller
     {
         $this->authorize('update', $job);
 
-        $order = $job->orders()->create(
-            $this->determineOrderTypeAndAmount($request)
-        );
+        if ($request->creatingFreeOrder() && ! $request->user()->isEligibleForFreeOrder()) {
+            throw ValidationException::withMessages([
+                'type' => __('You are no longer eligible for a free order.'),
+            ]);
+        }
+
+        $order = $job->orders()->create([
+            'type' => $type = $request->input('type'),
+            'amount' => config("app.orders.{$type}"),
+        ]);
 
         $paypalOrder = $payment->forOrder($order)->create();
 
@@ -27,20 +34,5 @@ class CreateOrderController extends Controller
         ])->save();
 
         return response()->json($order);
-    }
-
-    protected function determineOrderTypeAndAmount(OrderRequest $request): array
-    {
-        if ($request->user()->isEligibleForFreeOrder()) {
-            return [
-                'type' => Order::ORDER_TYPE_FREE,
-                'amount' => 0,
-            ];
-        }
-
-        return [
-            'type' => $type = $request->input('type'),
-            'amount' => config("app.orders.{$type}"),
-        ];
     }
 }

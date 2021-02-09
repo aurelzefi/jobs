@@ -32,17 +32,14 @@ class CaptureOrderControllerTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $company = $user->companies()->save(
-            Company::factory()->make()
-        );
+        $company = Company::factory()->for($user)->create();
 
-        $job = $company->jobs()->save(
-            Job::factory()->make()
-        );
+        $job = Job::factory()->for($company)->create();
 
-        $order = $job->orders()->save(
-            Order::factory()->make()
-        );
+        $order = Order::factory()->for($job)->create([
+            'capture_id' => null,
+            'captured_at' => null,
+        ]);
 
         $paypalOrder = Mockery::mock(PaypalOrder::class);
         $paypalOrder->shouldReceive('captureId')->andReturn('fake-capture-id');

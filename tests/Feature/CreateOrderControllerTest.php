@@ -32,27 +32,18 @@ class CreateOrderControllerTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $company = $user->companies()->save(
-            Company::factory()->make()
-        );
+        $company = Company::factory()->for($user)->create();
 
-        $job = $company->jobs()->save(
-            Job::factory()->make()
-        );
+        $job = Job::factory()->for($company)->create();
 
-        $data = Order::factory()->make()->toArray();
+        $order = Order::factory()->for($job)->make([
+            'type' => Order::ORDER_TYPE_FREE,
+        ]);
 
-        $paypalOrder = Mockery::mock(PaypalOrder::class);
-        $paypalOrder->shouldReceive('id')->andReturn('fake-id');
-
-        $payment = Mockery::mock(Payment::class);
-        $payment->shouldReceive('forOrder')->andReturn($payment);
-        $payment->shouldReceive('create')->andReturn($paypalOrder);
-
-        $this->app->instance(Payment::class, $payment);
+        $this->mockPayment();
 
         $response = $this->actingAs($user)->post("/jobs/{$job->id}/orders", [
-            'type' => $data['type'],
+            'type' => $order->type,
         ]);
 
         $response->assertJson([
@@ -65,23 +56,74 @@ class CreateOrderControllerTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $company = $user->companies()->save(
-            Company::factory()->make()
-        );
+        $company = Company::factory()->for($user)->create();
 
-        $job = $company->jobs()->save(
-            Job::factory()->make()
-        );
+        $job = Job::factory()->for($company)->create();
 
-        $job->orders()->saveMany(
-            Order::factory(3)->make([
-                'capture_id' => 'fake-capture-id',
-                'captured_at' => now(),
-            ])
-        );
+        Order::factory(3)->for($job)->create([
+            'type' => Order::ORDER_TYPE_FREE,
+            'capture_id' => 'fake-capture-id',
+            'captured_at' => now(),
+        ]);
 
-        $data = Order::factory()->make()->toArray();
+        $order = Order::factory()->for($job)->make([
+            'type' => $type = Order::ORDER_TYPE_BASIC,
+            'amount' => config("app.orders.{$type}"),
+        ]);
 
+        $this->mockPayment();
+
+        $response = $this->actingAs($user)->post("/jobs/{$job->id}/orders", [
+            'type' => $order->type,
+        ]);
+
+        $response->assertJson([
+            'paypal_order_id' => 'fake-id',
+            'amount' => $order->amount,
+        ]);
+    }
+
+    public function test_orders_cant_be_created_with_invalid_data()
+    {
+        $user = User::factory()->create();
+
+        $company = Company::factory()->for($user)->create();
+
+        $job = Job::factory()->for($company)->create();
+
+        $response = $this->actingAs($user)->post("/jobs/{$job->id}/orders");
+
+        $response->assertJsonValidationErrors(['type']);
+
+        Order::factory()->for($job)->create([
+            'type' => 'wrong-type',
+        ]);
+
+        $response = $this->actingAs($user)->post("/jobs/{$job->id}/orders");
+
+        $response->assertJsonValidationErrors(['type']);
+
+        Order::factory(3)->for($job)->create([
+            'type' => Order::ORDER_TYPE_FREE,
+            'capture_id' => 'fake-capture-id',
+            'captured_at' => now(),
+        ]);
+
+        $order = Order::factory()->for($job)->make([
+            'type' => Order::ORDER_TYPE_FREE,
+        ]);
+
+        $this->mockPayment();
+
+        $response = $this->actingAs($user)->post("/jobs/{$job->id}/orders", [
+            'type' => $order->type,
+        ]);
+
+        $response->assertJsonValidationErrors(['type']);
+    }
+
+    protected function mockPayment()
+    {
         $paypalOrder = Mockery::mock(PaypalOrder::class);
         $paypalOrder->shouldReceive('id')->andReturn('fake-id');
 
@@ -90,14 +132,5 @@ class CreateOrderControllerTest extends TestCase
         $payment->shouldReceive('create')->andReturn($paypalOrder);
 
         $this->app->instance(Payment::class, $payment);
-
-        $response = $this->actingAs($user)->post("/jobs/{$job->id}/orders", [
-            'type' => $data['type'],
-        ]);
-
-        $response->assertJson([
-            'paypal_order_id' => 'fake-id',
-            'amount' => $data['amount'],
-        ]);
     }
 }

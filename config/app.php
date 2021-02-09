@@ -238,6 +238,7 @@ return [
 
     // Order Prices
     'orders' => [
+        'free' => 0,
         'basic' => 9.99 * 100,
         'pinned' => 19.99 * 100,
     ],
