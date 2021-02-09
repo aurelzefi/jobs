@@ -28,11 +28,9 @@ class CompaniesControllerTest extends TestCase
 
     public function test_companies_can_be_listed()
     {
-        $user = User::factory()->create();
-
-        $user->companies()->saveMany(
-            Company::factory(3)->make()
-        );
+        $user = User::factory()
+            ->has(Company::factory(3))
+            ->create();
 
         $response = $this->actingAs($user)->get('/companies');
 
@@ -43,12 +41,12 @@ class CompaniesControllerTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $data = Company::factory()->make()->makeHidden('logo')->toArray();
+        $company = Company::factory()->for($user)->make()->makeHidden('logo');
 
-        $response = $this->actingAs($user)->post('/companies', $data);
+        $response = $this->actingAs($user)->post('/companies', $company->toArray());
 
         $response->assertJson([
-            'name' => $data['name'],
+            'name' => $company->name,
         ]);
     }
 
@@ -58,14 +56,14 @@ class CompaniesControllerTest extends TestCase
 
         $user = User::factory()->create();
 
-        $data = Company::factory()->make()->makeHidden('logo')->toArray();
+        $company = Company::factory()->for($user)->make()->makeHidden('logo');
 
         $logo = UploadedFile::fake()->image('image.jpg');
 
-        $response = $this->actingAs($user)->post('/companies', array_merge($data, ['logo' => $logo]));
+        $response = $this->actingAs($user)->post('/companies', array_merge($company->toArray(), ['logo' => $logo]));
 
         $response->assertJson([
-            'name' => $data['name'],
+            'name' => $company->name,
         ]);
 
         Storage::disk('public')->assertExists("/images/{$logo->hashName()}");
@@ -104,12 +102,12 @@ class CompaniesControllerTest extends TestCase
             'country_id', 'name', 'logo', 'description', 'website', 'address', 'city',
         ]);
 
-        $data = Company::factory()->make()->toArray();
+        $company = Company::factory()->for($user)->make();
 
         $response = $this->actingAs($user)->post('/companies', [
-            'country_id' => $data['country_id'],
+            'country_id' => $company->country_id,
             'name' => Str::random(256),
-            'description' => $data['description'],
+            'description' => $company->description,
             'website' => Str::random(256),
             'address' => Str::random(256),
             'city' => Str::random(256),
@@ -122,9 +120,7 @@ class CompaniesControllerTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $company = $user->companies()->save(
-            Company::factory()->make()
-        );
+        $company = Company::factory()->for($user)->create();
 
         $response = $this->actingAs($user)->get("/companies/{$company->id}");
 
@@ -137,16 +133,14 @@ class CompaniesControllerTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $company = $user->companies()->save(
-            Company::factory()->make()
-        );
+        $company = Company::factory()->for($user)->create();
 
-        $data = Company::factory()->make()->makeHidden('logo')->toArray();
+        $newCompany = Company::factory()->for($user)->make()->makeHidden('logo');
 
-        $response = $this->actingAs($user)->put("/companies/{$company->id}", $data);
+        $response = $this->actingAs($user)->put("/companies/{$company->id}", $newCompany->toArray());
 
         $response->assertJson([
-            'name' => $data['name'],
+            'name' => $newCompany->name,
         ]);
     }
 
@@ -156,24 +150,26 @@ class CompaniesControllerTest extends TestCase
 
         $user = User::factory()->create();
 
-        $previousLogo = UploadedFile::fake()->image('image.jpg');
-
-        $company = $user->companies()->save(
-            Company::factory()->make(['logo' => "/images/{$previousLogo->hashName()}"])
-        );
-
-        $data = Company::factory()->make()->makeHidden('logo')->toArray();
-
         $logo = UploadedFile::fake()->image('image.jpg');
 
-        $response = $this->actingAs($user)->put("/companies/{$company->id}", array_merge($data, ['logo' => $logo]));
-
-        $response->assertJson([
-            'name' => $data['name'],
+        $company = Company::factory()->for($user)->create([
+            'logo' => "/images/{$logo->hashName()}",
         ]);
 
-        Storage::disk('public')->assertExists("/images/{$logo->hashName()}");
-        Storage::disk('public')->assertMissing("/images/{$previousLogo->hashName()}");
+        $newCompany = Company::factory()->for($user)->make()->makeHidden('logo');
+
+        $newLogo = UploadedFile::fake()->image('image.jpg');
+
+        $response = $this->actingAs($user)->put(
+            "/companies/{$company->id}", array_merge($newCompany->toArray(), ['logo' => $newLogo])
+        );
+
+        $response->assertJson([
+            'name' => $newCompany->name,
+        ]);
+
+        Storage::disk('public')->assertMissing("/images/{$logo->hashName()}");
+        Storage::disk('public')->assertExists("/images/{$newLogo->hashName()}");
     }
 
     public function test_companies_cant_be_updated_with_invalid_data()
@@ -182,9 +178,7 @@ class CompaniesControllerTest extends TestCase
 
         $user = User::factory()->create();
 
-        $company = $user->companies()->save(
-            Company::factory()->make()
-        );
+        $company = Company::factory()->for($user)->create();
 
         $logo = UploadedFile::fake()->create('document.pdf');
 
@@ -213,12 +207,12 @@ class CompaniesControllerTest extends TestCase
             'country_id', 'name', 'logo', 'description', 'website', 'address', 'city',
         ]);
 
-        $data = Company::factory()->make()->toArray();
+        $newCompany = Company::factory()->for($user)->make();
 
         $response = $this->actingAs($user)->put("/companies/{$company->id}", [
-            'country_id' => $data['country_id'],
+            'country_id' => $newCompany->country_id,
             'name' => Str::random(256),
-            'description' => $data['description'],
+            'description' => $newCompany->description,
             'website' => Str::random(256),
             'address' => Str::random(256),
             'city' => Str::random(256),
