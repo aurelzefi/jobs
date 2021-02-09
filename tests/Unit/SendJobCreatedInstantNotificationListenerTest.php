@@ -17,8 +17,6 @@ class SendJobCreatedInstantNotificationListenerTest extends TestCase
 {
     use RefreshDatabase;
 
-    protected $job;
-
     public function setUp(): void
     {
         parent::setUp();
