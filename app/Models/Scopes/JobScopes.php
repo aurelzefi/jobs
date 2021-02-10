@@ -80,7 +80,7 @@ trait JobScopes
 
     public function scopeCapturedLastMonth(Builder $query): Builder
     {
-        return $query->captured()->having('last_captured_at', '>=', now()->subMonth());
+        return $query->captured()->havingRaw('date(last_captured_at) >= ?', [now()->subMonth()->toDateString()]);
     }
 
     public function scopeCaptured(Builder $query): Builder
@@ -109,6 +109,7 @@ trait JobScopes
                 $query->selectRaw(sprintf('type = "%s"', Order::TYPE_PINNED))
                     ->from('orders')
                     ->whereColumn('jobs.id', 'orders.job_id')
+                    ->whereNotNull('captured_at')
                     ->orderByDesc('captured_at')
                     ->limit(1);
             }

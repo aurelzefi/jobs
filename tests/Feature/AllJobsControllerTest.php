@@ -514,6 +514,7 @@ class AllJobsControllerTest extends TestCase
         $jobThree = Job::factory()->for($company)->create();
         $jobFour = Job::factory()->for($company)->create();
         $jobFive = Job::factory()->for($company)->create();
+        $jobSix = Job::factory()->for($company)->create();
 
         // Job One Last Order
         Order::factory()->for($jobOne)->create([
@@ -574,9 +575,23 @@ class AllJobsControllerTest extends TestCase
             'captured_at' => null,
         ]);
 
+        // Job Five Previous Order
+        Order::factory()->for($jobFive)->create([
+            'type' => Order::TYPE_BASIC,
+            'capture_id' => 'fake-capture-id',
+            'captured_at' => now()->subDays(3),
+        ]);
+
+        // Job Six Last Order
+        Order::factory()->for($jobSix)->create([
+            'type' => Order::TYPE_PINNED,
+            'capture_id' => 'fake-capture-id',
+            'captured_at' => now()->subDays(35),
+        ]);
+
         $response = $this->get('/jobs/all');
 
-        $response->assertJsonCount(4, 'data');
+        $response->assertJsonCount(5, 'data');
 
         $response->assertJson([
             'data' => [
@@ -591,6 +606,9 @@ class AllJobsControllerTest extends TestCase
                 ],
                 [
                     'title' => $jobOne->title,
+                ],
+                [
+                    'title' => $jobFive->title,
                 ],
             ],
         ]);
