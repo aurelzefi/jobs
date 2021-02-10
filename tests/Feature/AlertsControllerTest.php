@@ -31,7 +31,7 @@ class AlertsControllerTest extends TestCase
             ->has(Alert::factory()->count(3))
             ->create();
 
-        $response = $this->actingAs($user)->get('/alerts');
+        $response = $this->actingAs($user)->get('/api/alerts');
 
         $response->assertJsonCount(3);
     }
@@ -43,7 +43,7 @@ class AlertsControllerTest extends TestCase
         $alert = Alert::factory()->for($user)->make();
         $keywords = Keyword::factory(3)->for($alert)->make()->pluck('word')->implode(',');
 
-        $response = $this->actingAs($user)->post('/alerts', array_merge($alert->toArray(), ['keywords' => $keywords]));
+        $response = $this->actingAs($user)->post('/api/alerts', array_merge($alert->toArray(), ['keywords' => $keywords]));
 
         $response->assertJson([
             'name' => $alert->name,
@@ -54,13 +54,13 @@ class AlertsControllerTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $response = $this->actingAs($user)->post('/alerts');
+        $response = $this->actingAs($user)->post('/api/alerts');
 
         $response->assertJsonValidationErrors([
             'country_id', 'name', 'keywords', 'city', 'type', 'job_types', 'job_styles',
         ]);
 
-        $response = $this->actingAs($user)->post('/alerts', [
+        $response = $this->actingAs($user)->post('/api/alerts', [
             'country_id' => 'wrong-id',
             'name' => ['wrong-name'],
             'keywords' => ['wrong-keywords'],
@@ -78,7 +78,7 @@ class AlertsControllerTest extends TestCase
         $alert = Alert::factory()->for($user)->make();
         $keywords = Keyword::factory(3)->for($alert)->make()->pluck('word')->implode(',');
 
-        $response = $this->actingAs($user)->post('/alerts', [
+        $response = $this->actingAs($user)->post('/api/alerts', [
             'country_id' => $alert->country_id,
             'name' => Str::random(256),
             'keywords' => $keywords,
@@ -96,7 +96,7 @@ class AlertsControllerTest extends TestCase
         $alert = Alert::factory()->for($user)->make();
         $keywords = Keyword::factory(3)->for($alert)->make()->pluck('word')->implode(',');
 
-        $response = $this->actingAs($user)->post('/alerts', [
+        $response = $this->actingAs($user)->post('/api/alerts', [
             'country_id' => $alert->country_id,
             'name' => $alert->name,
             'keywords' => $keywords,
@@ -124,7 +124,7 @@ class AlertsControllerTest extends TestCase
 
         $alert = Alert::factory()->for($user)->create();
 
-        $response = $this->actingAs($user)->get("/alerts/{$alert->id}");
+        $response = $this->actingAs($user)->get("/api/alerts/{$alert->id}");
 
         $response->assertJson([
             'name' => $alert->name,
@@ -140,7 +140,7 @@ class AlertsControllerTest extends TestCase
         $newAlert = Alert::factory()->for($user)->make();
         $keywords = Keyword::factory(3)->for($newAlert)->make()->pluck('word')->implode(',');
 
-        $response = $this->actingAs($user)->put("/alerts/{$alertOne->id}", array_merge($newAlert->toArray(), ['keywords' => $keywords]));
+        $response = $this->actingAs($user)->put("/api/alerts/{$alertOne->id}", array_merge($newAlert->toArray(), ['keywords' => $keywords]));
 
         $response->assertJson([
             'name' => $newAlert->name,
@@ -153,13 +153,13 @@ class AlertsControllerTest extends TestCase
 
         $alert = Alert::factory()->for($user)->create();
 
-        $response = $this->actingAs($user)->put("/alerts/{$alert->id}");
+        $response = $this->actingAs($user)->put("/api/alerts/{$alert->id}");
 
         $response->assertJsonValidationErrors([
             'country_id', 'name', 'keywords', 'city', 'type', 'job_types', 'job_styles',
         ]);
 
-        $response = $this->actingAs($user)->put("/alerts/{$alert->id}", [
+        $response = $this->actingAs($user)->put("/api/alerts/{$alert->id}", [
             'country_id' => 'wrong-id',
             'name' => ['wrong-name'],
             'keywords' => ['wrong-keywords'],
@@ -177,7 +177,7 @@ class AlertsControllerTest extends TestCase
         $newAlert = Alert::factory()->for($user)->make();
         $keywords = Keyword::factory(3)->for($newAlert)->make()->pluck('word')->implode(',');
 
-        $response = $this->actingAs($user)->put("/alerts/{$alert->id}", [
+        $response = $this->actingAs($user)->put("/api/alerts/{$alert->id}", [
             'country_id' => $newAlert->country_id,
             'name' => Str::random(256),
             'keywords' => $keywords,
@@ -195,7 +195,7 @@ class AlertsControllerTest extends TestCase
         $newAlert = Alert::factory()->for($user)->make();
         $keywords = Keyword::factory(3)->for($newAlert)->make()->pluck('word')->implode(',');
 
-        $response = $this->actingAs($user)->put("/alerts/{$alert->id}", [
+        $response = $this->actingAs($user)->put("/api/alerts/{$alert->id}", [
             'country_id' => $newAlert->country_id,
             'name' => $newAlert->name,
             'keywords' => $keywords,
@@ -223,7 +223,7 @@ class AlertsControllerTest extends TestCase
 
         $alert = Alert::factory()->for($user)->create();
 
-        $response = $this->actingAs($user)->delete("/alerts/{$alert->id}");
+        $response = $this->actingAs($user)->delete("/api/alerts/{$alert->id}");
 
         $response->assertNoContent();
     }

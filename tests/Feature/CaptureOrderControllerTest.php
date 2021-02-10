@@ -43,7 +43,7 @@ class CaptureOrderControllerTest extends TestCase
 
         $this->mockPayment();
 
-        $response = $this->actingAs($user)->put("/orders/{$order->id}/capture");
+        $response = $this->actingAs($user)->put("/api/orders/{$order->id}/capture");
 
         $response->assertJson([
             'capture_id' => 'fake-capture-id',
@@ -65,7 +65,7 @@ class CaptureOrderControllerTest extends TestCase
 
         $this->mockPayment();
 
-        $response = $this->actingAs($user)->put("/orders/{$order->id}/capture");
+        $response = $this->actingAs($user)->put("/api/orders/{$order->id}/capture");
 
         $response->assertJsonValidationErrors(['order']);
     }

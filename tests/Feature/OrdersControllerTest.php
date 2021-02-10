@@ -36,7 +36,7 @@ class OrdersControllerTest extends TestCase
             )
             ->create();
 
-        $response = $this->actingAs($user)->get('/orders');
+        $response = $this->actingAs($user)->get('/api/orders');
 
         $response->assertJsonCount(3);
     }
@@ -48,7 +48,7 @@ class OrdersControllerTest extends TestCase
         $job = Job::factory()->for($company)->create();
         $order = Order::factory()->for($job)->create();
 
-        $response = $this->actingAs($user)->get("/orders/{$order->id}");
+        $response = $this->actingAs($user)->get("/api/orders/{$order->id}");
 
         $response->assertJson([
             'type' => $order->type,

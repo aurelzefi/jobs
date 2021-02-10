@@ -32,7 +32,7 @@ class CompaniesControllerTest extends TestCase
             ->has(Company::factory(3))
             ->create();
 
-        $response = $this->actingAs($user)->get('/companies');
+        $response = $this->actingAs($user)->get('/api/companies');
 
         $response->assertJsonCount(3);
     }
@@ -43,7 +43,7 @@ class CompaniesControllerTest extends TestCase
 
         $company = Company::factory()->for($user)->make()->makeHidden('logo');
 
-        $response = $this->actingAs($user)->post('/companies', $company->toArray());
+        $response = $this->actingAs($user)->post('/api/companies', $company->toArray());
 
         $response->assertJson([
             'name' => $company->name,
@@ -60,7 +60,7 @@ class CompaniesControllerTest extends TestCase
 
         $logo = UploadedFile::fake()->image('image.jpg');
 
-        $response = $this->actingAs($user)->post('/companies', array_merge($company->toArray(), ['logo' => $logo]));
+        $response = $this->actingAs($user)->post('/api/companies', array_merge($company->toArray(), ['logo' => $logo]));
 
         $response->assertJson([
             'name' => $company->name,
@@ -77,7 +77,7 @@ class CompaniesControllerTest extends TestCase
 
         $logo = UploadedFile::fake()->create('document.pdf');
 
-        $response = $this->actingAs($user)->post('/companies', [
+        $response = $this->actingAs($user)->post('/api/companies', [
             'logo' => $logo,
             'website' => ['wrong-website'],
         ]);
@@ -88,7 +88,7 @@ class CompaniesControllerTest extends TestCase
 
         $logo = UploadedFile::fake()->image('image.jpg')->size(2048);
 
-        $response = $this->actingAs($user)->post('/companies', [
+        $response = $this->actingAs($user)->post('/api/companies', [
             'country_id' => 'wrong-country',
             'name' => ['wrong-name'],
             'logo' => $logo,
@@ -104,7 +104,7 @@ class CompaniesControllerTest extends TestCase
 
         $company = Company::factory()->for($user)->make();
 
-        $response = $this->actingAs($user)->post('/companies', [
+        $response = $this->actingAs($user)->post('/api/companies', [
             'country_id' => $company->country_id,
             'name' => Str::random(256),
             'description' => $company->description,
@@ -122,7 +122,7 @@ class CompaniesControllerTest extends TestCase
 
         $company = Company::factory()->for($user)->create();
 
-        $response = $this->actingAs($user)->get("/companies/{$company->id}");
+        $response = $this->actingAs($user)->get("/api/companies/{$company->id}");
 
         $response->assertJson([
             'name' => $company->name,
@@ -137,7 +137,7 @@ class CompaniesControllerTest extends TestCase
 
         $newCompany = Company::factory()->for($user)->make()->makeHidden('logo');
 
-        $response = $this->actingAs($user)->put("/companies/{$company->id}", $newCompany->toArray());
+        $response = $this->actingAs($user)->put("/api/companies/{$company->id}", $newCompany->toArray());
 
         $response->assertJson([
             'name' => $newCompany->name,
@@ -161,7 +161,7 @@ class CompaniesControllerTest extends TestCase
         $newLogo = UploadedFile::fake()->image('image.jpg');
 
         $response = $this->actingAs($user)->put(
-            "/companies/{$company->id}", array_merge($newCompany->toArray(), ['logo' => $newLogo])
+            "/api/companies/{$company->id}", array_merge($newCompany->toArray(), ['logo' => $newLogo])
         );
 
         $response->assertJson([
@@ -182,7 +182,7 @@ class CompaniesControllerTest extends TestCase
 
         $logo = UploadedFile::fake()->create('document.pdf');
 
-        $response = $this->actingAs($user)->put("/companies/{$company->id}", [
+        $response = $this->actingAs($user)->put("/api/companies/{$company->id}", [
             'logo' => $logo,
             'website' => ['wrong-website'],
         ]);
@@ -193,7 +193,7 @@ class CompaniesControllerTest extends TestCase
 
         $logo = UploadedFile::fake()->image('image.jpg')->size(2048);
 
-        $response = $this->actingAs($user)->put("/companies/{$company->id}", [
+        $response = $this->actingAs($user)->put("/api/companies/{$company->id}", [
             'country_id' => 'wrong-country',
             'name' => ['wrong-name'],
             'logo' => $logo,
@@ -209,7 +209,7 @@ class CompaniesControllerTest extends TestCase
 
         $newCompany = Company::factory()->for($user)->make();
 
-        $response = $this->actingAs($user)->put("/companies/{$company->id}", [
+        $response = $this->actingAs($user)->put("/api/companies/{$company->id}", [
             'country_id' => $newCompany->country_id,
             'name' => Str::random(256),
             'description' => $newCompany->description,
@@ -233,7 +233,7 @@ class CompaniesControllerTest extends TestCase
 
         Storage::disk('public')->assertExists($company->logo);
 
-        $response = $this->actingAs($user)->delete("/companies/{$company->id}");
+        $response = $this->actingAs($user)->delete("/api/companies/{$company->id}");
 
         $response->assertNoContent();
 

@@ -30,34 +30,36 @@ Route::get('/dashboard', function () {
 
 require __DIR__.'/auth.php';
 
-Route::get('/jobs/all', AllJobsController::class)
-    ->name('jobs.all');
+Route::prefix('api')->group(function () {
+    Route::get('/jobs/all', AllJobsController::class)
+        ->name('jobs.all');
 
-Route::apiResource('alerts', AlertsController::class)
-    ->middleware('auth');
+    Route::apiResource('alerts', AlertsController::class)
+        ->middleware(['auth', 'verified']);
 
-Route::apiResource('companies', CompaniesController::class)
-    ->middleware('auth')
-    ->except('show');
+    Route::apiResource('companies', CompaniesController::class)
+        ->middleware(['auth', 'verified'])
+        ->except('show');
 
-Route::apiResource('companies', CompaniesController::class)
-    ->only('show');
+    Route::apiResource('companies', CompaniesController::class)
+        ->only('show');
 
-Route::apiResource('jobs', JobsController::class)
-    ->middleware('auth')
-    ->except('show');
+    Route::apiResource('jobs', JobsController::class)
+        ->middleware(['auth', 'verified'])
+        ->except('show');
 
-Route::apiResource('jobs', JobsController::class)
-    ->only('show');
+    Route::apiResource('jobs', JobsController::class)
+        ->only('show');
 
-Route::apiResource('orders', OrdersController::class)
-    ->middleware('auth')
-    ->only(['index', 'show']);
+    Route::apiResource('orders', OrdersController::class)
+        ->middleware(['auth', 'verified'])
+        ->only(['index', 'show']);
 
-Route::post('/jobs/{job}/orders', CreateOrderController::class)
-    ->middleware('auth')
-    ->name('jobs.orders.store');
+    Route::post('/jobs/{job}/orders', CreateOrderController::class)
+        ->middleware(['auth', 'verified'])
+        ->name('jobs.orders.store');
 
-Route::put('/orders/{order}/capture', CaptureOrderController::class)
-    ->middleware('auth')
-    ->name('orders.capture');
+    Route::put('/orders/{order}/capture', CaptureOrderController::class)
+        ->middleware(['auth', 'verified'])
+        ->name('orders.capture');
+});

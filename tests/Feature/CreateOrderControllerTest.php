@@ -42,7 +42,7 @@ class CreateOrderControllerTest extends TestCase
 
         $this->mockPayment();
 
-        $response = $this->actingAs($user)->post("/jobs/{$job->id}/orders", [
+        $response = $this->actingAs($user)->post("/api/jobs/{$job->id}/orders", [
             'type' => $order->type,
         ]);
 
@@ -73,7 +73,7 @@ class CreateOrderControllerTest extends TestCase
 
         $this->mockPayment();
 
-        $response = $this->actingAs($user)->post("/jobs/{$job->id}/orders", [
+        $response = $this->actingAs($user)->post("/api/jobs/{$job->id}/orders", [
             'type' => $order->type,
         ]);
 
@@ -99,7 +99,7 @@ class CreateOrderControllerTest extends TestCase
 
         $this->mockPayment();
 
-        $response = $this->actingAs($user)->post("/jobs/{$job->id}/orders", [
+        $response = $this->actingAs($user)->post("/api/jobs/{$job->id}/orders", [
             'type' => $order->type,
         ]);
 
@@ -119,11 +119,11 @@ class CreateOrderControllerTest extends TestCase
 
         $this->mockPayment();
 
-        $response = $this->actingAs($user)->post("/jobs/{$job->id}/orders");
+        $response = $this->actingAs($user)->post("/api/jobs/{$job->id}/orders");
 
         $response->assertJsonValidationErrors(['type']);
 
-        $response = $this->actingAs($user)->post("/jobs/{$job->id}/orders", [
+        $response = $this->actingAs($user)->post("/api/jobs/{$job->id}/orders", [
             'type' => 'wrong-type',
         ]);
 

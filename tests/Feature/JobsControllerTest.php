@@ -36,7 +36,7 @@ class JobsControllerTest extends TestCase
             )
             ->create();
 
-        $response = $this->actingAs($user)->get('/jobs');
+        $response = $this->actingAs($user)->get('/api/jobs');
 
         $response->assertJsonCount(3);
     }
@@ -51,7 +51,7 @@ class JobsControllerTest extends TestCase
 
         $job = Job::factory()->for($company)->make();
 
-        $response = $this->actingAs($user)->post('/jobs', $job->toArray());
+        $response = $this->actingAs($user)->post('/api/jobs', $job->toArray());
 
         $response->assertJson([
             'title' => $job->title,
@@ -64,13 +64,13 @@ class JobsControllerTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $response = $this->actingAs($user)->post('/jobs');
+        $response = $this->actingAs($user)->post('/api/jobs');
 
         $response->assertJsonValidationErrors([
             'company_id', 'country_id', 'title', 'description', 'city', 'type', 'style',
         ]);
 
-        $response = $this->actingAs($user)->post('/jobs', [
+        $response = $this->actingAs($user)->post('/api/jobs', [
             'company_id' => 'wrong-company',
             'country_id' => 'wrong-country',
             'title' => ['wrong-title'],
@@ -88,7 +88,7 @@ class JobsControllerTest extends TestCase
 
         $job = Job::factory()->for($company)->make();
 
-        $response = $this->actingAs($user)->post('/jobs', [
+        $response = $this->actingAs($user)->post('/api/jobs', [
             'company_id' => $company->id,
             'country_id' => $job->country_id,
             'title' => Str::random(256),
@@ -111,7 +111,7 @@ class JobsControllerTest extends TestCase
 
         $job = Job::factory()->for($company)->create();
 
-        $response = $this->actingAs($user)->get("/jobs/{$job->id}");
+        $response = $this->actingAs($user)->get("/api/jobs/{$job->id}");
 
         $response->assertJson([
             'title' => $job->title,
@@ -128,7 +128,7 @@ class JobsControllerTest extends TestCase
 
         $newJob = Job::factory()->for($company)->make();
 
-        $response = $this->actingAs($user)->put("/jobs/{$job->id}", $newJob->toArray());
+        $response = $this->actingAs($user)->put("/api/jobs/{$job->id}", $newJob->toArray());
 
         $response->assertJson([
             'title' => $newJob->title,
@@ -143,13 +143,13 @@ class JobsControllerTest extends TestCase
 
         $job = Job::factory()->for($company)->create();
 
-        $response = $this->actingAs($user)->put("/jobs/{$job->id}");
+        $response = $this->actingAs($user)->put("/api/jobs/{$job->id}");
 
         $response->assertJsonValidationErrors([
             'company_id', 'country_id', 'title', 'description', 'city', 'type', 'style',
         ]);
 
-        $response = $this->actingAs($user)->put("/jobs/{$job->id}", [
+        $response = $this->actingAs($user)->put("/api/jobs/{$job->id}", [
             'company_id' => 'wrong-company',
             'country_id' => 'wrong-country',
             'title' => ['wrong-title'],
@@ -165,7 +165,7 @@ class JobsControllerTest extends TestCase
 
         $newJob = Job::factory()->for($company)->make();
 
-        $response = $this->actingAs($user)->post('/jobs', [
+        $response = $this->actingAs($user)->post('/api/jobs', [
             'company_id' => $company->id,
             'country_id' => $newJob->country_id,
             'title' => Str::random(256),
@@ -188,7 +188,7 @@ class JobsControllerTest extends TestCase
 
         $job = Job::factory()->for($company)->create();
 
-        $response = $this->actingAs($user)->delete("/jobs/{$job->id}");
+        $response = $this->actingAs($user)->delete("/api/jobs/{$job->id}");
 
         $response->assertNoContent();
     }

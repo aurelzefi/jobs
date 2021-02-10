@@ -55,7 +55,7 @@ class AllJobsControllerTest extends TestCase
             'query' => 'One',
         ]);
 
-        $response = $this->get("/jobs/all?{$parameters}");
+        $response = $this->get("/api/jobs/all?{$parameters}");
 
         $response->assertJsonCount(1, 'data');
 
@@ -71,7 +71,7 @@ class AllJobsControllerTest extends TestCase
             'query' => 'One',
         ]);
 
-        $response = $this->get("/jobs/all?{$parameters}");
+        $response = $this->get("/api/jobs/all?{$parameters}");
 
         $response->assertJsonCount(1, 'data');
 
@@ -111,7 +111,7 @@ class AllJobsControllerTest extends TestCase
             'company' => 'ave',
         ]);
 
-        $response = $this->get("/jobs/all?{$parameters}");
+        $response = $this->get("/api/jobs/all?{$parameters}");
 
         $response->assertJsonCount(2, 'data');
 
@@ -150,7 +150,7 @@ class AllJobsControllerTest extends TestCase
             'country_id' => $jobOne->country_id,
         ]);
 
-        $response = $this->get("/jobs/all?{$parameters}");
+        $response = $this->get("/api/jobs/all?{$parameters}");
 
         $response->assertJsonCount(1, 'data');
 
@@ -186,7 +186,7 @@ class AllJobsControllerTest extends TestCase
             'title' => 'One',
         ]);
 
-        $response = $this->get("/jobs/all?{$parameters}");
+        $response = $this->get("/api/jobs/all?{$parameters}");
 
         $response->assertJsonCount(1, 'data');
 
@@ -222,7 +222,7 @@ class AllJobsControllerTest extends TestCase
             'description' => 'One',
         ]);
 
-        $response = $this->get("/jobs/all?{$parameters}");
+        $response = $this->get("/api/jobs/all?{$parameters}");
 
         $response->assertJsonCount(1, 'data');
 
@@ -258,7 +258,7 @@ class AllJobsControllerTest extends TestCase
             'city' => 'One',
         ]);
 
-        $response = $this->get("/jobs/all?{$parameters}");
+        $response = $this->get("/api/jobs/all?{$parameters}");
 
         $response->assertJsonCount(1, 'data');
 
@@ -294,7 +294,7 @@ class AllJobsControllerTest extends TestCase
             'types' => ['full-time', 'freelance', 'contract'],
         ]);
 
-        $response = $this->get("/jobs/all?{$parameters}");
+        $response = $this->get("/api/jobs/all?{$parameters}");
 
         $response->assertJsonCount(1, 'data');
 
@@ -330,7 +330,7 @@ class AllJobsControllerTest extends TestCase
             'styles' => ['office', 'remote'],
         ]);
 
-        $response = $this->get("/jobs/all?{$parameters}");
+        $response = $this->get("/api/jobs/all?{$parameters}");
 
         $response->assertJsonCount(1, 'data');
 
@@ -369,7 +369,7 @@ class AllJobsControllerTest extends TestCase
             'keywords' => ['one', 'three', 'four'],
         ]);
 
-        $response = $this->get("/jobs/all?{$parameters}");
+        $response = $this->get("/api/jobs/all?{$parameters}");
 
         $response->assertJsonCount(1, 'data');
 
@@ -408,7 +408,7 @@ class AllJobsControllerTest extends TestCase
             'keywords' => ['one', 'description'],
         ]);
 
-        $response = $this->get("/jobs/all?{$parameters}");
+        $response = $this->get("/api/jobs/all?{$parameters}");
 
         $response->assertJsonCount(1, 'data');
 
@@ -447,7 +447,7 @@ class AllJobsControllerTest extends TestCase
             'from_created_at' => now()->subDay()->toDateString(),
         ]);
 
-        $response = $this->get("/jobs/all?{$parameters}");
+        $response = $this->get("/api/jobs/all?{$parameters}");
 
         $response->assertJsonCount(2, 'data');
 
@@ -489,7 +489,7 @@ class AllJobsControllerTest extends TestCase
             'to_created_at' => now()->subDays(2)->toDateString(),
         ]);
 
-        $response = $this->get("/jobs/all?{$parameters}");
+        $response = $this->get("/api/jobs/all?{$parameters}");
 
         $response->assertJsonCount(2, 'data');
 
@@ -589,7 +589,7 @@ class AllJobsControllerTest extends TestCase
             'captured_at' => now()->subDays(35),
         ]);
 
-        $response = $this->get('/jobs/all');
+        $response = $this->get('/api/jobs/all');
 
         $response->assertJsonCount(5, 'data');
 
