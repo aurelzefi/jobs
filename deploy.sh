@@ -22,3 +22,6 @@ php artisan view:cache
 # Frontend
 npm install
 npm run prod
+
+# Turn Off Maintenance Mode
+php artisan up
