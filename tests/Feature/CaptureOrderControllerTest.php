@@ -38,7 +38,7 @@ class CaptureOrderControllerTest extends TestCase
 
         $order = Order::factory()->for($job)->create([
             'capture_id' => null,
-            'captured_at' => null,
+            'paid_at' => null,
         ]);
 
         $this->mockPayment();
@@ -60,7 +60,7 @@ class CaptureOrderControllerTest extends TestCase
 
         $order = Order::factory()->for($job)->create([
             'capture_id' => 'fake-capture-id',
-            'captured_at' => now(),
+            'paid_at' => now(),
         ]);
 
         $this->mockPayment();

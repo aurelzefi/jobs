@@ -42,13 +42,13 @@ class AllJobsControllerTest extends TestCase
         Order::factory()->for($jobOne)->create([
             'type' => Order::TYPE_BASIC,
             'capture_id' => 'fake-capture-id',
-            'captured_at' => now()->subDays(3),
+            'paid_at' => now()->subDays(3),
         ]);
 
         Order::factory()->for($jobTwo)->create([
             'type' => Order::TYPE_BASIC,
             'capture_id' => 'fake-capture-id',
-            'captured_at' => now()->subDays(2),
+            'paid_at' => now()->subDays(2),
         ]);
 
         $parameters = http_build_query([
@@ -98,13 +98,13 @@ class AllJobsControllerTest extends TestCase
         Order::factory()->for($jobOne)->create([
             'type' => Order::TYPE_BASIC,
             'capture_id' => 'fake-capture-id',
-            'captured_at' => now()->subDays(3),
+            'paid_at' => now()->subDays(3),
         ]);
 
         Order::factory()->for($jobTwo)->create([
             'type' => Order::TYPE_BASIC,
             'capture_id' => 'fake-capture-id',
-            'captured_at' => now()->subDays(2),
+            'paid_at' => now()->subDays(2),
         ]);
 
         $parameters = http_build_query([
@@ -137,13 +137,13 @@ class AllJobsControllerTest extends TestCase
         Order::factory()->for($jobOne)->create([
             'type' => Order::TYPE_BASIC,
             'capture_id' => 'fake-capture-id',
-            'captured_at' => now()->subDays(3),
+            'paid_at' => now()->subDays(3),
         ]);
 
         Order::factory()->for($jobTwo)->create([
             'type' => Order::TYPE_BASIC,
             'capture_id' => 'fake-capture-id',
-            'captured_at' => now()->subDays(2),
+            'paid_at' => now()->subDays(2),
         ]);
 
         $parameters = http_build_query([
@@ -173,13 +173,13 @@ class AllJobsControllerTest extends TestCase
         Order::factory()->for($jobOne)->create([
             'type' => Order::TYPE_BASIC,
             'capture_id' => 'fake-capture-id',
-            'captured_at' => now()->subDays(3),
+            'paid_at' => now()->subDays(3),
         ]);
 
         Order::factory()->for($jobTwo)->create([
             'type' => Order::TYPE_BASIC,
             'capture_id' => 'fake-capture-id',
-            'captured_at' => now()->subDays(2),
+            'paid_at' => now()->subDays(2),
         ]);
 
         $parameters = http_build_query([
@@ -209,13 +209,13 @@ class AllJobsControllerTest extends TestCase
         Order::factory()->for($jobOne)->create([
             'type' => Order::TYPE_BASIC,
             'capture_id' => 'fake-capture-id',
-            'captured_at' => now()->subDays(3),
+            'paid_at' => now()->subDays(3),
         ]);
 
         Order::factory()->for($jobTwo)->create([
             'type' => Order::TYPE_BASIC,
             'capture_id' => 'fake-capture-id',
-            'captured_at' => now()->subDays(2),
+            'paid_at' => now()->subDays(2),
         ]);
 
         $parameters = http_build_query([
@@ -245,13 +245,13 @@ class AllJobsControllerTest extends TestCase
         Order::factory()->for($jobOne)->create([
             'type' => Order::TYPE_BASIC,
             'capture_id' => 'fake-capture-id',
-            'captured_at' => now()->subDays(3),
+            'paid_at' => now()->subDays(3),
         ]);
 
         Order::factory()->for($jobTwo)->create([
             'type' => Order::TYPE_BASIC,
             'capture_id' => 'fake-capture-id',
-            'captured_at' => now()->subDays(2),
+            'paid_at' => now()->subDays(2),
         ]);
 
         $parameters = http_build_query([
@@ -281,13 +281,13 @@ class AllJobsControllerTest extends TestCase
         Order::factory()->for($jobOne)->create([
             'type' => Order::TYPE_BASIC,
             'capture_id' => 'fake-capture-id',
-            'captured_at' => now()->subDays(3),
+            'paid_at' => now()->subDays(3),
         ]);
 
         Order::factory()->for($jobTwo)->create([
             'type' => Order::TYPE_BASIC,
             'capture_id' => 'fake-capture-id',
-            'captured_at' => now()->subDays(2),
+            'paid_at' => now()->subDays(2),
         ]);
 
         $parameters = http_build_query([
@@ -317,13 +317,13 @@ class AllJobsControllerTest extends TestCase
         Order::factory()->for($jobOne)->create([
             'type' => Order::TYPE_BASIC,
             'capture_id' => 'fake-capture-id',
-            'captured_at' => now()->subDays(3),
+            'paid_at' => now()->subDays(3),
         ]);
 
         Order::factory()->for($jobTwo)->create([
             'type' => Order::TYPE_BASIC,
             'capture_id' => 'fake-capture-id',
-            'captured_at' => now()->subDays(2),
+            'paid_at' => now()->subDays(2),
         ]);
 
         $parameters = http_build_query([
@@ -362,7 +362,7 @@ class AllJobsControllerTest extends TestCase
         Order::factory()->for($jobOne)->create([
             'type' => Order::TYPE_BASIC,
             'capture_id' => 'fake-capture-id',
-            'captured_at' => now()->subDays(3),
+            'paid_at' => now()->subDays(3),
         ]);
 
         $parameters = http_build_query([
@@ -400,7 +400,7 @@ class AllJobsControllerTest extends TestCase
         Order::factory()->for($jobOne)->create([
             'type' => Order::TYPE_BASIC,
             'capture_id' => 'fake-capture-id',
-            'captured_at' => now()->subDays(3),
+            'paid_at' => now()->subDays(3),
         ]);
 
         $parameters = http_build_query([
@@ -434,13 +434,13 @@ class AllJobsControllerTest extends TestCase
         Order::factory()->for($jobOne)->create([
             'type' => Order::TYPE_BASIC,
             'capture_id' => 'fake-capture-id',
-            'captured_at' => now()->subDays(3),
+            'paid_at' => now()->subDays(3),
         ]);
 
         Order::factory()->for($jobTwo)->create([
             'type' => Order::TYPE_BASIC,
             'capture_id' => 'fake-capture-id',
-            'captured_at' => now()->subDays(2),
+            'paid_at' => now()->subDays(2),
         ]);
 
         $parameters = http_build_query([
@@ -476,13 +476,13 @@ class AllJobsControllerTest extends TestCase
         Order::factory()->for($jobOne)->create([
             'type' => Order::TYPE_BASIC,
             'capture_id' => 'fake-capture-id',
-            'captured_at' => now()->subDays(3),
+            'paid_at' => now()->subDays(3),
         ]);
 
         Order::factory()->for($jobTwo)->create([
             'type' => Order::TYPE_BASIC,
             'capture_id' => 'fake-capture-id',
-            'captured_at' => now()->subDays(2),
+            'paid_at' => now()->subDays(2),
         ]);
 
         $parameters = http_build_query([
@@ -505,7 +505,7 @@ class AllJobsControllerTest extends TestCase
         ]);
     }
 
-    public function test_jobs_are_ordered_by_pinned_and_captured_at()
+    public function test_jobs_are_ordered_by_pinned_and_paid_at()
     {
         $company = Company::factory()->create();
 
@@ -520,73 +520,73 @@ class AllJobsControllerTest extends TestCase
         Order::factory()->for($jobOne)->create([
             'type' => Order::TYPE_BASIC,
             'capture_id' => 'fake-capture-id',
-            'captured_at' => now()->subDay(),
+            'paid_at' => now()->subDay(),
         ]);
 
         // Job One Previous Order
         Order::factory()->for($jobOne)->create([
             'capture_id' => 'fake-capture-id',
-            'captured_at' => now()->subDays(2),
+            'paid_at' => now()->subDays(2),
         ]);
 
         // Job Two Last Order
         Order::factory()->for($jobTwo)->create([
             'type' => Order::TYPE_PINNED,
             'capture_id' => 'fake-capture-id',
-            'captured_at' => now()->subDay(),
+            'paid_at' => now()->subDay(),
         ]);
 
         // Job Two Previous Order
         Order::factory()->for($jobTwo)->create([
             'capture_id' => 'fake-capture-id',
-            'captured_at' => now()->subDays(2),
+            'paid_at' => now()->subDays(2),
         ]);
 
         // Job Three Last Order
         Order::factory()->for($jobThree)->create([
             'type' => Order::TYPE_BASIC,
             'capture_id' => 'fake-capture-id',
-            'captured_at' => now(),
+            'paid_at' => now(),
         ]);
 
         // Job Three Previous Order
         Order::factory()->for($jobThree)->create([
             'capture_id' => 'fake-capture-id',
-            'captured_at' => now()->subDay(),
+            'paid_at' => now()->subDay(),
         ]);
 
         // Job Four Last Order
         Order::factory()->for($jobFour)->create([
             'type' => Order::TYPE_PINNED,
             'capture_id' => 'fake-capture-id',
-            'captured_at' => now(),
+            'paid_at' => now(),
         ]);
 
         // Job Four Previous Order
         Order::factory()->for($jobFour)->create([
             'capture_id' => 'fake-capture-id',
-            'captured_at' => now()->subDay(),
+            'paid_at' => now()->subDay(),
         ]);
 
         // Job Five Last Order
         Order::factory()->for($jobFive)->create([
             'type' => Order::TYPE_PINNED,
             'capture_id' => null,
-            'captured_at' => null,
+            'paid_at' => null,
         ]);
 
         // Job Five Previous Order
         Order::factory()->for($jobFive)->create([
             'type' => Order::TYPE_BASIC,
             'capture_id' => 'fake-capture-id',
-            'captured_at' => now()->subDays(3),
+            'paid_at' => now()->subDays(3),
         ]);
 
         // Job Six Last Order
         Order::factory()->for($jobSix)->create([
             'type' => Order::TYPE_PINNED,
             'capture_id' => 'fake-capture-id',
-            'captured_at' => now()->subDays(35),
+            'paid_at' => now()->subDays(35),
         ]);
 
         $response = $this->get('/api/jobs/all');

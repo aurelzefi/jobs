@@ -39,15 +39,15 @@ class SendJobExpiresTodayNotificationsJobTest extends TestCase
         $jobThree = Job::factory()->for($companyTwo)->create();
 
         Order::factory()->for($jobOne)->create([
-            'captured_at' => now()->subMonth(),
+            'paid_at' => now()->subMonth(),
         ]);
 
         Order::factory()->for($jobTwo)->create([
-            'captured_at' => now()->subMonth()->subDay(),
+            'paid_at' => now()->subMonth()->subDay(),
         ]);
 
         Order::factory()->for($jobThree)->create([
-            'captured_at' => now()->subMonth()->addDay(),
+            'paid_at' => now()->subMonth()->addDay(),
         ]);
 
         dispatch(new SendJobExpiresTodayNotifications());

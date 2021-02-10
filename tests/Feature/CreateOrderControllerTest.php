@@ -63,7 +63,7 @@ class CreateOrderControllerTest extends TestCase
         Order::factory(3)->for($job)->create([
             'type' => Order::TYPE_BASIC,
             'capture_id' => 'fake-capture-id',
-            'captured_at' => now(),
+            'paid_at' => now(),
         ]);
 
         $order = Order::factory()->for($job)->make([

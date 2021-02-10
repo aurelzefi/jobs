@@ -25,7 +25,7 @@ class Order extends Model
     protected $guarded = [];
 
     protected $casts = [
-        'captured_at' => 'datetime',
+        'paid_at' => 'datetime',
     ];
 
     public function job(): BelongsTo
@@ -35,7 +35,7 @@ class Order extends Model
 
     public function isPaid(): bool
     {
-        return ! is_null($this->captured_at);
+        return ! is_null($this->paid_at);
     }
 
     public function scopeForUser(Builder $query, User $user): Builder
@@ -47,7 +47,7 @@ class Order extends Model
 
     public function scopePaid(Builder $query): Builder
     {
-        return $query->whereNotNull('captured_at');
+        return $query->whereNotNull('paid_at');
     }
 
     public function scopeFree(Builder $query): Builder

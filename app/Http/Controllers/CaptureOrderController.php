@@ -25,7 +25,7 @@ class CaptureOrderController extends Controller
 
         $order->fill([
             'capture_id' => $paypalOrder->captureId(),
-            'captured_at' => now(),
+            'paid_at' => now(),
         ])->save();
 
         return response()->json($order);

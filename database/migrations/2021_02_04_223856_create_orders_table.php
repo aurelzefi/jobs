@@ -17,7 +17,7 @@ class CreateOrdersTable extends Migration
             $table->string('capture_id')->nullable();
             $table->integer('amount');
             $table->string('type');
-            $table->timestamp('captured_at')->nullable();
+            $table->timestamp('paid_at')->nullable();
             $table->timestamps();
         });
     }

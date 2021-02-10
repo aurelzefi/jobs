@@ -21,7 +21,7 @@ class OrderFactory extends Factory
             'capture_id' => $captureId = $this->faker->randomElement([Str::random(), null]),
             'type' => $type = $this->faker->randomElement(Order::TYPES),
             'amount' => config("app.orders.{$type}"),
-            'captured_at' => $captureId ? now() : null,
+            'paid_at' => $captureId ? now() : null,
         ];
     }
 }
