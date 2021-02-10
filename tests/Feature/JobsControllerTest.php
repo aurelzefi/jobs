@@ -179,4 +179,17 @@ class JobsControllerTest extends TestCase
             'title', 'city', 'type', 'style',
         ]);
     }
+
+    public function test_jobs_can_be_deleted()
+    {
+        $user = User::factory()->create();
+
+        $company = Company::factory()->for($user)->create();
+
+        $job = Job::factory()->for($company)->create();
+
+        $response = $this->actingAs($user)->delete("/jobs/{$job->id}");
+
+        $response->assertNoContent();
+    }
 }

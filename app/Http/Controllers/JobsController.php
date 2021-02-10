@@ -59,4 +59,13 @@ class JobsController extends Controller
 
         return response()->json($job);
     }
+
+    public function destroy(Job $job): JsonResponse
+    {
+        $this->authorize('delete', $job);
+
+        $job->delete();
+
+        return response()->json([], 204);
+    }
 }

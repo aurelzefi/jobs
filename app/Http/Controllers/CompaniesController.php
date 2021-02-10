@@ -68,4 +68,17 @@ class CompaniesController extends Controller
             return $request->file('logo')->store('images', 'public');
         }
     }
+
+    public function destroy(Company $company): JsonResponse
+    {
+        $this->authorize('delete', $company);
+
+        if ($company->logo) {
+            Storage::disk('public')->delete($company->logo);
+        }
+
+        $company->delete();
+
+        return response()->json([], 204);
+    }
 }

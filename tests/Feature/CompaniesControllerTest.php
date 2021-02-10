@@ -220,4 +220,23 @@ class CompaniesControllerTest extends TestCase
 
         $response->assertJsonValidationErrors(['name', 'website', 'address', 'city']);
     }
+
+    public function test_companies_can_be_deleted()
+    {
+        $user = User::factory()->create();
+
+        Storage::disk('public')->put($logo = '/images/fake-file.txt', 'fake-content');
+
+        $company = Company::factory()->for($user)->create([
+            'logo' => $logo,
+        ]);
+
+        Storage::disk('public')->assertExists($company->logo);
+
+        $response = $this->actingAs($user)->delete("/companies/{$company->id}");
+
+        $response->assertNoContent();
+
+        Storage::disk('public')->assertMissing($company->logo);
+    }
 }

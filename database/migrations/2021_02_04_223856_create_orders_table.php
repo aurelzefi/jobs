@@ -12,7 +12,7 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('job_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('job_id')->nullable()->constrained()->nullOnDelete();
             $table->string('paypal_order_id')->nullable();
             $table->string('capture_id')->nullable();
             $table->integer('amount');

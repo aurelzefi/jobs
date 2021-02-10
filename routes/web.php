@@ -38,14 +38,14 @@ Route::apiResource('alerts', AlertsController::class)
 
 Route::apiResource('companies', CompaniesController::class)
     ->middleware('auth')
-    ->only('index', 'store', 'update');
+    ->except('show');
 
 Route::apiResource('companies', CompaniesController::class)
     ->only('show');
 
 Route::apiResource('jobs', JobsController::class)
     ->middleware('auth')
-    ->only('index', 'store', 'update');
+    ->except('show');
 
 Route::apiResource('jobs', JobsController::class)
     ->only('show');
