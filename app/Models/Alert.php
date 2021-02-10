@@ -87,7 +87,8 @@ class Alert extends Model
         return $query->withCount([
                     'keywords',
                     'keywords as matching_keywords_count' => function (Builder $query) use ($job) {
-                        $query->whereRaw('instr(?, word)', [$job->description]);
+                        $query->whereRaw('instr(?, word)', [$job->title])
+                            ->orWhereRaw('instr(?, word)', [$job->description]);
                     }])
                     ->where('country_id', $job->country_id)
                     ->whereRaw('instr(?, city)', [$job->city])

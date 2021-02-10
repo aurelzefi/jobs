@@ -40,7 +40,7 @@ class SendJobCreatedInstantNotificationListenerTest extends TestCase
         ]);
 
         Keyword::factory()->for($alertOne)->create([
-            'word' => 'ustom',
+            'word' => 'itle',
         ]);
 
         Keyword::factory()->for($alertOne)->create([
