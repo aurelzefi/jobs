@@ -6,6 +6,8 @@ namespace App;
 
 use App\Models\Alert;
 use App\Models\Job;
+use App\Models\Keyword;
+use Illuminate\Database\Eloquent\Collection;
 
 class JobAlertMatcher
 {
@@ -41,7 +43,7 @@ class JobAlertMatcher
             return false;
         }
 
-        if (! $this->atLeastOneKeywordMatches()) {
+        if (! $this->hasMatchingKeywords()) {
             return false;
         }
 
@@ -55,7 +57,7 @@ class JobAlertMatcher
 
     protected function citiesMatch(): bool
     {
-        return mb_stripos($this->job->city, $this->alert->city) !== false;
+        return !! mb_stripos($this->job->city, $this->alert->city);
     }
 
     protected function typesMatch(): bool
@@ -75,25 +77,23 @@ class JobAlertMatcher
 
     protected function allKeywordsMatch(): bool
     {
-        foreach ($this->alert->keywords as $keyword) {
-            if (! mb_stripos($this->job->title, $keyword->word) && ! mb_stripos($this->job->description, $keyword->word)) {
-                return false;
-            }
-        }
-
-        return true;
+        return $this->matchingKeywords()->count() === $this->alert->keywords()->count();
     }
 
-    protected function atLeastOneKeywordMatches(): bool
+    protected function hasMatchingKeywords(): bool
     {
-        $matched = 0;
+        return $this->matchingKeywords()->count() > 0;
+    }
 
-        foreach ($this->alert->keywords as $keyword) {
-            if (mb_stripos($this->job->title, $keyword->word) || mb_stripos($this->job->description, $keyword->word)) {
-                $matched++;
-            }
-        }
+    protected function matchingKeywords(): Collection
+    {
+        return $this->alert->keywords->filter(function (Keyword $keyword) {
+            return $this->keywordMatches($keyword);
+        });
+    }
 
-        return $matched > 0;
+    protected function keywordMatches(Keyword $keyword): bool
+    {
+        return mb_stripos($this->job->title, $keyword->word) || mb_stripos($this->job->description, $keyword->word);
     }
 }

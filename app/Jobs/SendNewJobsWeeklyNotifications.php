@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Jobs;
 
+use App\JobAlertNotifier;
 use App\Models\Alert;
 use App\Models\Job;
-use App\Notifications\NewJobsYesterday;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -22,14 +22,6 @@ class SendNewJobsWeeklyNotifications implements ShouldQueue
         $jobs = Job::addedLastWeek()->get();
         $alerts = Alert::with('keywords')->weekly()->get();
 
-        $alerts->each(function (Alert $alert) use ($jobs) {
-            $matchedJobs = $jobs->filter(function (Job $job) use ($alert) {
-                return $alert->matchesJob($job);
-            });
-
-            if ($matchedJobs->count() > 0) {
-                $alert->user->notify(new NewJobsYesterday($alert));
-            }
-        });
+        (new JobAlertNotifier($jobs, $alerts))->handle();
     }
 }

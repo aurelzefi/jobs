@@ -103,9 +103,4 @@ class Alert extends Model
                         end'
                     );
     }
-
-    public function matchesJob(Job $job): bool
-    {
-        return (new JobAlertMatcher($job, $this))->match();
-    }
 }
