@@ -13,14 +13,11 @@ class Order extends Model
 {
     use HasFactory;
 
-    const TYPE_FREE = 'free';
-
     const TYPE_BASIC = 'basic';
 
     const TYPE_PINNED = 'pinned';
 
     const TYPES = [
-        'free',
         'basic',
         'pinned',
     ];
@@ -36,6 +33,11 @@ class Order extends Model
         return $this->belongsTo(Job::class);
     }
 
+    public function isPaid(): bool
+    {
+        return ! is_null($this->captured_at);
+    }
+
     public function scopeForUser(Builder $query, User $user): Builder
     {
         return $query->whereHas('job.company', function (Builder $query) use ($user) {
@@ -46,5 +48,10 @@ class Order extends Model
     public function scopePaid(Builder $query): Builder
     {
         return $query->whereNotNull('captured_at');
+    }
+
+    public function scopeFree(Builder $query): Builder
+    {
+        return $query->paid()->where('amount', 0);
     }
 }

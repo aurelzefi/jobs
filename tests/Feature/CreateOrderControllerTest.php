@@ -28,7 +28,7 @@ class CreateOrderControllerTest extends TestCase
         ]);
     }
 
-    public function test_free_orders_can_be_created()
+    public function test_free_basic_orders_can_be_created()
     {
         $user = User::factory()->create();
 
@@ -37,7 +37,7 @@ class CreateOrderControllerTest extends TestCase
         $job = Job::factory()->for($company)->create();
 
         $order = Order::factory()->for($job)->make([
-            'type' => Order::TYPE_FREE,
+            'type' => Order::TYPE_BASIC,
         ]);
 
         $this->mockPayment();
@@ -61,13 +61,13 @@ class CreateOrderControllerTest extends TestCase
         $job = Job::factory()->for($company)->create();
 
         Order::factory(3)->for($job)->create([
-            'type' => Order::TYPE_FREE,
+            'type' => Order::TYPE_BASIC,
             'capture_id' => 'fake-capture-id',
             'captured_at' => now(),
         ]);
 
         $order = Order::factory()->for($job)->make([
-            'type' => $type = Order::TYPE_BASIC,
+            'type' => $type = Order::TYPE_PINNED,
             'amount' => config("app.orders.{$type}"),
         ]);
 
@@ -83,6 +83,32 @@ class CreateOrderControllerTest extends TestCase
         ]);
     }
 
+    public function test_pinned_orders_are_not_created_for_free()
+    {
+        $user = User::factory()->create();
+
+        $company = Company::factory()->for($user)->create();
+
+        $job = Job::factory()->for($company)->create();
+
+        $this->mockPayment();
+
+        $order = Order::factory()->for($job)->make([
+            'type' => Order::TYPE_PINNED,
+        ]);
+
+        $this->mockPayment();
+
+        $response = $this->actingAs($user)->post("/jobs/{$job->id}/orders", [
+            'type' => $order->type,
+        ]);
+
+        $response->assertJson([
+            'paypal_order_id' => 'fake-id',
+            'amount' => config("app.orders.{$order->type}"),
+        ]);
+    }
+
     public function test_orders_cant_be_created_with_invalid_data()
     {
         $user = User::factory()->create();
@@ -91,30 +117,14 @@ class CreateOrderControllerTest extends TestCase
 
         $job = Job::factory()->for($company)->create();
 
+        $this->mockPayment();
+
         $response = $this->actingAs($user)->post("/jobs/{$job->id}/orders");
 
         $response->assertJsonValidationErrors(['type']);
 
         $response = $this->actingAs($user)->post("/jobs/{$job->id}/orders", [
             'type' => 'wrong-type',
-        ]);
-
-        $response->assertJsonValidationErrors(['type']);
-
-        Order::factory(3)->for($job)->create([
-            'type' => Order::TYPE_FREE,
-            'capture_id' => 'fake-capture-id',
-            'captured_at' => now(),
-        ]);
-
-        $order = Order::factory()->for($job)->make([
-            'type' => Order::TYPE_FREE,
-        ]);
-
-        $this->mockPayment();
-
-        $response = $this->actingAs($user)->post("/jobs/{$job->id}/orders", [
-            'type' => $order->type,
         ]);
 
         $response->assertJsonValidationErrors(['type']);

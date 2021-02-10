@@ -50,6 +50,26 @@ class CaptureOrderControllerTest extends TestCase
         ]);
     }
 
+    public function test_orders_can_only_be_captured_once()
+    {
+        $user = User::factory()->create();
+
+        $company = Company::factory()->for($user)->create();
+
+        $job = Job::factory()->for($company)->create();
+
+        $order = Order::factory()->for($job)->create([
+            'capture_id' => 'fake-capture-id',
+            'captured_at' => now(),
+        ]);
+
+        $this->mockPayment();
+
+        $response = $this->actingAs($user)->put("/orders/{$order->id}/capture");
+
+        $response->assertJsonValidationErrors(['order']);
+    }
+
     protected function mockPayment()
     {
         $paypalOrder = Mockery::mock(PaypalOrder::class);

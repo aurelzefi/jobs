@@ -543,7 +543,7 @@ class AllJobsControllerTest extends TestCase
 
         // Job Three Last Order
         Order::factory()->for($jobThree)->create([
-            'type' => Order::TYPE_FREE,
+            'type' => Order::TYPE_BASIC,
             'capture_id' => 'fake-capture-id',
             'captured_at' => now(),
         ]);

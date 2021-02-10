@@ -22,8 +22,8 @@ class OrderRequest extends FormRequest
         ];
     }
 
-    public function creatingFreeOrder(): bool
+    public function creatingBasicOrder(): bool
     {
-        return $this->input('type') === Order::TYPE_FREE;
+        return $this->input('type') === Order::TYPE_BASIC;
     }
 }
