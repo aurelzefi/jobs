@@ -8,7 +8,7 @@ use App\Models\Job;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-class JobsDashboardController extends Controller
+class AllJobsController extends Controller
 {
     public function __invoke(Request $request): JsonResponse
     {

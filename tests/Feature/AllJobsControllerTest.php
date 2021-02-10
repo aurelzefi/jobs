@@ -10,7 +10,7 @@ use Database\Seeders\CountriesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class JobsDashboardControllerTest extends TestCase
+class AllJobsControllerTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -55,7 +55,7 @@ class JobsDashboardControllerTest extends TestCase
             'query' => 'One',
         ]);
 
-        $response = $this->get("/jobs/dashboard?{$parameters}");
+        $response = $this->get("/jobs/all?{$parameters}");
 
         $response->assertJsonCount(1, 'data');
 
@@ -71,7 +71,7 @@ class JobsDashboardControllerTest extends TestCase
             'query' => 'One',
         ]);
 
-        $response = $this->get("/jobs/dashboard?{$parameters}");
+        $response = $this->get("/jobs/all?{$parameters}");
 
         $response->assertJsonCount(1, 'data');
 
@@ -111,7 +111,7 @@ class JobsDashboardControllerTest extends TestCase
             'company' => 'ave',
         ]);
 
-        $response = $this->get("/jobs/dashboard?{$parameters}");
+        $response = $this->get("/jobs/all?{$parameters}");
 
         $response->assertJsonCount(2, 'data');
 
@@ -150,7 +150,7 @@ class JobsDashboardControllerTest extends TestCase
             'country_id' => $jobOne->country_id,
         ]);
 
-        $response = $this->get("/jobs/dashboard?{$parameters}");
+        $response = $this->get("/jobs/all?{$parameters}");
 
         $response->assertJsonCount(1, 'data');
 
@@ -186,7 +186,7 @@ class JobsDashboardControllerTest extends TestCase
             'title' => 'One',
         ]);
 
-        $response = $this->get("/jobs/dashboard?{$parameters}");
+        $response = $this->get("/jobs/all?{$parameters}");
 
         $response->assertJsonCount(1, 'data');
 
@@ -222,7 +222,7 @@ class JobsDashboardControllerTest extends TestCase
             'description' => 'One',
         ]);
 
-        $response = $this->get("/jobs/dashboard?{$parameters}");
+        $response = $this->get("/jobs/all?{$parameters}");
 
         $response->assertJsonCount(1, 'data');
 
@@ -258,7 +258,7 @@ class JobsDashboardControllerTest extends TestCase
             'city' => 'One',
         ]);
 
-        $response = $this->get("/jobs/dashboard?{$parameters}");
+        $response = $this->get("/jobs/all?{$parameters}");
 
         $response->assertJsonCount(1, 'data');
 
@@ -294,7 +294,7 @@ class JobsDashboardControllerTest extends TestCase
             'types' => ['full-time', 'freelance', 'contract'],
         ]);
 
-        $response = $this->get("/jobs/dashboard?{$parameters}");
+        $response = $this->get("/jobs/all?{$parameters}");
 
         $response->assertJsonCount(1, 'data');
 
@@ -330,7 +330,7 @@ class JobsDashboardControllerTest extends TestCase
             'styles' => ['office', 'remote'],
         ]);
 
-        $response = $this->get("/jobs/dashboard?{$parameters}");
+        $response = $this->get("/jobs/all?{$parameters}");
 
         $response->assertJsonCount(1, 'data');
 
@@ -369,7 +369,7 @@ class JobsDashboardControllerTest extends TestCase
             'keywords' => ['one', 'three', 'four'],
         ]);
 
-        $response = $this->get("/jobs/dashboard?{$parameters}");
+        $response = $this->get("/jobs/all?{$parameters}");
 
         $response->assertJsonCount(1, 'data');
 
@@ -408,7 +408,7 @@ class JobsDashboardControllerTest extends TestCase
             'keywords' => ['one', 'description'],
         ]);
 
-        $response = $this->get("/jobs/dashboard?{$parameters}");
+        $response = $this->get("/jobs/all?{$parameters}");
 
         $response->assertJsonCount(1, 'data');
 
@@ -447,7 +447,7 @@ class JobsDashboardControllerTest extends TestCase
             'from_created_at' => now()->subDay()->toDateString(),
         ]);
 
-        $response = $this->get("/jobs/dashboard?{$parameters}");
+        $response = $this->get("/jobs/all?{$parameters}");
 
         $response->assertJsonCount(2, 'data');
 
@@ -489,7 +489,7 @@ class JobsDashboardControllerTest extends TestCase
             'to_created_at' => now()->subDays(2)->toDateString(),
         ]);
 
-        $response = $this->get("/jobs/dashboard?{$parameters}");
+        $response = $this->get("/jobs/all?{$parameters}");
 
         $response->assertJsonCount(2, 'data');
 
@@ -574,7 +574,7 @@ class JobsDashboardControllerTest extends TestCase
             'captured_at' => null,
         ]);
 
-        $response = $this->get('/jobs/dashboard');
+        $response = $this->get('/jobs/all');
 
         $response->assertJsonCount(4, 'data');
 

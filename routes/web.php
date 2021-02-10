@@ -5,7 +5,7 @@ use App\Http\Controllers\CompaniesController;
 use App\Http\Controllers\CreateOrderController;
 use App\Http\Controllers\JobsController;
 use App\Http\Controllers\CaptureOrderController;
-use App\Http\Controllers\JobsDashboardController;
+use App\Http\Controllers\AllJobsController;
 use App\Http\Controllers\OrdersController;
 use Illuminate\Support\Facades\Route;
 
@@ -30,8 +30,8 @@ Route::get('/dashboard', function () {
 
 require __DIR__.'/auth.php';
 
-Route::get('/jobs/dashboard', JobsDashboardController::class)
-    ->name('jobs.dashboard');
+Route::get('/jobs/all', AllJobsController::class)
+    ->name('jobs.all');
 
 Route::apiResource('alerts', AlertsController::class)
     ->middleware('auth');
