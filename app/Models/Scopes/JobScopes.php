@@ -73,14 +73,29 @@ trait JobScopes
             $query->whereDate('created_at', '<=', $input['to_created_at']);
         }
 
-        return $query->capturedLastMonth()
-                    ->orderByPinnedDesc()
-                    ->orderByLastCapturedAtDesc();
+        return $query->addedLastMonth()->orderByPinnedDesc()->orderByLastAddedDesc();
     }
 
-    public function scopeCapturedLastMonth(Builder $query): Builder
+    public function scopeAddedLastMonth(Builder $query): Builder
     {
         return $query->captured()->havingRaw('date(last_captured_at) >= ?', [now()->subMonth()->toDateString()]);
+    }
+
+    public function scopeAddedYesterday(Builder $query): Builder
+    {
+        return $query->captured()->havingRaw('date(last_captured_at) = ?', [now()->subDay()->toDateString()]);
+    }
+
+    public function scopeAddedLastWeek(Builder $query): Builder
+    {
+        return $query->captured()->havingRaw('date(last_captured_at) >= ? and date(last_captured_at) <= ?', [
+            now()->subWeek()->toDateString(), now()->subDay()->toDateString(),
+        ]);
+    }
+
+    public function scopeExpireToday(Builder $query): Builder
+    {
+        return $query->captured()->havingRaw('date(last_captured_at) = ?', [now()->subMonth()->toDateString()]);
     }
 
     public function scopeCaptured(Builder $query): Builder
@@ -116,7 +131,7 @@ trait JobScopes
         ]);
     }
 
-    public function scopeOrderByLastCapturedAtDesc(Builder $query): Builder
+    public function scopeOrderByLastAddedDesc(Builder $query): Builder
     {
         return $query->orderByDesc('last_captured_at');
     }
