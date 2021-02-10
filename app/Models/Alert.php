@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Str;
 
 class Alert extends Model
 {
@@ -100,5 +101,46 @@ class Alert extends Model
                             else matching_keywords_count > 0
                         end'
                     );
+    }
+
+    public function matchesJob(Job $job): bool
+    {
+        if ($this->country_id !== $job->country_id) {
+            return false;
+        }
+
+        if (! mb_stripos($job->city, $this->city)) {
+            return false;
+        }
+
+        if (! in_array($job->type, $this->job_types)) {
+            return false;
+        }
+
+        if (! in_array($job->style, $this->job_styles)) {
+            return false;
+        }
+
+        if ($this->has_all_keywords) {
+            foreach ($this->keywords as $keyword) {
+                if (mb_stripos($job->title, $keyword->word) === false && mb_stripos($job->description, $keyword->word) === false) {
+                    return false;
+                }
+            }
+        } else {
+            $matched = 0;
+
+            foreach ($this->keywords as $keyword) {
+                if (mb_stripos($job->title, $keyword->word) || mb_stripos($job->description, $keyword->word)) {
+                    $matched++;
+                }
+            }
+
+            if ($matched === 0) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

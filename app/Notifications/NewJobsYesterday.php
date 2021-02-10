@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Notifications;
 
+use App\Models\Alert;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -13,9 +14,11 @@ class NewJobsYesterday extends Notification implements ShouldQueue
 {
     use Queueable;
 
-    public function __construct()
+    protected $alert;
+
+    public function __construct(Alert $alert)
     {
-        //
+        $this->alert = $alert;
     }
 
     public function via($notifiable): array
@@ -26,9 +29,9 @@ class NewJobsYesterday extends Notification implements ShouldQueue
     public function toMail($notifiable): MailMessage
     {
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+                    ->line(__('New jobs added yesterday matching your ":alert" alert.', ['alert' => $this->alert->name]))
+                    ->action(__('View On :name', ['name' => config('app.name')]), url('/')) // to be defined on when frontend is built
+                    ->line(__('Thank you for using our application!'));
     }
 
     public function toArray($notifiable): array

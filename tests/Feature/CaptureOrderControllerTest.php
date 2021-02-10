@@ -80,6 +80,5 @@ class CaptureOrderControllerTest extends TestCase
         $payment->shouldReceive('capture')->andReturn($paypalOrder);
 
         $this->app->instance(Payment::class, $payment);
-
     }
 }
