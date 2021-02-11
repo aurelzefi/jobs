@@ -10,6 +10,7 @@ use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\UserLocaleController;
 use App\Http\Controllers\UserPasswordController;
 use App\Http\Controllers\UserProfileController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -32,6 +33,12 @@ Route::get('/dashboard', function () {
 })->middleware(['auth'])->name('dashboard');
 
 require __DIR__.'/auth.php';
+
+if (app()->environment('beta')) {
+    Route::get('/register/{email}/{hash}', function (Request $request) {
+        return view('beta.register', ['request' => $request]);
+    })->middleware(['guest', 'signed'])->name('invitation.register');
+}
 
 Route::prefix('api')->group(function () {
     Route::post('/user/profile', UserProfileController::class)

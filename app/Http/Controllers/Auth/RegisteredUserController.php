@@ -19,6 +19,10 @@ class RegisteredUserController extends Controller
      */
     public function create()
     {
+        if (app()->environment('beta')) {
+            return view('beta.coming-soon');
+        }
+
         return view('auth.register');
     }
 
@@ -41,6 +45,7 @@ class RegisteredUserController extends Controller
         Auth::login($user = User::create([
             'name' => $request->name,
             'email' => $request->email,
+            'email_verified_at' => app()->environment('beta') ? now(): null,
             'password' => Hash::make($request->password),
             'locale' => app()->getLocale(),
         ]));

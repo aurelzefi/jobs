@@ -1,7 +1,9 @@
 <?php
 
+use App\Notifications\Invitation;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Notification;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,3 +19,9 @@ use Illuminate\Support\Facades\Artisan;
 Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->purpose('Display an inspiring quote');
+
+Artisan::command('invite {email}', function ($email) {
+    Notification::route('mail', $email)->notify(new Invitation($email));
+
+    $this->info(__('Notification sent to :email', ['email' => $email]));
+});
