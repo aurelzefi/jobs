@@ -31,9 +31,7 @@ class CreateOrderControllerTest extends TestCase
     public function test_free_basic_orders_can_be_created()
     {
         $user = User::factory()->create();
-
         $company = Company::factory()->for($user)->create();
-
         $job = Job::factory()->for($company)->create();
 
         $order = Order::factory()->for($job)->make([
@@ -55,9 +53,7 @@ class CreateOrderControllerTest extends TestCase
     public function test_paid_orders_can_be_created_after_three_free_orders()
     {
         $user = User::factory()->create();
-
         $company = Company::factory()->for($user)->create();
-
         $job = Job::factory()->for($company)->create();
 
         Order::factory(3)->for($job)->create([
@@ -86,9 +82,7 @@ class CreateOrderControllerTest extends TestCase
     public function test_pinned_orders_are_not_created_for_free()
     {
         $user = User::factory()->create();
-
         $company = Company::factory()->for($user)->create();
-
         $job = Job::factory()->for($company)->create();
 
         $this->mockPayment();
@@ -112,9 +106,7 @@ class CreateOrderControllerTest extends TestCase
     public function test_orders_cant_be_created_with_invalid_data()
     {
         $user = User::factory()->create();
-
         $company = Company::factory()->for($user)->create();
-
         $job = Job::factory()->for($company)->create();
 
         $this->mockPayment();

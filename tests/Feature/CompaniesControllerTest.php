@@ -28,9 +28,9 @@ class CompaniesControllerTest extends TestCase
 
     public function test_companies_can_be_listed()
     {
-        $user = User::factory()
-            ->has(Company::factory(3))
-            ->create();
+        $user = User::factory()->create();
+
+        Company::factory(3)->for($user)->create();
 
         $response = $this->actingAs($user)->get('/api/companies');
 
@@ -132,7 +132,6 @@ class CompaniesControllerTest extends TestCase
     public function test_companies_can_be_updated_without_logo()
     {
         $user = User::factory()->create();
-
         $company = Company::factory()->for($user)->create();
 
         $newCompany = Company::factory()->for($user)->make()->makeHidden('logo');
@@ -177,7 +176,6 @@ class CompaniesControllerTest extends TestCase
         Storage::fake('public');
 
         $user = User::factory()->create();
-
         $company = Company::factory()->for($user)->create();
 
         $logo = UploadedFile::fake()->create('document.pdf');

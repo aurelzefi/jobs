@@ -27,14 +27,11 @@ class OrdersControllerTest extends TestCase
 
     public function test_orders_can_be_listed()
     {
-        $user = User::factory()
-            ->has(
-                Company::factory()
-                    ->has(
-                        Job::factory()->has(Order::factory()->count(3))
-                    )
-            )
-            ->create();
+        $user = User::factory()->create();
+        $company = Company::factory()->for($user)->create();
+        $job = Job::factory()->for($company)->create();
+
+        Order::factory(3)->for($job)->create();
 
         $response = $this->actingAs($user)->get('/api/orders');
 

@@ -31,9 +31,7 @@ class CaptureOrderControllerTest extends TestCase
     public function test_orders_can_be_captured()
     {
         $user = User::factory()->create();
-
         $company = Company::factory()->for($user)->create();
-
         $job = Job::factory()->for($company)->create();
 
         $order = Order::factory()->for($job)->create([
@@ -53,9 +51,7 @@ class CaptureOrderControllerTest extends TestCase
     public function test_orders_can_only_be_captured_once()
     {
         $user = User::factory()->create();
-
         $company = Company::factory()->for($user)->create();
-
         $job = Job::factory()->for($company)->create();
 
         $order = Order::factory()->for($job)->create([

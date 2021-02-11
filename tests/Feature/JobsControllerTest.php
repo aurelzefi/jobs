@@ -29,12 +29,10 @@ class JobsControllerTest extends TestCase
 
     public function test_jobs_can_be_listed()
     {
-        $user = User::factory()
-            ->has(
-                Company::factory()
-                    ->has(Job::factory()->count(3))
-            )
-            ->create();
+        $user = User::factory()->create();
+        $company = Company::factory()->for($user)->create();
+
+        Job::factory(3)->for($company)->create();
 
         $response = $this->actingAs($user)->get('/api/jobs');
 
@@ -46,7 +44,6 @@ class JobsControllerTest extends TestCase
         Event::fake();
 
         $user = User::factory()->create();
-
         $company = Company::factory()->for($user)->create();
 
         $job = Job::factory()->for($company)->make();
@@ -121,9 +118,7 @@ class JobsControllerTest extends TestCase
     public function test_jobs_can_be_updated()
     {
         $user = User::factory()->create();
-
         $company = Company::factory()->for($user)->create();
-
         $job = Job::factory()->for($company)->create();
 
         $newJob = Job::factory()->for($company)->make();
@@ -138,7 +133,6 @@ class JobsControllerTest extends TestCase
     public function test_jobs_cant_be_updated_with_invalid_data()
     {
         $user = User::factory()->create();
-
         $company = Company::factory()->for($user)->create();
 
         $job = Job::factory()->for($company)->create();
@@ -183,9 +177,7 @@ class JobsControllerTest extends TestCase
     public function test_jobs_can_be_deleted()
     {
         $user = User::factory()->create();
-
         $company = Company::factory()->for($user)->create();
-
         $job = Job::factory()->for($company)->create();
 
         $response = $this->actingAs($user)->delete("/api/jobs/{$job->id}");

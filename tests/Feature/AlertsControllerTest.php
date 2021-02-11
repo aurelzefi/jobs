@@ -27,9 +27,9 @@ class AlertsControllerTest extends TestCase
 
     public function test_alerts_can_be_listed()
     {
-        $user = User::factory()
-            ->has(Alert::factory()->count(3))
-            ->create();
+        $user = User::factory()->create();
+
+        Alert::factory(3)->for($user)->create();
 
         $response = $this->actingAs($user)->get('/api/alerts');
 
@@ -135,12 +135,12 @@ class AlertsControllerTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $alertOne = Alert::factory()->for($user)->create();
+        $alert = Alert::factory()->for($user)->create();
 
         $newAlert = Alert::factory()->for($user)->make();
         $keywords = Keyword::factory(3)->for($newAlert)->make()->pluck('word')->implode(',');
 
-        $response = $this->actingAs($user)->put("/api/alerts/{$alertOne->id}", array_merge($newAlert->toArray(), ['keywords' => $keywords]));
+        $response = $this->actingAs($user)->put("/api/alerts/{$alert->id}", array_merge($newAlert->toArray(), ['keywords' => $keywords]));
 
         $response->assertJson([
             'name' => $newAlert->name,
@@ -220,7 +220,6 @@ class AlertsControllerTest extends TestCase
     public function test_alerts_can_be_deleted()
     {
         $user = User::factory()->create();
-
         $alert = Alert::factory()->for($user)->create();
 
         $response = $this->actingAs($user)->delete("/api/alerts/{$alert->id}");
