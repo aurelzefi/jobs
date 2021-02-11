@@ -92,6 +92,8 @@ class SendJobCreatedInstantNotificationListenerTest extends TestCase
             'word' => 'descrip',
         ]);
 
+        event(new JobCreated($job));
+
         Notification::assertNotSentTo($alert->user, JobCreatedNotification::class);
     }
 
@@ -117,6 +119,8 @@ class SendJobCreatedInstantNotificationListenerTest extends TestCase
         Keyword::factory()->for($alert)->create([
             'word' => 'descrip',
         ]);
+
+        event(new JobCreated($job));
 
         Notification::assertNotSentTo($alert->user, JobCreatedNotification::class);
     }
@@ -144,6 +148,8 @@ class SendJobCreatedInstantNotificationListenerTest extends TestCase
             'word' => 'descrip',
         ]);
 
+        event(new JobCreated($job));
+
         Notification::assertNotSentTo($alert->user, JobCreatedNotification::class);
     }
 
@@ -169,6 +175,8 @@ class SendJobCreatedInstantNotificationListenerTest extends TestCase
         Keyword::factory()->for($alert)->create([
             'word' => 'descrip',
         ]);
+
+        event(new JobCreated($job));
 
         Notification::assertNotSentTo($alert->user, JobCreatedNotification::class);
     }
@@ -196,6 +204,8 @@ class SendJobCreatedInstantNotificationListenerTest extends TestCase
             'word' => 'descrip',
         ]);
 
+        event(new JobCreated($job));
+
         Notification::assertNotSentTo($alert->user, JobCreatedNotification::class);
     }
 
@@ -222,6 +232,8 @@ class SendJobCreatedInstantNotificationListenerTest extends TestCase
             'word' => 'wrong-keyword',
         ]);
 
+        event(new JobCreated($job));
+
         Notification::assertNotSentTo($alert->user, JobCreatedNotification::class);
     }
 
@@ -247,6 +259,8 @@ class SendJobCreatedInstantNotificationListenerTest extends TestCase
         Keyword::factory()->for($alert)->create([
             'word' => 'another-wrong-keyword',
         ]);
+
+        event(new JobCreated($job));
 
         Notification::assertNotSentTo($alert->user, JobCreatedNotification::class);
     }
