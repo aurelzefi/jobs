@@ -30,7 +30,7 @@ class NewJobsYesterday extends Notification implements ShouldQueue
     {
         return (new MailMessage)
                     ->line(__('New jobs added yesterday matching your ":alert" alert.', ['alert' => $this->alert->name]))
-                    ->action(__('View On :name', ['name' => config('app.name')]), url('/')) // to be defined on when frontend is built
+                    ->action(__('View Jobs'), url('/')) // to be defined when frontend is built
                     ->line(__('Thank you for using our application!'));
     }
 
