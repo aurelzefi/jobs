@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AlertsController;
 use App\Http\Controllers\CompaniesController;
+use App\Http\Controllers\CountriesController;
 use App\Http\Controllers\CreateOrderController;
 use App\Http\Controllers\JobsController;
 use App\Http\Controllers\CaptureOrderController;
@@ -84,4 +85,7 @@ Route::prefix('api')->group(function () {
     Route::put('/orders/{order}/capture', CaptureOrderController::class)
         ->middleware(['auth', 'verified'])
         ->name('orders.capture');
+
+    Route::get('/countries', CountriesController::class)
+        ->name('countries.index');
 });
