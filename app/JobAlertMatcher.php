@@ -23,19 +23,19 @@ class JobAlertMatcher
 
     public function match(): bool
     {
-        if (! $this->countriesMatch()) {
+        if (! $this->countryMatches()) {
             return false;
         }
 
-        if (! $this->citiesMatch()) {
+        if (! $this->cityMatches()) {
             return false;
         }
 
-        if (! $this->typesMatch()) {
+        if (! $this->typeMatches()) {
             return false;
         }
 
-        if (! $this->stylesMatch()) {
+        if (! $this->styleMatches()) {
             return false;
         }
 
@@ -50,22 +50,22 @@ class JobAlertMatcher
         return true;
     }
 
-    protected function countriesMatch(): bool
+    protected function countryMatches(): bool
     {
         return $this->alert->country_id === $this->job->country_id;
     }
 
-    protected function citiesMatch(): bool
+    protected function cityMatches(): bool
     {
         return !! mb_stripos($this->job->city, $this->alert->city);
     }
 
-    protected function typesMatch(): bool
+    protected function typeMatches(): bool
     {
         return in_array($this->job->type, $this->alert->job_types);
     }
 
-    protected function stylesMatch(): bool
+    protected function styleMatches(): bool
     {
         return in_array($this->job->style, $this->alert->job_styles);
     }
