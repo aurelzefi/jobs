@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App;
 
 use App\Models\Alert;
@@ -20,7 +22,7 @@ class JobAlertNotifier
         $this->alerts = $alerts;
     }
 
-    public function withNotification($notification): self
+    public function withNotification(string $notification): self
     {
         $this->notification = $notification;
 
