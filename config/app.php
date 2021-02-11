@@ -244,4 +244,10 @@ return [
 
     // Free Orders Amount
     'free_orders_amount' => 3,
+
+    // Locales
+    'locales' => [
+        'al',
+        'en',
+    ]
 ];
