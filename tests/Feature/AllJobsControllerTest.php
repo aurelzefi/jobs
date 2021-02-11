@@ -515,6 +515,7 @@ class AllJobsControllerTest extends TestCase
         $jobFour = Job::factory()->for($company)->create();
         $jobFive = Job::factory()->for($company)->create();
         $jobSix = Job::factory()->for($company)->create();
+        Job::factory()->for($company)->create();
 
         // Job One Last Order
         Order::factory()->for($jobOne)->create([

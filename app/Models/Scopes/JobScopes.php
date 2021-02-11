@@ -115,7 +115,6 @@ trait JobScopes
                 $query->select('paid_at')
                     ->from('orders')
                     ->whereColumn('jobs.id', 'orders.job_id')
-                    ->whereNotNull('paid_at')
                     ->orderByDesc('paid_at')
                     ->limit(1);
             }
@@ -129,7 +128,6 @@ trait JobScopes
                 $query->selectRaw(sprintf('type = "%s"', Order::TYPE_PINNED))
                     ->from('orders')
                     ->whereColumn('jobs.id', 'orders.job_id')
-                    ->whereNotNull('paid_at')
                     ->orderByDesc('paid_at')
                     ->limit(1);
             }

@@ -16,7 +16,7 @@ class CreateOrderController extends Controller
         $this->authorize('update', $job);
 
         $order = $job->orders()->create([
-            'type' => $type = $request->input('type'),
+            'type' => $request->input('type'),
             'amount' => $this->getOrderAmount($request),
         ]);
 
