@@ -1,5 +1,17 @@
 {
     "Login": "Hyr",
     "Your posted job \":job\" expires today.": "Puna qw ke postuar \":job\" skadon sot.",
-    "If you wish for your post to remain active, you can renew it by clicking the link below.": "Nwse dwshiron qw ajo tw ngelet aktive, mund ta rinovosh duke klikuar linkun mw poshtw."
+    "If you wish for your post to remain active, you can renew it by clicking the link below.": "Nwse dwshiron qw ajo tw ngelet aktive, mund ta rinovosh duke klikuar linkun mw poshtw.",
+    "Logout": "Dil",
+    "View Job": "Shiko Punwn",
+    "View On Telescope": "Shiko Nw Telescope",
+    "An error occurred on :name.": "Ka ndodhur njw problem nw :name.",
+    "Coming Soon": "Vjen sw shpejti",
+    "Register": "Regjistrohu",
+    "Already registered?": "Je regjistruar?",
+    "This order has already been captured.": "Kjo porosi wshtw paguar mw parw.",
+    "Thank you for using our application!": "Faleminderit qw pwrdorni aplikacionin tonw!",
+    "Password": "Fjalwkalimi",
+    "Name": "Emri",
+    "Confirm Password": "Konfirmo Fjalwkalimin"
 }
