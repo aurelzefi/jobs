@@ -3,12 +3,24 @@
 namespace Tests\Feature;
 
 use App\Models\User;
+use Database\Seeders\CountriesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class UserPasswordControllerTest extends TestCase
 {
     use RefreshDatabase;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        $this->seed(CountriesSeeder::class);
+
+        $this->withHeaders([
+            'Accept' => 'application/json',
+        ]);
+    }
 
     public function test_user_password_can_be_updated()
     {
