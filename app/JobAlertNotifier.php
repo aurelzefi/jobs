@@ -14,30 +14,21 @@ class JobAlertNotifier
 
     protected $alerts;
 
-    protected $notification;
-
     public function __construct(Collection $jobs, Collection $alerts)
     {
         $this->jobs = $jobs;
         $this->alerts = $alerts;
     }
 
-    public function withNotification(string $notification): self
+    public function send(string $notification): void
     {
-        $this->notification = $notification;
-
-        return $this;
-    }
-
-    public function handle(): void
-    {
-        $this->alerts->each(function (Alert $alert) {
+        $this->alerts->each(function (Alert $alert) use ($notification) {
             $matchedJobs = $this->jobs->filter(function (Job $job) use ($alert) {
                 return (new JobAlertMatcher($job, $alert))->match();
             });
 
             if ($matchedJobs->count() > 0) {
-                $alert->user->notify(new $this->notification($alert));
+                $alert->user->notify(new $notification($alert));
             }
         });
     }

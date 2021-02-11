@@ -23,8 +23,6 @@ class SendNewJobsDailyNotifications implements ShouldQueue
         $jobs = Job::addedYesterday()->get();
         $alerts = Alert::with('keywords')->daily()->get();
 
-        (new JobAlertNotifier($jobs, $alerts))
-            ->withNotification(NewJobsYesterday::class)
-            ->handle();
+        (new JobAlertNotifier($jobs, $alerts))->send(NewJobsYesterday::class);
     }
 }
