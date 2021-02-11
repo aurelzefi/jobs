@@ -20,7 +20,7 @@ class EmailVerificationTest extends TestCase
             'email_verified_at' => null,
         ]);
 
-        $response = $this->actingAs($user)->get('/verify-email');
+        $response = $this->actingAs($user)->get('/en/verify-email');
 
         $response->assertStatus(200);
     }
@@ -32,6 +32,8 @@ class EmailVerificationTest extends TestCase
         $user = User::factory()->create([
             'email_verified_at' => null,
         ]);
+
+        url()->defaults(['locale' => app()->getLocale()]);
 
         $verificationUrl = URL::temporarySignedRoute(
             'verification.verify',

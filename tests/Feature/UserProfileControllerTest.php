@@ -31,8 +31,6 @@ class UserProfileControllerTest extends TestCase
             'email' => 'test@example.com',
         ]);
 
-        dd($response->json());
-
         $response->assertJson([
             'name' => 'Test User',
             'email' => 'test@example.com',

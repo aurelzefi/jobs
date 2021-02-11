@@ -4,6 +4,7 @@ use App\Http\Controllers\AlertsController;
 use App\Http\Controllers\CompaniesController;
 use App\Http\Controllers\CountriesController;
 use App\Http\Controllers\CreateOrderController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\JobsController;
 use App\Http\Controllers\CaptureOrderController;
 use App\Http\Controllers\AllJobsController;
@@ -24,22 +25,6 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
-
-require __DIR__.'/auth.php';
-
-if (app()->environment('beta')) {
-    Route::get('/register/{email}/{hash}', function (Request $request) {
-        return view('beta.register', ['request' => $request]);
-    })->middleware(['guest', 'signed'])->name('invitation.register');
-}
 
 Route::prefix('api')->group(function () {
     Route::post('/user/profile', UserProfileController::class)
@@ -88,4 +73,24 @@ Route::prefix('api')->group(function () {
 
     Route::get('/countries', CountriesController::class)
         ->name('countries.index');
+});
+
+Route::prefix('{locale?}')->middleware('locale')->group(function () {
+    Route::get('/', function () {
+        return view('welcome');
+    });
+
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->middleware(['auth'])->name('dashboard');
+
+    require __DIR__.'/auth.php';
+
+    if (app()->environment('beta')) {
+        Route::get('/register/{email}/{hash}', function (Request $request) {
+            return view('beta.register', ['request' => $request]);
+        })->middleware(['guest', 'signed'])->name('invitation.register');
+    }
+
+    Route::get('/{view?}', HomeController::class)->where('view', '(.*)');
 });

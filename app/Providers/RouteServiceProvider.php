@@ -33,11 +33,12 @@ class RouteServiceProvider extends ServiceProvider
                 ->namespace($this->namespace)
                 ->group(base_path('routes/api.php'));
 
-            Route::prefix('{locale?}')
-                ->middleware('web')
+            Route::middleware('web')
                 ->namespace($this->namespace)
                 ->group(base_path('routes/web.php'));
         });
+
+        url()->defaults(['locale' => app()->getLocale()]);
     }
 
     protected function configureRateLimiting(): void
