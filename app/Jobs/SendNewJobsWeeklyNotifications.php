@@ -7,6 +7,7 @@ namespace App\Jobs;
 use App\JobAlertNotifier;
 use App\Models\Alert;
 use App\Models\Job;
+use App\Notifications\NewJobsLastWeek;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -22,6 +23,8 @@ class SendNewJobsWeeklyNotifications implements ShouldQueue
         $jobs = Job::addedLastWeek()->get();
         $alerts = Alert::with('keywords')->weekly()->get();
 
-        (new JobAlertNotifier($jobs, $alerts))->handle();
+        (new JobAlertNotifier($jobs, $alerts))
+            ->withNotification(NewJobsLastWeek::class)
+            ->handle();
     }
 }

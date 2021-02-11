@@ -7,6 +7,7 @@ namespace App\Jobs;
 use App\JobAlertNotifier;
 use App\Models\Alert;
 use App\Models\Job;
+use App\Notifications\NewJobsYesterday;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -22,6 +23,8 @@ class SendNewJobsDailyNotifications implements ShouldQueue
         $jobs = Job::addedYesterday()->get();
         $alerts = Alert::with('keywords')->daily()->get();
 
-        (new JobAlertNotifier($jobs, $alerts))->handle();
+        (new JobAlertNotifier($jobs, $alerts))
+            ->withNotification(NewJobsYesterday::class)
+            ->handle();
     }
 }

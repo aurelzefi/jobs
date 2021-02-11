@@ -4,7 +4,6 @@ namespace App;
 
 use App\Models\Alert;
 use App\Models\Job;
-use App\Notifications\NewJobsYesterday;
 use Illuminate\Database\Eloquent\Collection;
 
 class JobAlertNotifier
@@ -13,10 +12,19 @@ class JobAlertNotifier
 
     protected $alerts;
 
+    protected $notification;
+
     public function __construct(Collection $jobs, Collection $alerts)
     {
         $this->jobs = $jobs;
         $this->alerts = $alerts;
+    }
+
+    public function withNotification($notification): self
+    {
+        $this->notification = $notification;
+
+        return $this;
     }
 
     public function handle(): void
@@ -27,7 +35,7 @@ class JobAlertNotifier
             });
 
             if ($matchedJobs->count() > 0) {
-                $alert->user->notify(new NewJobsYesterday($alert));
+                $alert->user->notify(new $this->notification($alert));
             }
         });
     }
