@@ -14,19 +14,19 @@ class Job extends Model
 {
     use JobScopes, HasFactory;
 
-    const TYPE_FULL_TIME = 'full-time';
+    public const TYPE_FULL_TIME = 'full-time';
 
-    const TYPE_PART_TIME = 'part-time';
+    public const TYPE_PART_TIME = 'part-time';
 
-    const TYPE_FREELANCE = 'freelance';
+    public const TYPE_FREELANCE = 'freelance';
 
-    const STYLE_OFFICE = 'office';
+    public const STYLE_OFFICE = 'office';
 
-    const STYLE_REMOTE = 'remote';
+    public const STYLE_REMOTE = 'remote';
 
-    const STYLE_OPTIONAL = 'optional';
+    public const STYLE_OPTIONAL = 'optional';
 
-    const TYPES = [
+    public const TYPES = [
         'full-time',
         'part-time',
         'freelance',
@@ -34,7 +34,7 @@ class Job extends Model
         'internship',
     ];
 
-    const STYLES = [
+    public const STYLES = [
         'office',
         'remote',
         'optional',

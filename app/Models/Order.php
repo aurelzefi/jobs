@@ -13,11 +13,11 @@ class Order extends Model
 {
     use HasFactory;
 
-    const TYPE_BASIC = 'basic';
+    public const TYPE_BASIC = 'basic';
 
-    const TYPE_PINNED = 'pinned';
+    public const TYPE_PINNED = 'pinned';
 
-    const TYPES = [
+    public const TYPES = [
         'basic',
         'pinned',
     ];

@@ -30,8 +30,6 @@ class JobsController extends Controller
 
     public function show(Job $job): JsonResponse
     {
-        $this->authorize('view', $job);
-
         return response()->json($job);
     }
 

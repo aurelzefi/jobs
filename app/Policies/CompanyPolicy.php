@@ -12,11 +12,6 @@ class CompanyPolicy
 {
     use HandlesAuthorization;
 
-    public function view(?User $user, Company $company): bool
-    {
-        return true;
-    }
-
     public function update(User $user, Company $company): bool
     {
         return $user->id === $company->user_id;

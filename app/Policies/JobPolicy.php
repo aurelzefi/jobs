@@ -12,11 +12,6 @@ class JobPolicy
 {
     use HandlesAuthorization;
 
-    public function view(?User $user, Job $job): bool
-    {
-        return true;
-    }
-
     public function update(User $user, Job $job): bool
     {
         return $user->id === $job->company->user_id;

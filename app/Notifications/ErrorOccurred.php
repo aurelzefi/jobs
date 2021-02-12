@@ -25,7 +25,7 @@ class ErrorOccurred extends Notification implements ShouldQueue
 
     public function toMail($notifiable): MailMessage
     {
-        return (new MailMessage)
+        return (new MailMessage())
                     ->line(__('An error occurred on :name.', ['name' => config('app.name')]))
                     ->action(__('View On Telescope'), url('/telescope'));
     }

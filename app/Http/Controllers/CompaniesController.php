@@ -28,8 +28,6 @@ class CompaniesController extends Controller
 
     public function show(Company $company): JsonResponse
     {
-        $this->authorize('view', $company);
-
         return response()->json($company);
     }
 

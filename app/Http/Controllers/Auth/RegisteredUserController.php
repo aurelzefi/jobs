@@ -45,7 +45,7 @@ class RegisteredUserController extends Controller
         Auth::login($user = User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'email_verified_at' => app()->environment('beta') ? now(): null,
+            'email_verified_at' => app()->environment('beta') ? now() : null,
             'password' => Hash::make($request->password),
             'locale' => app()->getLocale(),
         ]));

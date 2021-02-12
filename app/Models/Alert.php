@@ -16,13 +16,13 @@ class Alert extends Model
 {
     use HasFactory;
 
-    const TYPE_INSTANT = 'instant';
+    public const TYPE_INSTANT = 'instant';
 
-    const TYPE_DAILY = 'daily';
+    public const TYPE_DAILY = 'daily';
 
-    const TYPE_WEEKLY = 'weekly';
+    public const TYPE_WEEKLY = 'weekly';
 
-    const TYPES = [
+    public const TYPES = [
         'instant',
         'daily',
         'weekly',

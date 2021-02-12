@@ -57,7 +57,7 @@ class JobAlertMatcher
 
     protected function cityMatches(): bool
     {
-        return !! mb_stripos($this->job->city, $this->alert->city);
+        return (bool) mb_stripos($this->job->city, $this->alert->city);
     }
 
     protected function typeMatches(): bool

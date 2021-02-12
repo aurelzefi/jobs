@@ -1,13 +1,13 @@
 <?php
 
 use App\Http\Controllers\AlertsController;
+use App\Http\Controllers\AllJobsController;
+use App\Http\Controllers\CaptureOrderController;
 use App\Http\Controllers\CompaniesController;
 use App\Http\Controllers\CountriesController;
 use App\Http\Controllers\CreateOrderController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\JobsController;
-use App\Http\Controllers\CaptureOrderController;
-use App\Http\Controllers\AllJobsController;
 use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\UserLocaleController;
 use App\Http\Controllers\UserPasswordController;

@@ -28,7 +28,7 @@ class NewJobsYesterday extends Notification implements ShouldQueue
 
     public function toMail($notifiable): MailMessage
     {
-        return (new MailMessage)
+        return (new MailMessage())
                     ->line(__('New jobs added yesterday matching your ":alert" alert.', ['alert' => $this->alert->name]))
                     ->action(__('View Jobs'), url('/')) // to be defined when frontend is built
                     ->line(__('Thank you for using our application!'));

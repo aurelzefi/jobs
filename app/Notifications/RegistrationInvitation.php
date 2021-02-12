@@ -28,7 +28,7 @@ class RegistrationInvitation extends Notification implements ShouldQueue
 
     public function toMail($notifiable): MailMessage
     {
-        return (new MailMessage)
+        return (new MailMessage())
                     ->line(__('This is an invitation to register on :name.', ['name' => config('app.name')]))
                     ->line(__('Please give it a try. Any feedback is appreciated.'))
                     ->action(__('Register'), $this->registrationUrl())
