@@ -23,13 +23,16 @@ class JobAlertNotifier
     public function send(string $notification): void
     {
         $this->alerts->each(function (Alert $alert) use ($notification) {
-            $matchedJobs = $this->jobs->filter(function (Job $job) use ($alert) {
-                return (new JobAlertMatcher($job, $alert))->match();
-            });
-
-            if ($matchedJobs->count() > 0) {
+            if ($this->jobsForAlert($alert)->count() > 0) {
                 $alert->user->notify(new $notification($alert));
             }
+        });
+    }
+
+    protected function jobsForAlert(Alert $alert): Collection
+    {
+        return $this->jobs->filter(function (Job $job) use ($alert) {
+            return (new JobAlertMatcher($job, $alert))->match();
         });
     }
 }
