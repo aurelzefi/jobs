@@ -32,6 +32,19 @@ class AlertRequest extends FormRequest
         ];
     }
 
+    public function fields(): array
+    {
+        return $this->only([
+            'country_id',
+            'name',
+            'has_all_keywords',
+            'city',
+            'type',
+            'job_types',
+            'job_styles',
+        ]);
+    }
+
     public function keywords(): array
     {
         return explode(',', $this->input('keywords'));

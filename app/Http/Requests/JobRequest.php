@@ -27,4 +27,17 @@ class JobRequest extends FormRequest
             'style' => ['required', 'string', Rule::in(Job::STYLES)],
         ];
     }
+
+    public function fields(): array
+    {
+        return $this->only([
+            'company_id',
+            'country_id',
+            'title',
+            'description',
+            'city',
+            'type',
+            'style',
+        ]);
+    }
 }

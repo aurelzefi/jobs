@@ -12,7 +12,7 @@ class CountriesController extends Controller
 {
     public function __invoke(Request $request): JsonResponse
     {
-        $countries = (new Country)->getList();
+        $countries = (new Country())->getList();
 
         return response()->json($countries);
     }

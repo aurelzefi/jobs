@@ -26,4 +26,25 @@ class CompanyRequest extends FormRequest
             'city' => ['required', 'string', 'max:255'],
         ];
     }
+
+    public function fields(): array
+    {
+        return array_merge($this->only([
+            'country_id',
+            'name',
+            'description',
+            'website',
+            'address',
+            'city',
+        ]), [
+            'logo' => $this->logo(),
+        ]);
+    }
+
+    protected function logo()
+    {
+        if ($this->hasFile('logo')) {
+            return $this->file('logo')->store('images', 'public');
+        }
+    }
 }

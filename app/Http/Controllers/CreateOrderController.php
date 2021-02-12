@@ -17,7 +17,7 @@ class CreateOrderController extends Controller
 
         $order = $job->orders()->create([
             'type' => $request->input('type'),
-            'amount' => $this->getOrderAmount($request),
+            'amount' => $this->orderAmount($request),
         ]);
 
         $paypalOrder = $payment->forOrder($order)->create();
@@ -29,7 +29,7 @@ class CreateOrderController extends Controller
         return response()->json($order);
     }
 
-    protected function getOrderAmount(OrderRequest $request)
+    protected function orderAmount(OrderRequest $request)
     {
         if ($request->user()->isEligibleForFreeOrder() && $request->creatingBasicOrder()) {
             return 0;

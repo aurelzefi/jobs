@@ -20,15 +20,7 @@ class AlertsController extends Controller
 
     public function store(AlertRequest $request): JsonResponse
     {
-        $alert = $request->user()->alerts()->create([
-            'country_id' => $request->input('country_id'),
-            'name' => $request->input('name'),
-            'has_all_keywords' => $request->has('has_all_keywords'),
-            'city' => $request->input('city'),
-            'type' => $request->input('type'),
-            'job_types' => $request->input('job_types'),
-            'job_styles' => $request->input('job_styles'),
-        ]);
+        $alert = $request->user()->alerts()->create($request->fields());
 
         $alert->keywords()->createMany(
             collect($request->keywords())->map(function ($word) {
@@ -50,23 +42,17 @@ class AlertsController extends Controller
     {
         $this->authorize('update', $alert);
 
-        $alert->fill([
-            'country_id' => $request->input('country_id'),
-            'name' => $request->input('name'),
-            'has_all_keywords' => $request->has('has_all_keywords'),
-            'city' => $request->input('city'),
-            'type' => $request->input('type'),
-            'job_types' => $request->input('job_types'),
-            'job_styles' => $request->input('job_styles'),
-        ])->save();
+        $alert->fill($request->fields())->save();
 
-        $alert->keywords()->delete();
+        $keywords = collect($request->keywords())
+            ->diff($alert->keywords()->pluck('word'))
+            ->map(function ($keyword) {
+                return ['word' => $keyword];
+            });
 
-        $alert->keywords()->createMany(
-            collect($request->keywords())->map(function ($word) {
-                return ['word' => $word];
-            })
-        );
+        $alert->keywords()->createMany($keywords);
+
+        $alert->keywords()->whereNotIn('word', $request->keywords())->delete();
 
         return response()->json($alert);
     }

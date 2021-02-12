@@ -21,15 +21,7 @@ class JobsController extends Controller
 
     public function store(JobRequest $request): JsonResponse
     {
-        $job = $request->user()->jobs()->create([
-            'company_id' => $request->input('company_id'),
-            'country_id' => $request->input('country_id'),
-            'title' => $request->input('title'),
-            'description' => $request->input('description'),
-            'city' => $request->input('city'),
-            'type' => $request->input('type'),
-            'style' => $request->input('style'),
-        ]);
+        $job = $request->user()->jobs()->create($request->fields());
 
         event(new JobCreated($job));
 
@@ -47,15 +39,7 @@ class JobsController extends Controller
     {
         $this->authorize('update', $job);
 
-        $job->fill([
-            'company_id' => $request->input('company_id'),
-            'country_id' => $request->input('country_id'),
-            'title' => $request->input('title'),
-            'description' => $request->input('description'),
-            'city' => $request->input('city'),
-            'type' => $request->input('type'),
-            'style' => $request->input('style'),
-        ])->save();
+        $job->fill($request->fields())->save();
 
         return response()->json($job);
     }
