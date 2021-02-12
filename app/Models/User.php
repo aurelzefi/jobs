@@ -27,11 +27,6 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
         'email_verified_at' => 'datetime',
     ];
 
-    public function preferredLocale(): string
-    {
-        return $this->locale;
-    }
-
     public function companies(): HasMany
     {
         return $this->hasMany(Company::class);
@@ -50,5 +45,10 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
     public function isEligibleForFreeOrder(): bool
     {
         return Order::forUser($this)->free()->count() < config('app.free_orders_amount');
+    }
+
+    public function preferredLocale(): string
+    {
+        return $this->locale;
     }
 }
