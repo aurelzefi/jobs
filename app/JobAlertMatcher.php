@@ -77,7 +77,7 @@ class JobAlertMatcher
 
     protected function allKeywordsMatch(): bool
     {
-        return $this->matchingKeywords()->count() === $this->alert->keywords()->count();
+        return $this->matchingKeywords()->count() === $this->alert->keywords->count();
     }
 
     protected function hasMatchingKeywords(): bool
