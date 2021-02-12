@@ -89,7 +89,7 @@ Route::prefix('{locale?}')->middleware('locale')->group(function () {
     if (app()->environment('beta')) {
         Route::get('/register/{email}/{hash}', function (Request $request) {
             return view('beta.register', ['request' => $request]);
-        })->middleware(['guest', 'signed'])->name('invitation.register');
+        })->middleware(['guest', 'signed'])->name('register.invitation');
     }
 
     Route::get('/{view?}', HomeController::class)->where('view', '(.*)');
