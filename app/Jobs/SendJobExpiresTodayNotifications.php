@@ -18,7 +18,7 @@ class SendJobExpiresTodayNotifications implements ShouldQueue
 
     public function handle(): void
     {
-        Job::expireToday()->get()->each(function (Job $job) {
+        Job::with('company.user')->expireToday()->get()->each(function (Job $job) {
             $job->company->user->notify(new JobExpiresToday($job));
         });
     }

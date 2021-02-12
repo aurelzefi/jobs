@@ -21,7 +21,7 @@ class SendNewJobsWeeklyNotifications implements ShouldQueue
     public function handle(): void
     {
         $jobs = Job::addedLastWeek()->get();
-        $alerts = Alert::with('keywords')->weekly()->get();
+        $alerts = Alert::with(['user', 'keywords'])->weekly()->get();
 
         (new JobAlertNotifier($jobs, $alerts))->send(NewJobsLastWeek::class);
     }
