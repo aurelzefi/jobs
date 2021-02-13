@@ -4,6 +4,7 @@ import Base from './base';
 import Routes from './routes';
 import VueI18n from 'vue-i18n';
 import VueRouter from 'vue-router';
+import App from './components/App';
 import AlLocale from './lang/al.json';
 import EnLocale from './lang/en.json';
 
@@ -39,6 +40,7 @@ new Vue({
     el: '#app',
     i18n,
     router,
+    render: h => h(App),
     data() {
         return {};
     },

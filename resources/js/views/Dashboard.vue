@@ -1,11 +1,13 @@
 <template>
-    <div>
-        <header-component>
+    <app-layout>
+        <!-- Page Heading -->
+        <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 {{ __('Dashboard') }}
             </h2>
-        </header-component>
+        </template>
 
+        <!-- Page Content -->
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -15,13 +17,13 @@
                 </div>
             </div>
         </div>
-    </div>
+    </app-layout>
 </template>
 
 <script>
-import HeaderComponent from "../components/Header";
+import AppLayout from '../layouts/AppLayout'
 
 export default {
-    components: {HeaderComponent}
+    components: {AppLayout}
 };
 </script>

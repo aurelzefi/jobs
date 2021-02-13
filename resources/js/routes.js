@@ -1,17 +1,17 @@
-import AlertsCreate from './views/Alerts/Create';
-import AlertsEdit from './views/Alerts/Edit';
-import AlertsIndex from './views/Alerts/Index';
-import AlertsShow from './views/Alerts/Show';
-import CompaniesCreate from './views/Companies/Create';
-import CompaniesEdit from './views/Companies/Edit';
-import CompaniesIndex from './views/Companies/Index';
-import CompaniesShow from './views/Companies/Show';
-import JobsCreate from './views/Jobs/Create';
-import JobsEdit from './views/Jobs/Edit';
-import JobsIndex from './views/Jobs/Index';
-import JobsShow from './views/Jobs/Show';
-import OrdersIndex from './views/Orders/Index';
-import OrdersShow from './views/Orders/Show';
+import CreateAlert from './views/Alerts/Create';
+import EditAlert from './views/Alerts/Edit';
+import ListAlerts from './views/Alerts/Index';
+import ShowAlert from './views/Alerts/Show';
+import CreateCompany from './views/Companies/Create';
+import EditCompany from './views/Companies/Edit';
+import ListCompanies from './views/Companies/Index';
+import ShowCompany from './views/Companies/Show';
+import CreateJob from './views/Jobs/Create';
+import EditJob from './views/Jobs/Edit';
+import ListJobs from './views/Jobs/Index';
+import ShowJob from './views/Jobs/Show';
+import ListOrders from './views/Orders/Index';
+import ShowOrder from './views/Orders/Show';
 import Dashboard from './views/Dashboard';
 import AllJobs from './views/AllJobs';
 
@@ -29,71 +29,71 @@ export default [
     {
         path: '/alerts',
         name: 'alerts.index',
-        component: AlertsIndex
+        component: ListAlerts
     },
     {
         path: '/alerts/create',
         name: 'alerts.create',
-        component: AlertsCreate
+        component: CreateAlert
     },
     {
         path: '/alerts/:id',
         name: 'alerts.show',
-        component: AlertsShow
+        component: ShowAlert
     },
     {
         path: '/alerts/:id/edit',
         name: 'alerts.edit',
-        component: AlertsEdit
+        component: EditAlert
     },
     {
         path: '/companies',
         name: 'companies.index',
-        component: CompaniesIndex
+        component: ListCompanies
     },
     {
         path: '/companies/create',
         name: 'companies.create',
-        component: CompaniesCreate
+        component: CreateCompany
     },
     {
         path: '/companies/:id',
         name: 'companies.show',
-        component: CompaniesShow
+        component: ShowCompany
     },
     {
         path: '/companies/:id/edit',
         name: 'companies.edit',
-        component: CompaniesEdit
+        component: EditCompany
     },
     {
         path: '/jobs',
         name: 'jobs.index',
-        component: JobsIndex
+        component: ListJobs
     },
     {
         path: '/jobs/create',
         name: 'jobs.create',
-        component: JobsCreate
+        component: CreateJob
     },
     {
         path: '/jobs/:id',
         name: 'jobs.show',
-        component: JobsShow
+        component: ShowJob
     },
     {
         path: '/jobs/:id/edit',
         name: 'jobs.edit',
-        component: JobsEdit
+        component: EditJob
     },
     {
         path: '/orders',
         name: 'orders.index',
-        component: OrdersIndex,
+        component: ListOrders,
     },
     {
         path: '/orders/:id',
         name: 'orders.show',
-        component: OrdersShow
+        component: ShowOrder
     },
 ];
