@@ -12,7 +12,9 @@ class HomeController extends Controller
     public function __invoke(Request $request): View
     {
         return view('layouts.app', [
-            'user' => $request->user(),
+            'data' => [
+                'user' => $request->user(),
+            ],
         ]);
     }
 }
