@@ -15,24 +15,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-require __DIR__ . '/web-api.php';
-
-Route::prefix('{locale?}')->middleware('locale')->group(function () {
-    Route::get('/', function () {
-        return view('welcome');
-    });
-
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->middleware(['auth'])->name('dashboard');
-
-    require __DIR__.'/auth.php';
-
-    if (app()->environment('beta')) {
-        Route::get('/register/{email}/{hash}', function (Request $request) {
-            return view('beta.register', ['request' => $request]);
-        })->middleware(['guest', 'signed'])->name('register.invitation');
-    }
-
-    Route::get('/{view?}', HomeController::class)->where('view', '(.*)');
+Route::get('/', function () {
+    return view('welcome');
 });
+
+require __DIR__ . '/auth.php';
+
+if (app()->environment('beta')) {
+    Route::get('/register/{email}/{hash}', function (Request $request) {
+        return view('beta.register', ['request' => $request]);
+    })->middleware(['guest', 'signed'])->name('register.invitation');
+}
+
+Route::get('/{view?}', HomeController::class)->where('view', '(.*)')->name('app.index');
