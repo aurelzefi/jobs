@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-    public function __invoke(Request $request)
+    public function __invoke(Request $request): View
     {
-        return view('home');
+        return view('layouts.app', [
+            'user' => $request->user(),
+        ]);
     }
 }
