@@ -44,17 +44,18 @@
                                     <div class="whitespace-nowrap">{{ App.user.name }}</div>
 
                                     <div class="ml-1">
-                                        <svg class="fill-current h-4 w-4" viewBox="0 0 20 20"
-                                             xmlns="http://www.w3.org/2000/svg">
-                                            <path clip-rule="evenodd"
-                                                  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                                  fill-rule="evenodd"/>
+                                        <svg class="fill-current h-4 w-4" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                            <path clip-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" fill-rule="evenodd"/>
                                         </svg>
                                     </div>
                                 </button>
                             </template>
 
                             <template #content>
+                                <dropdown-link :to="{name: 'user.profile'}">
+                                    {{ __('Profile') }}
+                                </dropdown-link>
+
                                 <!-- Authentication -->
                                 <form :action="logoutLink" method="POST">
                                     <input :value="csrfToken" name="_token" type="hidden">
@@ -83,23 +84,23 @@
             <!-- Responsive Navigation Menu -->
             <div :class="{'block': open, 'hidden': ! open}" class="sm:hidden">
                 <div class="pt-2 pb-3 space-y-1">
-                    <responsive-nav-link :to="{name: 'dashboard'}">
+                    <responsive-nav-link :to="{name: 'dashboard'}" :active="$route.name === 'dashboard'">
                         {{ __('Dashboard') }}
                     </responsive-nav-link>
 
-                    <responsive-nav-link :to="{name: 'alerts.index'}">
+                    <responsive-nav-link :to="{name: 'alerts.index'}" :active="$route.name === 'alerts.index'">
                         {{ __('Alerts') }}
                     </responsive-nav-link>
 
-                    <responsive-nav-link :to="{name: 'companies.index'}">
+                    <responsive-nav-link :to="{name: 'companies.index'}" :active="$route.name === 'companies.index'">
                         {{ __('Companies') }}
                     </responsive-nav-link>
 
-                    <responsive-nav-link :to="{name: 'jobs.index'}">
+                    <responsive-nav-link :to="{name: 'jobs.index'}" :active="$route.name === 'jobs.index'">
                         {{ __('Jobs') }}
                     </responsive-nav-link>
 
-                    <responsive-nav-link :to="{name: 'orders.index'}">
+                    <responsive-nav-link :to="{name: 'orders.index'}" :active="$route.name === 'orders.index'">
                         {{ __('Orders') }}
                     </responsive-nav-link>
                 </div>
@@ -120,6 +121,10 @@
                     </div>
 
                     <div class="mt-3 space-y-1">
+                        <responsive-nav-link :to="{name: 'user.profile'}" :active="$route.name === 'user.profile'">
+                            {{ __('Profile') }}
+                        </responsive-nav-link>
+
                         <!-- Authentication -->
                         <form :action="logoutLink" method="POST">
                             <input :value="csrfToken" name="_token" type="hidden">

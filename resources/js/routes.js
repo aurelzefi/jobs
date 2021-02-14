@@ -1,19 +1,20 @@
-import CreateAlert from './views/Alerts/Create';
-import EditAlert from './views/Alerts/Edit';
-import ListAlerts from './views/Alerts/Index';
-import ShowAlert from './views/Alerts/Show';
-import CreateCompany from './views/Companies/Create';
-import EditCompany from './views/Companies/Edit';
-import ListCompanies from './views/Companies/Index';
-import ShowCompany from './views/Companies/Show';
-import CreateJob from './views/Jobs/Create';
-import EditJob from './views/Jobs/Edit';
-import ListJobs from './views/Jobs/Index';
-import ShowJob from './views/Jobs/Show';
-import ListOrders from './views/Orders/Index';
-import ShowOrder from './views/Orders/Show';
-import Dashboard from './views/Dashboard';
-import AllJobs from './views/AllJobs';
+import CreateAlert from './views/Alerts/Create'
+import EditAlert from './views/Alerts/Edit'
+import ListAlerts from './views/Alerts/Index'
+import ShowAlert from './views/Alerts/Show'
+import CreateCompany from './views/Companies/Create'
+import EditCompany from './views/Companies/Edit'
+import ListCompanies from './views/Companies/Index'
+import ShowCompany from './views/Companies/Show'
+import CreateJob from './views/Jobs/Create'
+import EditJob from './views/Jobs/Edit'
+import ListJobs from './views/Jobs/Index'
+import ShowJob from './views/Jobs/Show'
+import ListOrders from './views/Orders/Index'
+import ShowOrder from './views/Orders/Show'
+import Profile from './views/Profile/Show'
+import Dashboard from './views/Dashboard'
+import AllJobs from './views/AllJobs'
 
 export default [
     {
@@ -95,5 +96,10 @@ export default [
         path: '/orders/:id',
         name: 'orders.show',
         component: ShowOrder
+    },
+    {
+        path: '/user/profile',
+        name: 'user.profile',
+        component: Profile
     },
 ];

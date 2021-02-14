@@ -1,13 +1,13 @@
 export default {
-    computed: {
-        App() {
-            return window.App;
-        },
+    data() {
+        return {
+            App: window.App
+        }
     },
 
     methods: {
         __(string) {
-            return this.$t(string);
-        },
-    },
+            return this.$t(string)
+        }
+    }
 }
