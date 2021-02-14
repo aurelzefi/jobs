@@ -1,10 +1,10 @@
 <template>
     <div class="relative">
-        <div v-show="open" class="fixed inset-0" tabindex="-1" @click="open = false"></div>
-
         <div @click="open = ! open">
             <slot name="trigger"></slot>
         </div>
+
+        <div v-show="open" class="fixed inset-0" @click="open = false"></div>
 
         <transition
             enter-active-class="transition ease-out duration-200"
