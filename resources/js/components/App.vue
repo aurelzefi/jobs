@@ -1,13 +1,11 @@
 <template>
-    <div class="min-h-screen bg-gray-100">
+    <div>
         <router-view></router-view>
     </div>
 </template>
 
 <script>
-import Navigation from './Navigation'
-
 export default {
-    components: {Navigation}
+
 }
 </script>

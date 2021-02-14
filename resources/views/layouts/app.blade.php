@@ -17,11 +17,11 @@
         <script src="{{ asset('js/app.js') }}" defer></script>
     </head>
     <body class="font-sans antialiased">
-    <div id="app"></div>
+        <div id="app"></div>
 
-    <!-- Global Application Object -->
-    <script>
-        window.App = @json($data);
-    </script>
+        <!-- Global Application Object -->
+        <script>
+            window.App = @json($data);
+        </script>
     </body>
 </html>
