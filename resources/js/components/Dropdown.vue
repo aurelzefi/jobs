@@ -1,24 +1,25 @@
 <template>
     <div class="relative">
-        <button v-if="open" class="fixed inset-0 h-full w-full cursor-default focus:outline-none" tabindex="-1"
-                @click="$emit('closed')"></button>
-        <div @click="$emit('toggled')">
+        <div v-show="open" class="fixed inset-0" tabindex="-1" @click="open = false"></div>
+
+        <div @click="open = ! open">
             <slot name="trigger"></slot>
         </div>
 
         <transition
-            v-on:enter="transition = 'enter'"
-            v-on:leave="transition = 'leave'"
-            v-on:before-enter="transition = 'before-enter'"
-            v-on:after-enter="transition = 'after-enter'"
-            v-on:before-leave="transition = 'before-leave'"
-            v-on:after-leave="transition = 'after-leave'">
+            enter-active-class="transition ease-out duration-200"
+            enter-class="transform opacity-0 scale-95"
+            enter-to-class="transform opacity-100 scale-100"
+            leave-active-class="transition ease-in duration-75"
+            leave-class="transform opacity-100 scale-100"
+            leave-to-class="transform opacity-0 scale-95">
             <div v-show="open"
-                 :class="[widthClass, alignmentClasses, transitionClasses]"
+                 :class="[widthClass, alignmentClasses]"
                  class="absolute z-50 mt-2 rounded-md shadow-lg"
                  style="display: none;"
                  @click="$emit('closed')">
-                <div :class="contentClasses" class="rounded-md ring-1 ring-black ring-opacity-5">
+                <div :class="contentClasses !== undefined ? contentClasses : 'py-1 bg-white'"
+                     class="rounded-md ring-1 ring-black ring-opacity-5">
                     <slot name="content"></slot>
                 </div>
             </div>
@@ -28,11 +29,11 @@
 
 <script>
 export default {
-    props: ['align', 'width', 'open', 'contentClasses'],
+    props: ['align', 'width', 'contentClasses'],
 
     data() {
         return {
-            transition: ''
+            open: false
         }
     },
 
@@ -53,23 +54,6 @@ export default {
             switch (this.width) {
                 case '48':
                     return 'w-48';
-            }
-        },
-
-        transitionClasses() {
-            switch (this.transition) {
-                case 'before-enter':
-                    return 'transition ease-out duration-200'
-                case 'enter':
-                    return 'transform opacity-0 scale-95'
-                case 'after-enter':
-                    return 'transform opacity-100 scale-100'
-                case 'before-leave':
-                    return 'transition ease-in duration-75'
-                case 'leave':
-                    return 'transform opacity-100 scale-100'
-                case 'after-leave':
-                    return 'transform opacity-0 scale-95'
             }
         }
     }

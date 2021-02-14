@@ -1,5 +1,6 @@
 <template>
     <div>
+        <!-- Navigation Bar -->
         <navigation></navigation>
 
         <!-- Page Heading -->
