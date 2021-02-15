@@ -38,7 +38,7 @@
 
                         <div class="col-span-6 sm:col-span-4">
                             <app-label for="country">{{ __('Country') }}</app-label>
-                            <app-select id="country" class="mt-1 block w-full" :options="countries" :default-option="__('Select a country')" v-model="form.country_id" />
+                            <country-select id="country" class="mt-1 block w-full" v-model="form.country_id" />
                             <app-input-error :message="form.errors.country_id" class="mt-2" />
                         </div>
 
@@ -110,6 +110,7 @@
 import ActionMessage from '../../components/ActionMessage'
 import AppButton from '../../components/Button'
 import AppCheckbox from '../../components/Checkbox'
+import CountrySelect from '../../components/CountrySelect'
 import FormSection from '../../components/FormSection'
 import AppInput from '../../components/Input'
 import AppInputError from '../../components/InputError'
@@ -125,6 +126,7 @@ export default {
         ActionMessage,
         AppButton,
         AppCheckbox,
+        CountrySelect,
         FormSection,
         AppInput,
         AppInputError,
@@ -147,8 +149,7 @@ export default {
                 keywords: ''
             }),
 
-            alertTypes: {},
-            countries: {}
+            alertTypes: {}
         }
     },
 
@@ -158,7 +159,7 @@ export default {
         this.form.job_types = this.App.jobTypes
         this.form.job_styles = this.App.jobStyles
 
-        this.getCountries()
+        this.getAlert()
     },
 
     methods: {
@@ -172,7 +173,7 @@ export default {
                     this.form.type = response.data.type
                     this.form.job_types = response.data.job_types
                     this.form.job_styles = response.data.job_styles
-                    this.form.keywords = response.data.keywords.map(keyword => keyword.word).join(',')
+                    this.form.keywords = this.getKeywords(response.data)
                 })
         },
 
@@ -180,14 +181,9 @@ export default {
             this.form.put(`/api/alerts/${this.alert}`)
         },
 
-        getCountries() {
-            this.$http.get('/api/countries')
-                .then(response => {
-                    this.countries = this.mapValues(response.data, country => country.name)
-
-                    this.getAlert()
-                })
-        },
+        getKeywords(alert) {
+            return alert.keywords.map(keyword => keyword.word).join(',')
+        }
     }
 }
 </script>

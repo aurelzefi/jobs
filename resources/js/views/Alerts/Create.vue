@@ -38,7 +38,7 @@
 
                         <div class="col-span-6 sm:col-span-4">
                             <app-label for="country">{{ __('Country') }}</app-label>
-                            <app-select id="country" class="mt-1 block w-full" :options="countries" :default-option="__('Select a country')" v-model="form.country_id" />
+                            <country-select id="country" class="mt-1 block w-full" v-model="form.country_id" />
                             <app-input-error :message="form.errors.country_id" class="mt-2" />
                         </div>
 
@@ -110,6 +110,7 @@
 import ActionMessage from '../../components/ActionMessage'
 import AppButton from '../../components/Button'
 import AppCheckbox from '../../components/Checkbox'
+import CountrySelect from '../../components/CountrySelect'
 import FormSection from '../../components/FormSection'
 import AppInput from '../../components/Input'
 import AppInputError from '../../components/InputError'
@@ -123,6 +124,7 @@ export default {
         ActionMessage,
         AppButton,
         AppCheckbox,
+        CountrySelect,
         FormSection,
         AppInput,
         AppInputError,
@@ -145,14 +147,11 @@ export default {
                 keywords: ''
             }),
 
-            alertTypes: {},
-            countries: {}
+            alertTypes: {}
         }
     },
 
     mounted() {
-        this.getCountries()
-
         this.alertTypes = this.keyByValues(this.App.alertTypes)
 
         this.form.job_types = this.App.jobTypes
@@ -162,13 +161,6 @@ export default {
     methods: {
         create() {
             this.form.post('/api/alerts')
-        },
-
-        getCountries() {
-            this.$http.get('/api/countries')
-                .then(response => {
-                    this.countries = this.mapValues(response.data, country => country.name)
-                })
         },
     }
 }
