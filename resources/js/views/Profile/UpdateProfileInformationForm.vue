@@ -9,24 +9,26 @@
         </template>
 
         <template #form>
-            <!-- Name -->
             <div class="col-span-6 sm:col-span-4">
                 <app-label for="name">{{ __('Name') }}</app-label>
                 <app-input id="name" type="text" class="mt-1 block w-full" v-model="form.name" autocomplete="name" />
                 <app-input-error :message="form.errors.name" class="mt-2" />
             </div>
 
-            <!-- Email -->
             <div class="col-span-6 sm:col-span-4">
                 <app-label for="email">{{ __('Email') }}</app-label>
                 <app-input id="email" type="email" class="mt-1 block w-full" v-model="form.email" />
-                <app-input-error :message="form.errors.email" class="mt-2" />
+                <app-input-error :message="form.errors.email" class="mt-2" /></app>
             </div>
         </template>
 
         <template #actions>
+            <action-message :on="form.successful" class="mr-3">
+                {{ __('Saved.') }}
+            </action-message>
+
             <app-button :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                Save
+                {{ __('Save') }}
             </app-button>
         </template>
     </form-section>
@@ -54,32 +56,18 @@ export default {
 
     data() {
         return {
-            form: {
+            form: this.$form.create({
                 name: this.user.name,
                 email: this.user.email,
-                errors: {},
-                processing: false,
-                successful: false
-            }
+            })
         }
     },
 
     methods: {
         updateProfileInformation() {
-            this.form.processing = true
-
-            this.$http.put('/api/user/profile', this.form)
-                .then(response => {
-                    this.form.successful = true
-                    this.form.processing = false
-
-                    this.App.user = response.data
-                })
-                .catch(error => {
-                    this.form.processing = false
-                    this.form.successful = false
-                    this.form.errors = error.response.data.errors
-                })
+            this.form.put('/api/user/profile', {
+                onSuccess: (response) => this.App.user = response.data
+            })
         }
     }
 }

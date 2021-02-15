@@ -18,7 +18,7 @@
                  class="absolute z-50 mt-2 rounded-md shadow-lg"
                  style="display: none;"
                  @click="open = false">
-                <div :class="contentClasses !== undefined ? contentClasses : 'py-1 bg-white'" class="rounded-md ring-1 ring-black ring-opacity-5">
+                <div :class="contentClasses" class="rounded-md ring-1 ring-black ring-opacity-5">
                     <slot name="content"></slot>
                 </div>
             </div>
@@ -28,7 +28,17 @@
 
 <script>
 export default {
-    props: ['align', 'width', 'contentClasses'],
+    props: {
+        align: {
+            default: 'right'
+        },
+        width: {
+            default: '48'
+        },
+        contentClasses: {
+            default: () => ['py-1', 'bg-white']
+        }
+    },
 
     data() {
         return {

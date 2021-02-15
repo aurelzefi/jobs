@@ -8,6 +8,6 @@ export default {
     methods: {
         __(string) {
             return this.$t(string)
-        }
+        },
     }
 }

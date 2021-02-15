@@ -11,17 +11,10 @@ import EditJob from './views/Jobs/Edit'
 import ListJobs from './views/Jobs/Index'
 import ShowJob from './views/Jobs/Show'
 import ListOrders from './views/Orders/Index'
-import ShowOrder from './views/Orders/Show'
-import Profile from './views/Profile/Show'
-import Dashboard from './views/Dashboard'
+import EditProfile from './views/Profile/Edit'
 import AllJobs from './views/AllJobs'
 
 export default [
-    {
-        path: '/dashboard',
-        name: 'dashboard',
-        component: Dashboard
-    },
     {
         path: '/jobs/all',
         name: 'jobs.all',
@@ -93,13 +86,8 @@ export default [
         component: ListOrders,
     },
     {
-        path: '/orders/:id',
-        name: 'orders.show',
-        component: ShowOrder
-    },
-    {
         path: '/user/profile',
         name: 'user.profile',
-        component: Profile
+        component: EditProfile
     },
 ];

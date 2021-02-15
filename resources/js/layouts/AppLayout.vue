@@ -7,15 +7,15 @@
                     <div class="flex">
                         <!-- Logo -->
                         <div class="flex-shrink-0 flex items-center">
-                            <router-link :to="{name: 'dashboard'}">
+                            <router-link :to="{name: 'jobs.all'}">
                                 <application-logo class="block h-10 w-auto fill-current text-gray-600"/>
                             </router-link>
                         </div>
 
                         <!-- Navigation Links -->
                         <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                            <nav-link :to="{name: 'dashboard'}">
-                                {{ __('Dashboard') }}
+                            <nav-link :to="{name: 'jobs.all'}">
+                                {{ __('All Jobs') }}
                             </nav-link>
 
                             <nav-link :to="{name: 'alerts.index'}">
@@ -84,8 +84,8 @@
             <!-- Responsive Navigation Menu -->
             <div :class="{'block': open, 'hidden': ! open}" class="sm:hidden">
                 <div class="pt-2 pb-3 space-y-1">
-                    <responsive-nav-link :to="{name: 'dashboard'}" :active="$route.name === 'dashboard'">
-                        {{ __('Dashboard') }}
+                    <responsive-nav-link :to="{name: 'jobs.all'}" :active="$route.name === 'jobs.all'">
+                        {{ __('All Jobs') }}
                     </responsive-nav-link>
 
                     <responsive-nav-link :to="{name: 'alerts.index'}" :active="$route.name === 'alerts.index'">
@@ -139,9 +139,11 @@
         </nav>
 
         <!-- Page Heading -->
-        <app-header>
-            <slot name="header"></slot>
-        </app-header>
+        <header class="bg-white shadow">
+            <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                <slot name="header"></slot>
+            </div>
+        </header>
 
         <!-- Page Content -->
         <main>
@@ -154,7 +156,6 @@
 import ApplicationLogo from './../components/ApplicationLogo'
 import Dropdown from './../components/Dropdown'
 import DropdownLink from './../components/DropdownLink'
-import AppHeader from './../components/../components/Header'
 import NavLink from './../components/NavLink'
 import ResponsiveNavLink from './../components/ResponsiveNavLink'
 
@@ -163,7 +164,6 @@ export default {
         ApplicationLogo,
         Dropdown,
         DropdownLink,
-        AppHeader,
         NavLink,
         ResponsiveNavLink
     },
