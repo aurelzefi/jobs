@@ -18,11 +18,11 @@
 
         <template #actions>
             <action-message :on="form.successful" class="mr-3">
-                {{ __('Saved.') }}
+                {{ __('Updated.') }}
             </action-message>
 
             <app-button :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                {{ __('Save') }}
+                {{ __('Update') }}
             </app-button>
         </template>
     </form-section>

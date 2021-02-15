@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Models\Alert;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 
@@ -15,6 +16,7 @@ class HomeController extends Controller
             'data' => [
                 'user' => $request->user(),
                 'locales' => config('app.locales'),
+                'alertTypes' => Alert::TYPES,
             ],
         ]);
     }
