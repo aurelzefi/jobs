@@ -1,4 +1,17 @@
 {
     "Dashboard": "Dashboard",
-    "Logout": "Logout"
+    "Logout": "Logout",
+    "instant": "Instant",
+    "daily": "Daily",
+    "weekly": "Weekly",
+    "Select a type": "Select a type",
+    "Select a country": "Select a country",
+    "Name": "Name",
+    "Type": "Type",
+    "City": "City",
+    "Country": "Country",
+    "Keywords": "Keywords",
+    "Should Contain All Keywords": "Should Contain All Keywords",
+    "Job Types": "Job Types",
+    "Job Styles": "Job Styles"
 }
