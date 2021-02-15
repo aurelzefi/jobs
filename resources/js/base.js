@@ -9,5 +9,17 @@ export default {
         __(string) {
             return this.$t(string)
         },
+
+        keyByValues(values) {
+            return values.reduce((accumulator, current) => {
+                accumulator[current] = current //.charAt(0).toUpperCase() + current.slice(1)
+
+                return accumulator
+            }, {})
+        },
+
+        mapValues(object, iteratee) {
+            return _.mapValues(object, iteratee)
+        }
     }
 }

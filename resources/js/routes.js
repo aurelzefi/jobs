@@ -31,14 +31,15 @@ export default [
         component: CreateAlert
     },
     {
-        path: '/alerts/:id',
+        path: '/alerts/:alert',
         name: 'alerts.show',
         component: ShowAlert
     },
     {
-        path: '/alerts/:id/edit',
+        path: '/alerts/:alert/edit',
         name: 'alerts.edit',
-        component: EditAlert
+        component: EditAlert,
+        props: true
     },
     {
         path: '/companies',
@@ -51,14 +52,16 @@ export default [
         component: CreateCompany
     },
     {
-        path: '/companies/:id',
+        path: '/companies/:company',
         name: 'companies.show',
-        component: ShowCompany
+        component: ShowCompany,
+        props: true
     },
     {
-        path: '/companies/:id/edit',
+        path: '/companies/:company/edit',
         name: 'companies.edit',
-        component: EditCompany
+        component: EditCompany,
+        props: true
     },
     {
         path: '/jobs',
@@ -71,14 +74,16 @@ export default [
         component: CreateJob
     },
     {
-        path: '/jobs/:id',
+        path: '/jobs/:job',
         name: 'jobs.show',
-        component: ShowJob
+        component: ShowJob,
+        props: true
     },
     {
-        path: '/jobs/:id/edit',
+        path: '/jobs/:job/edit',
         name: 'jobs.edit',
-        component: EditJob
+        component: EditJob,
+        props: true
     },
     {
         path: '/orders',

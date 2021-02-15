@@ -10,8 +10,8 @@
 
         <template #form>
             <div class="col-span-6 sm:col-span-4">
-                <app-label for="current_password">{{ __('Current Password') }}</app-label>
-                <app-input id="current_password" type="password" class="mt-1 block w-full" v-model="form.current_password" autocomplete="current-password" />
+                <app-label for="current-password">{{ __('Current Password') }}</app-label>
+                <app-input id="current-password" type="password" class="mt-1 block w-full" v-model="form.current_password" autocomplete="current-password" />
                 <app-input-error :message="form.errors.current_password" class="mt-2" />
             </div>
 
@@ -22,8 +22,8 @@
             </div>
 
             <div class="col-span-6 sm:col-span-4">
-                <app-label for="password_confirmation">{{ __('Confirm Password') }}</app-label>
-                <app-input id="password_confirmation" type="password" class="mt-1 block w-full" v-model="form.password_confirmation" autocomplete="new-password" />
+                <app-label for="password-confirmation">{{ __('Confirm Password') }}</app-label>
+                <app-input id="password-confirmation" type="password" class="mt-1 block w-full" v-model="form.password_confirmation" autocomplete="new-password" />
                 <app-input-error :message="form.errors.password_confirmation" class="mt-2" />
             </div>
         </template>

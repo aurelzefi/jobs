@@ -35,7 +35,7 @@ class AlertsController extends Controller
     {
         $this->authorize('view', $alert);
 
-        return response()->json($alert);
+        return response()->json($alert->load('keywords'));
     }
 
     public function update(AlertRequest $request, Alert $alert): JsonResponse
