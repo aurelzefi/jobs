@@ -21,8 +21,6 @@
 
                 <div>
                     <update-language-form :user="App.user" :locales="App.locales"/>
-
-                    <section-border />
                 </div>
             </div>
         </div>
