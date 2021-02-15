@@ -18,16 +18,16 @@ class UserPasswordRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'password' => 'required|string|min:6',
-            'new_password' => 'required|string|min:6|confirmed',
+            'current_password' => 'required|string|min:6',
+            'password' => 'required|string|min:6|confirmed',
         ];
     }
 
     public function validatePassword(): void
     {
-        if (! Hash::check($this->input('password'), $this->user()->password)) {
+        if (! Hash::check($this->input('current_password'), $this->user()->password)) {
             throw ValidationException::withMessages([
-                'password' => __('The current password does not match.'),
+                'current_password' => __('The current password does not match.'),
             ]);
         }
     }
