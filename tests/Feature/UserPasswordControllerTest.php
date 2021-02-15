@@ -26,7 +26,7 @@ class UserPasswordControllerTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $this->actingAs($user)->post('/api/user/password', [
+        $this->actingAs($user)->put('/api/user/password', [
             'password' => 'password',
             'new_password' => 'new-password',
             'new_password_confirmation' => 'new-password',

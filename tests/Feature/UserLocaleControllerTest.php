@@ -27,7 +27,7 @@ class UserLocaleControllerTest extends TestCase
             'locale' => 'al',
         ]);
 
-        $response = $this->actingAs($user)->post('/api/user/locale', [
+        $response = $this->actingAs($user)->put('/api/user/locale', [
             'locale' => 'en',
         ]);
 

@@ -24,6 +24,6 @@ class SetLocale
 
     protected function hasInvalidLocale(Request $request): bool
     {
-        return ! in_array($request->route('locale'), config('app.locales'));
+        return ! in_array($request->route('locale'), array_keys(config('app.locales')));
     }
 }

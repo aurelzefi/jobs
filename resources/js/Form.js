@@ -18,15 +18,15 @@ export default class Form {
         return _.mapValues(errors, error => error[0])
     }
 
-    post(uri, {onSuccess, onFailure}) {
+    post(uri, {onSuccess, onFailure} = {}) {
         this.action('post', uri, onSuccess, onFailure)
     }
 
-    put(uri, {onSuccess, onFailure}) {
+    put(uri, {onSuccess, onFailure} = {}) {
         this.action('put', uri, onSuccess, onFailure)
     }
 
-    delete(uri, {onSuccess, onFailure}) {
+    delete(uri, {onSuccess, onFailure} = {}) {
         this.action('delete', uri, onSuccess, onFailure)
     }
 

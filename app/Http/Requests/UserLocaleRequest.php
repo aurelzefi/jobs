@@ -17,7 +17,7 @@ class UserLocaleRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'locale' => ['required', Rule::in(config('app.locales'))],
+            'locale' => ['required', Rule::in(array_keys(config('app.locales')))],
         ];
     }
 }

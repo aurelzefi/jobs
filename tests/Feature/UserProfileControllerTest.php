@@ -26,7 +26,7 @@ class UserProfileControllerTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $response = $this->actingAs($user)->post('/api/user/profile', [
+        $response = $this->actingAs($user)->put('/api/user/profile', [
             'name' => 'Test User',
             'email' => 'test@example.com',
         ]);

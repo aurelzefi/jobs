@@ -247,7 +247,7 @@ return [
 
     // Locales
     'locales' => [
-        'al',
-        'en',
-    ]
+        'al' => 'Albanian',
+        'en' => 'English',
+    ],
 ];

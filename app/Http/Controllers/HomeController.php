@@ -14,6 +14,7 @@ class HomeController extends Controller
         return view('layouts.app', [
             'data' => [
                 'user' => $request->user(),
+                'locales' => config('app.locales'),
             ],
         ]);
     }

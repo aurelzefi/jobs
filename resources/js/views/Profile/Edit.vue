@@ -20,7 +20,7 @@
                 </div>
 
                 <div>
-                    <update-language-form/>
+                    <update-language-form :user="App.user" :locales="App.locales"/>
 
                     <section-border />
                 </div>
