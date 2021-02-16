@@ -18,26 +18,28 @@
                                 {{ __('All Jobs') }}
                             </nav-link>
 
-                            <nav-link :to="{name: 'alerts.index'}" :active="$route.name.includes('alerts')">
-                                {{ __('Alerts') }}
-                            </nav-link>
+                            <template v-if="App.user">
+                                <nav-link :to="{name: 'alerts.index'}" :active="$route.name.includes('alerts')">
+                                    {{ __('Alerts') }}
+                                </nav-link>
 
-                            <nav-link :to="{name: 'companies.index'}" :active="$route.name.includes('companies')">
-                                {{ __('Companies') }}
-                            </nav-link>
+                                <nav-link :to="{name: 'companies.index'}" :active="$route.name.includes('companies')">
+                                    {{ __('Companies') }}
+                                </nav-link>
 
-                            <nav-link :to="{name: 'jobs.index'}" :active="['jobs.index', 'jobs.create', 'jobs.edit'].includes($route.name)">
-                                {{ __('Jobs') }}
-                            </nav-link>
+                                <nav-link :to="{name: 'jobs.index'}" :active="['jobs.index', 'jobs.create', 'jobs.edit'].includes($route.name)">
+                                    {{ __('Jobs') }}
+                                </nav-link>
 
-                            <nav-link :to="{name: 'orders.index'}" :active="$route.name.includes('orders')">
-                                {{ __('Orders') }}
-                            </nav-link>
+                                <nav-link :to="{name: 'orders.index'}" :active="$route.name.includes('orders')">
+                                    {{ __('Orders') }}
+                                </nav-link>
+                            </template>
                         </div>
                     </div>
 
                     <!-- Settings Dropdown -->
-                    <div class="hidden sm:flex sm:items-center sm:ml-6">
+                    <div class="hidden sm:flex sm:items-center sm:ml-6" v-if="App.user">
                         <dropdown align="right" width="48">
                             <template #trigger>
                                 <button class="flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out">
@@ -69,6 +71,19 @@
                         </dropdown>
                     </div>
 
+                    <div class="flex" v-else>
+                        <!-- Navigation Links -->
+                        <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                            <a :href="loginLink" class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out">
+                                {{ __('Login') }}
+                            </a>
+
+                            <a :href="registerLink" class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out">
+                                {{ __('Register') }}
+                            </a>
+                        </div>
+                    </div>
+
                     <!-- Hamburger -->
                     <div class="-mr-2 flex items-center sm:hidden">
                         <button class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out" @click="open = ! open">
@@ -88,25 +103,37 @@
                         {{ __('All Jobs') }}
                     </responsive-nav-link>
 
-                    <responsive-nav-link :to="{name: 'alerts.index'}" :active="$route.name.includes('alerts')">
-                        {{ __('Alerts') }}
-                    </responsive-nav-link>
+                    <template v-if="App.user">
+                        <responsive-nav-link :to="{name: 'alerts.index'}" :active="$route.name.includes('alerts')">
+                            {{ __('Alerts') }}
+                        </responsive-nav-link>
 
-                    <responsive-nav-link :to="{name: 'companies.index'}" :active="$route.name.includes('companies')">
-                        {{ __('Companies') }}
-                    </responsive-nav-link>
+                        <responsive-nav-link :to="{name: 'companies.index'}" :active="$route.name.includes('companies')">
+                            {{ __('Companies') }}
+                        </responsive-nav-link>
 
-                    <responsive-nav-link :to="{name: 'jobs.index'}" :active="['jobs.index', 'jobs.create', 'jobs.edit'].includes($route.name)">
-                        {{ __('Jobs') }}
-                    </responsive-nav-link>
+                        <responsive-nav-link :to="{name: 'jobs.index'}" :active="['jobs.index', 'jobs.create', 'jobs.edit'].includes($route.name)">
+                            {{ __('Jobs') }}
+                        </responsive-nav-link>
 
-                    <responsive-nav-link :to="{name: 'orders.index'}" :active="$route.name.includes('orders')">
-                        {{ __('Orders') }}
-                    </responsive-nav-link>
+                        <responsive-nav-link :to="{name: 'orders.index'}" :active="$route.name.includes('orders')">
+                            {{ __('Orders') }}
+                        </responsive-nav-link>
+                    </template>
+
+                    <template v-else>
+                        <a :href="loginLink" class="block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:text-gray-800 hover:bg-gray-50 hover:border-gray-300 focus:outline-none focus:text-gray-800 focus:bg-gray-50 focus:border-gray-300 transition duration-150 ease-in-out">
+                            {{ __('Login') }}
+                        </a>
+
+                        <a :href="registerLink" class="block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:text-gray-800 hover:bg-gray-50 hover:border-gray-300 focus:outline-none focus:text-gray-800 focus:bg-gray-50 focus:border-gray-300 transition duration-150 ease-in-out">
+                            {{ __('Register') }}
+                        </a>
+                    </template>
                 </div>
 
                 <!-- Responsive Settings Options -->
-                <div class="pt-4 pb-1 border-t border-gray-200">
+                <div class="pt-4 pb-1 border-t border-gray-200" v-if="App.user">
                     <div class="flex items-center px-4">
                         <div class="flex-shrink-0">
                             <svg class="h-10 w-10 fill-current text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -177,6 +204,14 @@ export default {
     computed: {
         csrfToken() {
             return document.head.querySelector('meta[name="csrf-token"]').content
+        },
+
+        loginLink() {
+            return `/${document.documentElement.lang}/login`
+        },
+
+        registerLink() {
+            return `/${document.documentElement.lang}/register`
         },
 
         logoutLink() {
