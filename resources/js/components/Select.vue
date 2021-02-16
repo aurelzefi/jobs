@@ -1,5 +1,5 @@
 <template>
-    <select v-model="proxySelected" class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm">
+    <select v-model="proxyValue" class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm">
         <option value="">{{ defaultOption }}</option>
 
         <option :value="key" v-for="(value, key) in options">
@@ -11,28 +11,26 @@
 <script>
 export default {
     model: {
-        prop: 'selected',
+        prop: 'value',
         event: 'change',
     },
 
     props: {
         options: {
-            type: Object
+            default: {}
         },
         defaultOption: {
-            type: String,
             default: ''
         },
-        selected: {
-            type: [String, Number],
+        value: {
             default: ''
         }
     },
 
     computed: {
-        proxySelected: {
+        proxyValue: {
             get() {
-                return this.selected;
+                return this.value;
             },
             set(val) {
                 this.$emit('change', val);

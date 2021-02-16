@@ -1,5 +1,5 @@
 <template>
-    <app-select :options="countries" :default-option="__('Select a country')" v-model="proxySelected" />
+    <app-select :options="countries" :default-option="__('Select a country')" v-model="proxyValue" />
 </template>
 
 <script>
@@ -7,13 +7,12 @@ import AppSelect from '../components/Select'
 
 export default {
     model: {
-        prop: 'selected',
+        prop: 'value',
         event: 'change',
     },
 
     props: {
-        selected: {
-            type: [String, Number],
+        value: {
             default: ''
         }
     },
@@ -21,9 +20,9 @@ export default {
     components: {AppSelect},
 
     computed: {
-        proxySelected: {
+        proxyValue: {
             get() {
-                return this.selected;
+                return this.value;
             },
             set(val) {
                 this.$emit('change', val);
