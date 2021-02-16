@@ -12,7 +12,7 @@ export default {
 
         keyByValues(values) {
             return values.reduce((accumulator, current) => {
-                accumulator[current] = current //.charAt(0).toUpperCase() + current.slice(1)
+                accumulator[current] = current
 
                 return accumulator
             }, {})
