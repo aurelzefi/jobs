@@ -13,5 +13,8 @@
     "Keywords": "Keywords",
     "Should Contain All Keywords": "Should Contain All Keywords",
     "Job Types": "Job Types",
-    "Job Styles": "Job Styles"
+    "Job Styles": "Job Styles",
+    "office": "Office",
+    "remote": "Remote",
+    "optional": "Optional"
 }

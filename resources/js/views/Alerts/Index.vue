@@ -10,11 +10,11 @@
             <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
                 <action-section>
                     <template #title>
-                        Alerts
+                        {{ __('Alerts') }}
                     </template>
 
                     <template #description>
-                        Description Here
+                        {{ __('Description Here') }}
                     </template>
 
                     <template #actions>
@@ -24,7 +24,7 @@
                     </template>
 
                     <template #content>
-                        <div class="space-y-6">
+                        <div class="space-y-6" v-if="alerts.length">
                             <div class="flex items-center justify-between" v-for="alert in alerts" :key="alert.id">
                                 <div>
                                     {{ alert.name }}
@@ -40,6 +40,10 @@
                                     </button>
                                 </div>
                             </div>
+                        </div>
+
+                        <div v-else>
+                            {{ __('You have not created any alerts yet.') }}
                         </div>
                     </template>
                 </action-section>

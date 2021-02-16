@@ -39,6 +39,25 @@ const router = new VueRouter({
     base: `/${locale}`
 })
 
+router.beforeEach((to, from, next) => {
+    if (to.matched.some(record => record.meta.middleware === 'auth')) {
+        if (window.App.user) {
+            next()
+        } else {
+            window.location.replace(`/${locale}/login`)
+        }
+    } else if (to.matched.some(record => record.meta.middleware === 'guest')) {
+        if (window.App.user) {
+            window.location.replace(`/${locale}/jobs/all`)
+        } else {
+            next()
+        }
+    } else {
+        next()
+    }
+})
+
+
 new Vue({
     el: '#app',
     i18n,

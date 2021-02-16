@@ -3,7 +3,7 @@
     "Logout": "Logout",
     "instant": "I mwnjwhershwm",
     "daily": "I pwrditshwm",
-    "weekly": "E pwrjavshme",
+    "weekly": "I pwrjavshwm",
     "Select a type": "Zgjidh njw tip",
     "Select a country": "Zgjidh njw shtet",
     "Name": "Emri",
@@ -13,5 +13,8 @@
     "Keywords": "Fjalwt ky@e",
     "Should Contain All Keywords": "Duhet ti pwrmbajw tw gjitha fjalwt ky@e",
     "Job Types": "Tipet e punwve",
-    "Job Styles": "Stilet e punwve"
+    "Job Styles": "Stilet e punwve",
+    "office": "Nw zyrw",
+    "remote": "Nw distancw",
+    "optional": "Opsional"
 }

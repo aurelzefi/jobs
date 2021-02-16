@@ -18,81 +18,121 @@ export default [
     {
         path: '/jobs/all',
         name: 'jobs.all',
-        component: AllJobs
+        component: AllJobs,
     },
     {
         path: '/alerts',
         name: 'alerts.index',
-        component: ListAlerts
+        component: ListAlerts,
+        meta: {
+            middleware: 'auth'
+        }
     },
     {
         path: '/alerts/create',
         name: 'alerts.create',
-        component: CreateAlert
+        component: CreateAlert,
+        meta: {
+            middleware: 'auth'
+        }
     },
     {
         path: '/alerts/:alert',
         name: 'alerts.show',
-        component: ShowAlert
+        component: ShowAlert,
+        meta: {
+            middleware: 'auth'
+        }
     },
     {
         path: '/alerts/:alert/edit',
         name: 'alerts.edit',
         component: EditAlert,
-        props: true
+        props: true,
+        meta: {
+            middleware: 'auth'
+        }
     },
     {
         path: '/companies',
         name: 'companies.index',
-        component: ListCompanies
+        component: ListCompanies,
+        middleware: 'auth'
     },
     {
         path: '/companies/create',
         name: 'companies.create',
-        component: CreateCompany
+        component: CreateCompany,
+        meta: {
+            middleware: 'auth'
+        }
     },
     {
         path: '/companies/:company',
         name: 'companies.show',
         component: ShowCompany,
-        props: true
+        props: true,
+        meta: {
+            middleware: 'auth'
+        }
     },
     {
         path: '/companies/:company/edit',
         name: 'companies.edit',
         component: EditCompany,
-        props: true
+        props: true,
+        meta: {
+            middleware: 'auth'
+        }
     },
     {
         path: '/jobs',
         name: 'jobs.index',
-        component: ListJobs
+        component: ListJobs,
+        meta: {
+            middleware: 'auth'
+        }
     },
     {
         path: '/jobs/create',
         name: 'jobs.create',
-        component: CreateJob
+        component: CreateJob,
+        meta: {
+            middleware: 'auth'
+        }
     },
     {
         path: '/jobs/:job',
         name: 'jobs.show',
         component: ShowJob,
-        props: true
+        props: true,
+        meta: {
+            middleware: 'auth'
+        }
     },
     {
         path: '/jobs/:job/edit',
         name: 'jobs.edit',
         component: EditJob,
-        props: true
+        props: true,
+        meta: {
+            middleware: 'auth'
+        }
     },
     {
         path: '/orders',
         name: 'orders.index',
         component: ListOrders,
+        meta: {
+            middleware: 'auth'
+        }
     },
     {
         path: '/user/profile',
         name: 'user.profile',
-        component: EditProfile
+        component: EditProfile,
+        meta: {
+            middleware: 'auth'
+        }
     },
 ];

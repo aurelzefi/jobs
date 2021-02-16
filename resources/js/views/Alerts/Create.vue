@@ -8,7 +8,7 @@
 
         <div>
             <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
-                <form-section @submitted="create">
+                <form-section @submitted="store">
                     <template #title>
                         {{ __('Title') }}
                     </template>
@@ -73,6 +73,8 @@
                                     </label>
                                 </div>
                             </div>
+
+                            <app-input-error :message="form.errors.job_types" class="mt-2" />
                         </div>
 
                         <div class="col-span-6 sm:col-span-4">
@@ -88,6 +90,8 @@
                                     </label>
                                 </div>
                             </div>
+
+                            <app-input-error :message="form.errors.job_styles" class="mt-2" />
                         </div>
                     </template>
 
@@ -155,7 +159,7 @@ export default {
     },
 
     methods: {
-        create() {
+        store() {
             this.form.post('/api/alerts', {
                 onSuccess: () => this.$router.push({name: 'alerts.index'})
             })

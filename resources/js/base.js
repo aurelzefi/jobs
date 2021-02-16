@@ -17,9 +17,5 @@ export default {
                 return accumulator
             }, {})
         },
-
-        mapValues(object, iteratee) {
-            return _.mapValues(object, iteratee)
-        }
     }
 }

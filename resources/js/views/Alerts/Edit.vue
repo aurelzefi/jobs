@@ -73,6 +73,8 @@
                                     </label>
                                 </div>
                             </div>
+
+                            <app-input-error :message="form.errors.job_types" class="mt-2" />
                         </div>
 
                         <div class="col-span-6 sm:col-span-4">
@@ -88,6 +90,7 @@
                                     </label>
                                 </div>
                             </div>
+                            <app-input-error :message="form.errors.job_styles" class="mt-2" />
                         </div>
                     </template>
 

@@ -1,5 +1,5 @@
 <template>
-    <app-select :options="countries" :default-option="__('Select a country')" v-model="proxyValue" />
+    <app-select :options="companies" :default-option="__('Select a company')" v-model="proxyValue" />
 </template>
 
 <script>
@@ -33,19 +33,23 @@ export default {
 
     data() {
         return {
-            countries: {}
+            companies: []
         }
     },
 
     mounted() {
-        this.getCountries()
+        this.getCompanies()
     },
 
     methods: {
-        getCountries() {
-            this.$http.get('/api/countries')
+        getCompanies() {
+            this.$http.get('/api/companies')
                 .then(response => {
-                    this.countries = _.mapValues(response.data, country => country.name)
+                    this.companies = _.mapValues(_.mapKeys(response.data, company => {
+                        return company.id
+                    }), company => {
+                        return company.name
+                    })
                 })
         },
     }
