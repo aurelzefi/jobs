@@ -92,10 +92,6 @@
                     </template>
 
                     <template #actions>
-                        <action-message :on="form.successful" class="mr-3">
-                            {{ __('Updated.') }}
-                        </action-message>
-
                         <app-button :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                             {{ __('Update') }}
                         </app-button>
@@ -178,7 +174,9 @@ export default {
         },
 
         update() {
-            this.form.put(`/api/alerts/${this.alert}`)
+            this.form.put(`/api/alerts/${this.alert}`, {
+                onSuccess: () => this.$router.push({name: 'alerts.index'})
+            })
         },
 
         getKeywords(alert) {

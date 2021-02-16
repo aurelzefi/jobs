@@ -14,23 +14,23 @@
 
                         <!-- Navigation Links -->
                         <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                            <nav-link :to="{name: 'jobs.all'}">
+                            <nav-link :to="{name: 'jobs.all'}" :active="$route.name.includes('jobs.all')">
                                 {{ __('All Jobs') }}
                             </nav-link>
 
-                            <nav-link :to="{name: 'alerts.index'}">
+                            <nav-link :to="{name: 'alerts.index'}" :active="$route.name.includes('alerts')">
                                 {{ __('Alerts') }}
                             </nav-link>
 
-                            <nav-link :to="{name: 'companies.index'}">
+                            <nav-link :to="{name: 'companies.index'}" :active="$route.name.includes('companies')">
                                 {{ __('Companies') }}
                             </nav-link>
 
-                            <nav-link :to="{name: 'jobs.index'}">
+                            <nav-link :to="{name: 'jobs.index'}" :active="['jobs.index', 'jobs.create', 'jobs.edit'].includes($route.name)">
                                 {{ __('Jobs') }}
                             </nav-link>
 
-                            <nav-link :to="{name: 'orders.index'}">
+                            <nav-link :to="{name: 'orders.index'}" :active="$route.name.includes('orders')">
                                 {{ __('Orders') }}
                             </nav-link>
                         </div>
@@ -58,7 +58,7 @@
 
                                 <!-- Authentication -->
                                 <form :action="logoutLink" method="POST">
-                                    <input :value="csrfToken" name="_token" type="hidden">
+                                    <input name="_token" type="hidden" :value="csrfToken">
 
                                     <dropdown-link as="button"
                                                    onclick="event.preventDefault(); this.closest('form').submit();">
@@ -84,23 +84,23 @@
             <!-- Responsive Navigation Menu -->
             <div :class="{'block': open, 'hidden': ! open}" class="sm:hidden">
                 <div class="pt-2 pb-3 space-y-1">
-                    <responsive-nav-link :to="{name: 'jobs.all'}" :active="$route.name === 'jobs.all'">
+                    <responsive-nav-link :to="{name: 'jobs.all'}" :active="$route.name.includes('jobs.all')">
                         {{ __('All Jobs') }}
                     </responsive-nav-link>
 
-                    <responsive-nav-link :to="{name: 'alerts.index'}" :active="$route.name === 'alerts.index'">
+                    <responsive-nav-link :to="{name: 'alerts.index'}" :active="$route.name.includes('alerts')">
                         {{ __('Alerts') }}
                     </responsive-nav-link>
 
-                    <responsive-nav-link :to="{name: 'companies.index'}" :active="$route.name === 'companies.index'">
+                    <responsive-nav-link :to="{name: 'companies.index'}" :active="$route.name.includes('companies')">
                         {{ __('Companies') }}
                     </responsive-nav-link>
 
-                    <responsive-nav-link :to="{name: 'jobs.index'}" :active="$route.name === 'jobs.index'">
+                    <responsive-nav-link :to="{name: 'jobs.index'}" :active="['jobs.index', 'jobs.create', 'jobs.edit'].includes($route.name)">
                         {{ __('Jobs') }}
                     </responsive-nav-link>
 
-                    <responsive-nav-link :to="{name: 'orders.index'}" :active="$route.name === 'orders.index'">
+                    <responsive-nav-link :to="{name: 'orders.index'}" :active="$route.name.includes('orders')">
                         {{ __('Orders') }}
                     </responsive-nav-link>
                 </div>
@@ -127,7 +127,7 @@
 
                         <!-- Authentication -->
                         <form :action="logoutLink" method="POST">
-                            <input :value="csrfToken" name="_token" type="hidden">
+                            <input name="_token" type="hidden" :value="csrfToken">
 
                             <responsive-nav-link as="button" onclick="event.preventDefault(); this.closest('form').submit();">
                                 {{ __('Logout') }}

@@ -29,7 +29,8 @@ const i18n = new VueI18n({
     messages: {
         al: AlLocale,
         en: EnLocale,
-    }
+    },
+    silentTranslationWarn: true // temporary
 })
 
 const router = new VueRouter({

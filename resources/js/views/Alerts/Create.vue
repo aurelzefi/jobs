@@ -92,10 +92,6 @@
                     </template>
 
                     <template #actions>
-                        <action-message :on="form.successful" class="mr-3">
-                            {{ __('Saved.') }}
-                        </action-message>
-
                         <app-button :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                             {{ __('Save') }}
                         </app-button>
@@ -160,7 +156,9 @@ export default {
 
     methods: {
         create() {
-            this.form.post('/api/alerts')
+            this.form.post('/api/alerts', {
+                onSuccess: () => this.$router.push({name: 'alerts.index'})
+            })
         },
     }
 }
