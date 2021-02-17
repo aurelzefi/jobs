@@ -27,6 +27,10 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
         'email_verified_at' => 'datetime',
     ];
 
+    protected $appends = [
+        'is_eligible_for_free_order',
+    ];
+
     public function companies(): HasMany
     {
         return $this->hasMany(Company::class);
@@ -45,6 +49,11 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
     public function isEligibleForFreeOrder(): bool
     {
         return Order::forUser($this)->free()->count() < config('app.free_orders_amount');
+    }
+
+    public function getIsEligibleForFreeOrderAttribute(): bool
+    {
+        return $this->isEligibleForFreeOrder();
     }
 
     public function preferredLocale(): string

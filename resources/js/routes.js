@@ -2,6 +2,7 @@ import CreateAlert from './views/Alerts/Create'
 import EditAlert from './views/Alerts/Edit'
 import ListAlerts from './views/Alerts/Index'
 import ShowAlert from './views/Alerts/Show'
+import Checkout from './views/Checkout/Index'
 import CreateCompany from './views/Companies/Create'
 import EditCompany from './views/Companies/Edit'
 import ListCompanies from './views/Companies/Index'
@@ -120,6 +121,15 @@ export default [
         }
     },
     {
+        path: '/jobs/:job/checkout',
+        name: 'checkout.index',
+        component: Checkout,
+        props: true,
+        meta: {
+            middleware: 'auth'
+        }
+    },
+    {
         path: '/orders',
         name: 'orders.index',
         component: ListOrders,
@@ -134,5 +144,5 @@ export default [
         meta: {
             middleware: 'auth'
         }
-    },
+    }
 ];

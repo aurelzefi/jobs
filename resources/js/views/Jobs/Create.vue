@@ -68,13 +68,19 @@
                     </template>
 
                     <template #actions>
-                        <div class="flex items-center justify-between">
-                            <paypal-smart-buttons />
+                        <app-button  v-if="App.user.is_eligible_for_free_order">
+                            {{ __('Save And Post For Free') }}
+                        </app-button>
 
-                            <div class="">
+                        <templatev v-else>
+                            <app-button :class="{ 'opacity-25': form.processing }" :disabled="form.processing" @click.native="checkout = false">
                                 {{ __('Save') }}
-                            </div>
-                        </div>
+                            </app-button>
+
+                            <app-button class="ml-2" :class="{ 'opacity-25': form.processing }" :disabled="form.processing" @click.native="checkout = true">
+                                {{ __('Save And Checkout') }}
+                            </app-button>
+                        </templatev>
                     </template>
                 </form-section>
             </div>
@@ -127,8 +133,11 @@ export default {
                 type: '',
                 style: ''
             }),
+
             jobTypes: {},
             jobStyles: {},
+
+            checkout: false
         }
     },
 
@@ -141,7 +150,9 @@ export default {
         store() {
             this.form.post('/api/jobs', {
                 onSuccess: () => {
-
+                    this.$router.push({
+                        name: this.checkout ? 'checkout.index' : 'jobs.index'
+                    })
                 }
             })
         },
