@@ -42,6 +42,10 @@ class Job extends Model
 
     protected $guarded = [];
 
+    protected $appends  = [
+        'is_active',
+    ];
+
     public function company(): BelongsTo
     {
         return $this->belongsTo(Company::class);
@@ -55,5 +59,15 @@ class Job extends Model
     public function orders(): HasMany
     {
         return $this->hasMany(Order::class);
+    }
+
+    public function isActive(): bool
+    {
+        return $this->orders()->whereDate('paid_at', '>=', now()->subMonth()->toDateString())->exists();
+    }
+
+    public function getIsActiveAttribute(): bool
+    {
+        return $this->isActive();
     }
 }

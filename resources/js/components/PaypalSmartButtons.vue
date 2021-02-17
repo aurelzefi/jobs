@@ -25,26 +25,13 @@ export default {
     methods: {
         mountButtons() {
             window.paypal.Buttons({
-                createOrder: () => {
-                    return this.$http.post(`/api/jobs/${this.job}/orders`, {type: this.form.type})
-                        .then(response => {
-                            this.order = response.data
-
-                            return response.data.paypal_order_id
-                        })
-                },
-                onApprove: () => {
-                    return this.$http.put(`/api/orders/${this.order.id}/capture`)
-                        .then(() => {
-                            this.$router.push({name: 'jobs.all'})
-                        })
-                }
+                createOrder: () => this.createOrder(),
+                onApprove: () => this.onApprove()
             }).render(`#paypal-smart-buttons-${this.elementId}`)
         },
 
         randomString(length = 5) {
             let randomChars = 'abcdefghijklmnopqrstuvwxyz'
-
             let result = ''
 
             for (let i = 0; i < length; i++) {
@@ -52,6 +39,32 @@ export default {
             }
 
             return result
+        },
+
+        createOrder() {
+            return this.$http.post(`/api/jobs/${this.job.id}/orders`, {type: this.form.type})
+                .then(response => {
+                    this.order = response.data
+
+                    return response.data.paypal_order_id
+                })
+                .catch(() => {
+                    this.$root.banner.style = 'danger'
+                    this.$root.banner.message = this.__('The payment for this order has failed. Please try again.')
+                })
+        },
+
+        onApprove() {
+            return this.$http.put(`/api/orders/${this.order.id}/capture`)
+                .then(() => {
+                    this.$root.banner.message = this.__('Your order has been successfully completed.')
+
+                    this.$router.push({name: 'jobs.all'})
+                })
+                .catch(() => {
+                    this.$root.banner.style = 'danger'
+                    this.$root.banner.message = this.__('The payment for this order has failed. Please try again.')
+                })
         }
     }
 }

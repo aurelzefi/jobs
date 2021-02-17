@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Paypal;
 
-use App\Models\Order as EloquentOrder;
 use PayPalCheckoutSdk\Core\PayPalHttpClient;
 use PayPalCheckoutSdk\Core\SandboxEnvironment;
 use PayPalCheckoutSdk\Orders\OrdersCaptureRequest;
@@ -12,7 +11,11 @@ use PayPalCheckoutSdk\Orders\OrdersCreateRequest;
 
 class Payment
 {
-    protected $order;
+    protected $id;
+
+    protected $type;
+
+    protected $amount;
 
     protected function client(): PayPalHttpClient
     {
@@ -24,9 +27,23 @@ class Payment
         );
     }
 
-    public function forOrder(EloquentOrder $order): self
+    public function withId(string $id): self
     {
-        $this->order = $order;
+        $this->id = $id;
+
+        return $this;
+    }
+
+    public function withType(string $type): self
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    public function withAmount(int $amount): self
+    {
+        $this->amount = $amount;
 
         return $this;
     }
@@ -46,7 +63,7 @@ class Payment
 
     public function capture(): Order
     {
-        $request = new OrdersCaptureRequest($this->order->paypal_order_id);
+        $request = new OrdersCaptureRequest($this->id);
 
         return new Order(
             $this->client()->execute($request)
@@ -64,10 +81,10 @@ class Payment
             ],
             'purchase_units' => [
                 [
-                    'description' => sprintf('%s - %s Job Post', config('app.name'), ucfirst($this->order->type)),
+                    'description' => sprintf('%s - %s Job Post', config('app.name'), ucfirst($this->type)),
                     'amount' => [
                         'currency_code' => 'EUR',
-                        'value' => (string) $this->order->amount / 100,
+                        'value' => $this->amount / 100,
                     ]
                 ],
             ],

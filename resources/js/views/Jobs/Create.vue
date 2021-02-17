@@ -59,28 +59,20 @@
                             <country-select id="country" class="mt-1 block w-full" v-model="form.country_id" />
                             <app-input-error :message="form.errors.country_id" class="mt-2" />
                         </div>
-
-                        <div class="col-span-6 sm:col-span-4">
-                            <app-label for="order-type">{{ __('Order Type') }}</app-label>
-                            <app-select id="order-type" class="mt-1 block w-full" :options="jobTypes" :default-option="__('Select a type')" v-model="form.type" />
-                            <app-input-error :message="form.errors.country_id" class="mt-2" />
-                        </div>
                     </template>
 
                     <template #actions>
-                        <app-button  v-if="App.user.is_eligible_for_free_order">
-                            {{ __('Save And Post For Free') }}
+                        <div class="text-sm text-gray-600" v-if="App.user.free_orders_left > 0">
+                            {{ __(`You are eligible for ${App.user.free_orders_left} more free orders`) }}
+                        </div>
+
+                        <app-button class="ml-3" :class="{ 'opacity-25': form.processing }" :disabled="form.processing" @click.native="checkout = false">
+                            {{ __('Save') }}
                         </app-button>
 
-                        <templatev v-else>
-                            <app-button :class="{ 'opacity-25': form.processing }" :disabled="form.processing" @click.native="checkout = false">
-                                {{ __('Save') }}
-                            </app-button>
-
-                            <app-button class="ml-2" :class="{ 'opacity-25': form.processing }" :disabled="form.processing" @click.native="checkout = true">
-                                {{ __('Save And Checkout') }}
-                            </app-button>
-                        </templatev>
+                        <app-button class="ml-3" :class="{ 'opacity-25': form.processing }" :disabled="form.processing" @click.native="checkout = true">
+                            {{ __('Save And Checkout') }}
+                        </app-button>
                     </template>
                 </form-section>
             </div>

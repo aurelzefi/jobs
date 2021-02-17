@@ -6,38 +6,79 @@
             </h2>
         </template>
 
-        <div>
+        <div v-if="job">
             <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
-                <div>
-                    <create-basic-order-form :job="job" />
+                <template v-if="job.is_active">
+                    <action-section>
+                        <template #title>
+                            {{ __('Basic Order') }}
+                        </template>
 
-                    <section-border />
-                </div>
+                        <template #description>
+                            {{ __('Description here') }}
+                        </template>
 
-                <div>
-                    <create-pinned-order-form class="mt-10 sm:mt-0" :job="job" />
+                        <template #content>
+                            <div class="max-w-xl text-sm text-gray-600">
+                                {{ __('This job is already active. No action is required.') }}
+                            </div>
+                        </template>
+                    </action-section>
+                </template>
 
-                    <section-border />
-                </div>
+                <template v-else>
+                    <div>
+                        <create-basic-order-form :job="job" />
+
+                        <section-border />
+                    </div>
+
+                    <div>
+                        <create-pinned-order-form class="mt-10 sm:mt-0" :job="job" />
+
+                        <section-border />
+                    </div>
+                </template>
             </div>
         </div>
     </app-layout>
 </template>
 
 <script>
+import ActionSection from '../../components/ActionSection'
 import SectionBorder from '../../components/SectionBorder'
 import AppLayout from '../../layouts/AppLayout'
 import CreateBasicOrderForm from './CreateBasicOrderForm'
 import CreatePinnedOrderForm from './CreatePinnedOrderForm'
 
 export default {
-    props: ['job'],
+    props: ['jobId'],
 
     components: {
+        ActionSection,
         SectionBorder,
         AppLayout,
         CreateBasicOrderForm,
         CreatePinnedOrderForm
+    },
+
+    data() {
+        return {
+            job: null
+        }
+    },
+
+    mounted() {
+        this.getJob()
+    },
+
+    methods: {
+        getJob() {
+            this.$http.get(`/api/jobs/${this.jobId}`)
+                .then(response => {
+                    this.job = response.data
+                })
+        }
     }
 }
 </script>

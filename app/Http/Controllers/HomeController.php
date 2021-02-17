@@ -20,6 +20,7 @@ class HomeController extends Controller
                 'alertTypes' => Alert::TYPES,
                 'jobTypes' => Job::TYPES,
                 'jobStyles' => Job::STYLES,
+                'orders' => config('app.orders'),
             ],
         ]);
     }

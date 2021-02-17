@@ -21,7 +21,7 @@ class CaptureOrderController extends Controller
             ]);
         }
 
-        $paypalOrder = $payment->forOrder($order)->capture();
+        $paypalOrder = $payment->withId($order->paypal_order_id)->capture();
 
         $order->fill([
             'capture_id' => $paypalOrder->captureId(),

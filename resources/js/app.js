@@ -63,7 +63,10 @@ new Vue({
     i18n,
     router,
     render: h => h(App),
-    data() {
-        return {}
+    data: {
+        banner: {
+            style: 'success',
+            message: ''
+        }
     }
 })

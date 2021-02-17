@@ -13,6 +13,8 @@ class Order extends Model
 {
     use HasFactory;
 
+    public const TYPE_FREE = 'free';
+
     public const TYPE_BASIC = 'basic';
 
     public const TYPE_PINNED = 'pinned';

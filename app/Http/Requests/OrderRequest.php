@@ -7,6 +7,7 @@ namespace App\Http\Requests;
 use App\Models\Order;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\In;
 
 class OrderRequest extends FormRequest
 {
@@ -18,12 +19,17 @@ class OrderRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'type' => ['required', Rule::in(Order::TYPES)],
+            'type' => ['required', $this->allowFreeOrders()],
         ];
     }
 
-    public function creatingBasicOrder(): bool
+    public function creatingFreeOrder(): bool
     {
-        return $this->input('type') === Order::TYPE_BASIC;
+        return $this->input('type') === Order::TYPE_FREE;
+    }
+
+    protected function allowFreeOrders(): In
+    {
+        return Rule::in(collect(Order::TYPES)->push(Order::TYPE_FREE));
     }
 }

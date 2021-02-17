@@ -121,7 +121,7 @@ export default [
         }
     },
     {
-        path: '/jobs/:job/checkout',
+        path: '/jobs/:jobId/checkout',
         name: 'checkout.index',
         component: Checkout,
         props: true,

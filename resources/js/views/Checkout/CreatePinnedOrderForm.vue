@@ -5,12 +5,14 @@
         </template>
 
         <template #description>
-            {{ __('Description here') }}
+            {{ __('The order will be posted on our dashboard and it will be fixed at the top.') }}
         </template>
 
         <template #content>
             <div class="max-w-xl text-sm text-gray-600">
-
+                <h2 class="text-4xl font-medium text-gray-900">
+                    &euro;{{ App.orders.pinned / 100 }}
+                </h2>
             </div>
 
             <div class="flex mt-5">

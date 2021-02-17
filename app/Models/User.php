@@ -28,7 +28,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
     ];
 
     protected $appends = [
-        'is_eligible_for_free_order',
+        'free_orders_left',
     ];
 
     public function companies(): HasMany
@@ -51,9 +51,14 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
         return Order::forUser($this)->free()->count() < config('app.free_orders_amount');
     }
 
-    public function getIsEligibleForFreeOrderAttribute(): bool
+    public function freeOrdersLeft(): int
     {
-        return $this->isEligibleForFreeOrder();
+        return config('app.free_orders_amount') - Order::forUser($this)->free()->count();
+    }
+
+    public function getFreeOrdersLeftAttribute(): int
+    {
+        return $this->freeOrdersLeft();
     }
 
     public function preferredLocale(): string
