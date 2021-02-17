@@ -12,6 +12,7 @@ import EditJob from './views/Jobs/Edit'
 import ListJobs from './views/Jobs/Index'
 import ShowJob from './views/Jobs/Show'
 import ListOrders from './views/Orders/Index'
+import ShowOrder from './views/Orders/Show'
 import EditProfile from './views/Profile/Edit'
 import AllJobs from './views/AllJobs'
 
@@ -133,6 +134,14 @@ export default [
         path: '/orders',
         name: 'orders.index',
         component: ListOrders,
+        meta: {
+            middleware: 'auth'
+        }
+    },
+    {
+        path: '/orders',
+        name: 'orders.show',
+        component: ShowOrder,
         meta: {
             middleware: 'auth'
         }

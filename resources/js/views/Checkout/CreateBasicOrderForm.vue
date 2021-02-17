@@ -29,7 +29,7 @@
                 </div>
             </template>
 
-            <div class="flex mt-5">
+            <div class="max-w-sm mt-5">
                 <paypal-smart-buttons :job="job" type="basic"/>
             </div>
         </template>

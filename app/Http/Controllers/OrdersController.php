@@ -12,7 +12,7 @@ class OrdersController extends Controller
 {
     public function index(Request $request): JsonResponse
     {
-        $orders = Order::forUser($request->user())->get();
+        $orders = Order::with('job')->forUser($request->user())->get();
 
         return response()->json($orders);
     }

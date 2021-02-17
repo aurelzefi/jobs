@@ -5,7 +5,7 @@
         </template>
 
         <template #description>
-            {{ __('The order will be posted on our dashboard and it will be fixed at the top.') }}
+            {{ __('The order will be posted on our dashboard and it will be pinned at the top.') }}
         </template>
 
         <template #content>
@@ -15,7 +15,7 @@
                 </h2>
             </div>
 
-            <div class="flex mt-5">
+            <div class="max-w-sm mt-5">
                 <paypal-smart-buttons :job="job" type="pinned" />
             </div>
         </template>

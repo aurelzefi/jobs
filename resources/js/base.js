@@ -1,7 +1,8 @@
 export default {
     data() {
         return {
-            App: window.App
+            App: window.App,
+            paypal: window.paypal
         }
     },
 

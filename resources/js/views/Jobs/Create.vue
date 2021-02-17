@@ -71,7 +71,7 @@
                         </app-button>
 
                         <app-button class="ml-3" :class="{ 'opacity-25': form.processing }" :disabled="form.processing" @click.native="checkout = true">
-                            {{ __('Save And Checkout') }}
+                            {{ __('Checkout') }}
                         </app-button>
                     </template>
                 </form-section>

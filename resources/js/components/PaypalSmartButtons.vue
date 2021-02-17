@@ -24,7 +24,7 @@ export default {
 
     methods: {
         mountButtons() {
-            window.paypal.Buttons({
+            this.paypal.Buttons({
                 createOrder: () => this.createOrder(),
                 onApprove: () => this.onApprove()
             }).render(`#paypal-smart-buttons-${this.elementId}`)
@@ -49,22 +49,28 @@ export default {
                     return response.data.paypal_order_id
                 })
                 .catch(() => {
-                    this.$root.banner.style = 'danger'
-                    this.$root.banner.message = this.__('The payment for this order has failed. Please try again.')
+                    this.showDangerBanner()
                 })
         },
 
         onApprove() {
             return this.$http.put(`/api/orders/${this.order.id}/capture`)
                 .then(() => {
-                    this.$root.banner.message = this.__('Your order has been successfully completed.')
-
+                    this.showSuccessBanner()
                     this.$router.push({name: 'jobs.all'})
                 })
                 .catch(() => {
-                    this.$root.banner.style = 'danger'
-                    this.$root.banner.message = this.__('The payment for this order has failed. Please try again.')
+                    this.showDangerBanner()
                 })
+        },
+
+        showSuccessBanner() {
+            this.$root.banner.message = this.__('Your order has been successfully completed.')
+        },
+
+        showDangerBanner() {
+            this.$root.banner.style = 'danger'
+            this.$root.banner.message = this.__('The payment for this order has failed. Please try again.')
         }
     }
 }
