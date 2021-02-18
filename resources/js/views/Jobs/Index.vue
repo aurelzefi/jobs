@@ -47,7 +47,7 @@
                         </div>
 
                         <div v-else>
-                            {{ __('You have not created any jobs yet.') }}
+                            {{ __('You don\'t have any jobs.') }}
                         </div>
                     </template>
                 </action-section>

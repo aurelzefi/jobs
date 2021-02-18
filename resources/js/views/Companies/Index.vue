@@ -45,7 +45,7 @@
                                         {{ __('Edit') }}
                                     </router-link>
 
-                                    <button class="cursor-pointer ml-6 text-sm text-red-500" @click="destroy">
+                                    <button class="cursor-pointer ml-6 text-sm text-red-500" @click="confirmCompanyDeletion(company)">
                                         {{ __('Delete') }}
                                     </button>
                                 </div>
@@ -53,8 +53,28 @@
                         </div>
 
                         <div v-else>
-                            {{ __('You have not created any companies yet.') }}
+                            {{ __('You don\'t have any companies.') }}
                         </div>
+
+                        <dialog-modal :show="confirmingCompanyDeletion" @close="closeModal">
+                            <template #title>
+                                {{ __('Delete Company') }}
+                            </template>
+
+                            <template #content>
+                                {{ __('Are you sure you want to delete this company?') }}
+                            </template>
+
+                            <template #footer>
+                                <secondary-button @click.native="closeModal">
+                                    {{ __('Nevermind') }}
+                                </secondary-button>
+
+                                <danger-button class="ml-2" @click.native="deleteCompany" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                                    {{ __('Delete Company') }}
+                                </danger-button>
+                            </template>
+                        </dialog-modal>
                     </template>
                 </action-section>
             </div>
@@ -65,18 +85,28 @@
 <script>
 import ActionLink from '../../components/ActionLink'
 import ActionSection from '../../components/ActionSection'
+import DangerButton from '../../components/DangerButton'
+import DialogModal from '../../components/DialogModal'
+import SecondaryButton from '../../components/SecondaryButton'
 import AppLayout from '../../layouts/AppLayout'
 
 export default {
     components: {
         ActionLink,
         ActionSection,
+        DangerButton,
+        DialogModal,
+        SecondaryButton,
         AppLayout
     },
 
     data() {
         return {
-            companies: []
+            companies: [],
+
+            currentCompany: null,
+            confirmingCompanyDeletion: false,
+            form: this.$form.create({})
         }
     },
 
@@ -92,8 +122,22 @@ export default {
                 })
         },
 
-        destroy() {
-            //
+        confirmCompanyDeletion(company) {
+            this.currentCompany = company
+            this.confirmingCompanyDeletion = true
+        },
+
+        deleteCompany() {
+            this.form.delete(`/api/companies/${this.currentCompany.id}`, {
+                onSuccess: () => {
+                    this.getCompanies()
+                    this.closeModal()
+                }
+            })
+        },
+
+        closeModal() {
+            this.confirmingCompanyDeletion = false
         }
     }
 }

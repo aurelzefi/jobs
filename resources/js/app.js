@@ -5,6 +5,7 @@ import Routes from './routes'
 import VueI18n from 'vue-i18n'
 import VueRouter from 'vue-router'
 import App from './components/App'
+import PortalVue from 'portal-vue'
 import AlLocale from './lang/al.json'
 import EnLocale from './lang/en.json'
 import FormCreator from './FormCreator'
@@ -21,6 +22,7 @@ Vue.prototype.$form = FormCreator
 
 Vue.use(VueI18n)
 Vue.use(VueRouter)
+Vue.use(PortalVue)
 
 Vue.mixin(Base)
 

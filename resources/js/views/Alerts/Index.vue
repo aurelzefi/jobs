@@ -35,7 +35,7 @@
                                         {{ __('Edit') }}
                                     </router-link>
 
-                                    <button class="cursor-pointer ml-6 text-sm text-red-500" @click="destroy">
+                                    <button class="cursor-pointer ml-6 text-sm text-red-500" @click="confirmAlertDeletion(alert)">
                                         {{ __('Delete') }}
                                     </button>
                                 </div>
@@ -43,8 +43,28 @@
                         </div>
 
                         <div v-else>
-                            {{ __('You have not created any alerts yet.') }}
+                            {{ __('You don\'t have any alerts.') }}
                         </div>
+
+                        <dialog-modal :show="confirmingAlertDeletion" @close="closeModal">
+                            <template #title>
+                                {{ __('Delete Alert') }}
+                            </template>
+
+                            <template #content>
+                                {{ __('Are you sure you want to delete this alert?') }}
+                            </template>
+
+                            <template #footer>
+                                <secondary-button @click.native="closeModal">
+                                    {{ __('Nevermind') }}
+                                </secondary-button>
+
+                                <danger-button class="ml-2" @click.native="deleteAlert" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                                    {{ __('Delete Alert') }}
+                                </danger-button>
+                            </template>
+                        </dialog-modal>
                     </template>
                 </action-section>
             </div>
@@ -55,18 +75,28 @@
 <script>
 import ActionLink from '../../components/ActionLink'
 import ActionSection from '../../components/ActionSection'
+import DangerButton from '../../components/DangerButton'
+import DialogModal from '../../components/DialogModal'
+import SecondaryButton from '../../components/SecondaryButton'
 import AppLayout from '../../layouts/AppLayout'
 
 export default {
     components: {
         ActionLink,
         ActionSection,
+        DangerButton,
+        DialogModal,
+        SecondaryButton,
         AppLayout
     },
 
     data() {
         return {
-            alerts: []
+            alerts: [],
+
+            currentAlert: null,
+            confirmingAlertDeletion: false,
+            form: this.$form.create({})
         }
     },
 
@@ -82,8 +112,22 @@ export default {
                 })
         },
 
-        destroy() {
+        confirmAlertDeletion(alert) {
+            this.currentAlert = alert
+            this.confirmingAlertDeletion = true
+        },
 
+        deleteAlert() {
+            this.form.delete(`/api/alerts/${this.currentAlert.id}`, {
+                onSuccess: () => {
+                    this.getAlerts()
+                    this.closeModal()
+                }
+            })
+        },
+
+        closeModal() {
+            this.confirmingAlertDeletion = false
         }
     }
 }
