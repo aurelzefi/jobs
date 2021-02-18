@@ -39,7 +39,7 @@
                                         {{ __('Edit') }}
                                     </router-link>
 
-                                    <button class="cursor-pointer ml-6 text-sm text-red-500" @click="destroy">
+                                    <button class="cursor-pointer ml-6 text-sm text-red-500" @click="confirmJobDeletion(job)">
                                         {{ __('Delete') }}
                                     </button>
                                 </div>
@@ -49,6 +49,26 @@
                         <div v-else>
                             {{ __('You don\'t have any jobs.') }}
                         </div>
+
+                        <dialog-modal :show="confirmingJobDeletion" @close="closeModal">
+                            <template #title>
+                                {{ __('Delete Job') }}
+                            </template>
+
+                            <template #content>
+                                {{ __('Are you sure you want to delete this job?') }}
+                            </template>
+
+                            <template #footer>
+                                <secondary-button @click.native="closeModal">
+                                    {{ __('Nevermind') }}
+                                </secondary-button>
+
+                                <danger-button class="ml-2" @click.native="deleteJob" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                                    {{ __('Delete Job') }}
+                                </danger-button>
+                            </template>
+                        </dialog-modal>
                     </template>
                 </action-section>
             </div>
@@ -59,18 +79,28 @@
 <script>
 import ActionLink from '../../components/ActionLink'
 import ActionSection from '../../components/ActionSection'
+import DangerButton from '../../components/DangerButton'
+import DialogModal from '../../components/DialogModal'
+import SecondaryButton from '../../components/SecondaryButton'
 import AppLayout from '../../layouts/AppLayout'
 
 export default {
     components: {
         ActionLink,
         ActionSection,
+        DangerButton,
+        DialogModal,
+        SecondaryButton,
         AppLayout
     },
 
     data() {
         return {
-            jobs: []
+            jobs: [],
+
+            currentJob: null,
+            confirmingJobDeletion: false,
+            form: this.$form.create({})
         }
     },
 
@@ -86,8 +116,22 @@ export default {
                 })
         },
 
-        destroy() {
+        confirmJobDeletion(job) {
+            this.currentJob = job
+            this.confirmingJobDeletion = true
+        },
 
+        deleteJob() {
+            this.form.delete(`/api/jobs/${this.currentJob.id}`, {
+                onSuccess: () => {
+                    this.getJobs()
+                    this.closeModal()
+                }
+            })
+        },
+
+        closeModal() {
+            this.confirmingJobDeletion = false
         }
     }
 }
