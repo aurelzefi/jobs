@@ -5,6 +5,7 @@ use App\Http\Controllers\AllJobsController;
 use App\Http\Controllers\CaptureOrderController;
 use App\Http\Controllers\CompaniesController;
 use App\Http\Controllers\CountriesController;
+use App\Http\Controllers\CreateFreeOrderController;
 use App\Http\Controllers\CreateOrderController;
 use App\Http\Controllers\JobsController;
 use App\Http\Controllers\OrdersController;
@@ -48,6 +49,10 @@ Route::apiResource('jobs', JobsController::class)
 Route::apiResource('orders', OrdersController::class)
     ->middleware(['auth', 'verified'])
     ->only(['index', 'show']);
+
+Route::post('/jobs/{job}/orders/free', CreateFreeOrderController::class)
+    ->middleware(['auth', 'verified'])
+    ->name('jobs.orders.free.store');
 
 Route::post('/jobs/{job}/orders', CreateOrderController::class)
     ->middleware(['auth', 'verified'])

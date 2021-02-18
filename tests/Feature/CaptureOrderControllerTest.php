@@ -72,7 +72,7 @@ class CaptureOrderControllerTest extends TestCase
         $paypalOrder->shouldReceive('captureId')->andReturn('fake-capture-id');
 
         $payment = Mockery::mock(Payment::class);
-        $payment->shouldReceive('forOrder')->andReturn($payment);
+        $payment->shouldReceive('withId')->andReturn($payment);
         $payment->shouldReceive('capture')->andReturn($paypalOrder);
 
         $this->app->instance(Payment::class, $payment);

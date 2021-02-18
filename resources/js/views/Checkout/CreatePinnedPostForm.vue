@@ -1,11 +1,11 @@
 <template>
     <action-section>
         <template #title>
-            {{ __('Pinned Order') }}
+            {{ __('Pinned Post') }}
         </template>
 
         <template #description>
-            {{ __('The order will be posted on our dashboard and it will be pinned at the top.') }}
+            {{ __('The order will be posted on our dashboard and it will be pinned at the top. It will remain active for 30 days.') }}
         </template>
 
         <template #content>

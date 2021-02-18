@@ -56,6 +56,11 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
         return config('app.free_orders_amount') - Order::forUser($this)->free()->count();
     }
 
+    public function hasNoFreeOrdersLeft(): bool
+    {
+        return $this->freeOrdersLeft() === 0;
+    }
+
     public function getFreeOrdersLeftAttribute(): int
     {
         return $this->freeOrdersLeft();

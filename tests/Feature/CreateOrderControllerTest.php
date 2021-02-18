@@ -28,15 +28,13 @@ class CreateOrderControllerTest extends TestCase
         ]);
     }
 
-    public function test_free_basic_orders_can_be_created()
+    public function test_orders_can_be_created()
     {
         $user = User::factory()->create();
         $company = Company::factory()->for($user)->create();
         $job = Job::factory()->for($company)->create();
 
-        $order = Order::factory()->for($job)->make([
-            'type' => Order::TYPE_BASIC,
-        ]);
+        $order = Order::factory()->for($job)->make();
 
         $this->mockPayment();
 
@@ -46,60 +44,8 @@ class CreateOrderControllerTest extends TestCase
 
         $response->assertJson([
             'paypal_order_id' => 'fake-id',
-            'amount' => 0,
-        ]);
-    }
-
-    public function test_paid_orders_can_be_created_after_three_free_orders()
-    {
-        $user = User::factory()->create();
-        $company = Company::factory()->for($user)->create();
-        $job = Job::factory()->for($company)->create();
-
-        Order::factory(3)->for($job)->create([
-            'type' => Order::TYPE_BASIC,
-            'capture_id' => 'fake-capture-id',
-            'paid_at' => now(),
-        ]);
-
-        $order = Order::factory()->for($job)->make([
-            'type' => $type = Order::TYPE_PINNED,
-            'amount' => config("app.orders.{$type}"),
-        ]);
-
-        $this->mockPayment();
-
-        $response = $this->actingAs($user)->post("/api/jobs/{$job->id}/orders", [
             'type' => $order->type,
-        ]);
-
-        $response->assertJson([
-            'paypal_order_id' => 'fake-id',
             'amount' => $order->amount,
-        ]);
-    }
-
-    public function test_pinned_orders_are_not_created_for_free()
-    {
-        $user = User::factory()->create();
-        $company = Company::factory()->for($user)->create();
-        $job = Job::factory()->for($company)->create();
-
-        $this->mockPayment();
-
-        $order = Order::factory()->for($job)->make([
-            'type' => Order::TYPE_PINNED,
-        ]);
-
-        $this->mockPayment();
-
-        $response = $this->actingAs($user)->post("/api/jobs/{$job->id}/orders", [
-            'type' => $order->type,
-        ]);
-
-        $response->assertJson([
-            'paypal_order_id' => 'fake-id',
-            'amount' => config("app.orders.{$order->type}"),
         ]);
     }
 
@@ -128,7 +74,9 @@ class CreateOrderControllerTest extends TestCase
         $paypalOrder->shouldReceive('id')->andReturn('fake-id');
 
         $payment = Mockery::mock(Payment::class);
-        $payment->shouldReceive('forOrder')->andReturn($payment);
+        $payment->shouldReceive('withType')->andReturn($payment);
+        $payment->shouldReceive('withAmount')->andReturn($payment);
+
         $payment->shouldReceive('create')->andReturn($paypalOrder);
 
         $this->app->instance(Payment::class, $payment);

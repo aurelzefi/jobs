@@ -1,11 +1,11 @@
 <template>
     <action-section>
         <template #title>
-            {{ __('Basic Order') }}
+            {{ __('Basic Post') }}
         </template>
 
         <template #description>
-            {{ __('The order will be posted on our dashboard.') }}
+            {{ __('The order will be posted on our dashboard and will remain active for 30 days.') }}
         </template>
 
         <template #content>
@@ -52,16 +52,14 @@ export default {
 
     data() {
         return {
-            form: this.$form.create({
-                type: 'free'
-            })
+            form: this.$form.create({})
         }
     },
     methods: {
         store() {
-            this.form.post(`/api/jobs/${this.job.id}/orders`, {
+            this.form.post(`/api/jobs/${this.job.id}/orders/free`, {
                 onSuccess: () => {
-                    this.$root.banner.message = this.__('Your order has been successfully completed.')
+                    this.$root.banner.message = this.__('Your order has been successfully completed. It is now listed on our Jobs page.')
 
                     this.$router.push({name: 'jobs.all'})
                 }

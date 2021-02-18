@@ -30,17 +30,6 @@ export default {
             }).render(`#paypal-smart-buttons-${this.elementId}`)
         },
 
-        randomString(length = 5) {
-            let randomChars = 'abcdefghijklmnopqrstuvwxyz'
-            let result = ''
-
-            for (let i = 0; i < length; i++) {
-                result += randomChars.charAt(Math.floor(Math.random() * randomChars.length))
-            }
-
-            return result
-        },
-
         createOrder() {
             return this.$http.post(`/api/jobs/${this.job.id}/orders`, {type: this.form.type})
                 .then(response => {
@@ -57,7 +46,6 @@ export default {
             return this.$http.put(`/api/orders/${this.order.id}/capture`)
                 .then(() => {
                     this.showSuccessBanner()
-                    this.$router.push({name: 'jobs.all'})
                 })
                 .catch(() => {
                     this.showDangerBanner()
@@ -65,7 +53,9 @@ export default {
         },
 
         showSuccessBanner() {
-            this.$root.banner.message = this.__('Your order has been successfully completed.')
+            this.$root.banner.message = this.__('Your order has been successfully completed. It is now listed on our Jobs page.')
+
+            this.$router.push({name: 'jobs.all'})
         },
 
         showDangerBanner() {

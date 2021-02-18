@@ -28,13 +28,13 @@
 
                 <template v-else>
                     <div>
-                        <create-basic-order-form :job="job" />
+                        <create-basic-post-form :job="job" />
 
                         <section-border />
                     </div>
 
                     <div>
-                        <create-pinned-order-form class="mt-10 sm:mt-0" :job="job" />
+                        <create-pinned-post-form class="mt-10 sm:mt-0" :job="job" />
 
                         <section-border />
                     </div>
@@ -48,8 +48,8 @@
 import ActionSection from '../../components/ActionSection'
 import SectionBorder from '../../components/SectionBorder'
 import AppLayout from '../../layouts/AppLayout'
-import CreateBasicOrderForm from './CreateBasicOrderForm'
-import CreatePinnedOrderForm from './CreatePinnedOrderForm'
+import CreateBasicPostForm from './CreateBasicPostForm'
+import CreatePinnedPostForm from './CreatePinnedPostForm'
 
 export default {
     props: ['jobId'],
@@ -58,8 +58,8 @@ export default {
         ActionSection,
         SectionBorder,
         AppLayout,
-        CreateBasicOrderForm,
-        CreatePinnedOrderForm
+        CreateBasicPostForm,
+        CreatePinnedPostForm
     },
 
     data() {

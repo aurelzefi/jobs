@@ -18,5 +18,16 @@ export default {
                 return accumulator
             }, {})
         },
+
+        randomString(length = 5) {
+            let randomChars = 'abcdefghijklmnopqrstuvwxyz'
+            let result = ''
+
+            for (let i = 0; i < length; i++) {
+                result += randomChars.charAt(Math.floor(Math.random() * randomChars.length))
+            }
+
+            return result
+        }
     }
 }
