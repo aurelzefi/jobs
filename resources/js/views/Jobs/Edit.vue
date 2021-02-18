@@ -2,7 +2,7 @@
     <app-layout>
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                {{ ('Create Job') }}
+                {{ ('Edit Job') }}
             </h2>
         </template>
 
@@ -20,7 +20,7 @@
                     <template #form>
                         <div class="col-span-6 sm:col-span-4">
                             <app-label for="title">{{ __('Title') }}</app-label>
-                            <app-input id="title" type="text" class="mt-1 block w-full" v-model="form.title" />
+                            <app-input id="title" type="text" class="mt-1 block w-full" v-model="form.title" ref="title" />
                             <app-input-error :message="form.errors.title" class="mt-2" />
                         </div>
 
@@ -93,8 +93,6 @@ import AppSelect from '../../components/Select'
 import AppLayout from '../../layouts/AppLayout'
 
 export default {
-    props: ['job'],
-
     components: {
         VueEditor,
         ActionMessage,
@@ -111,6 +109,8 @@ export default {
         AppSelect,
         AppLayout
     },
+
+    props: ['job'],
 
     data() {
         return {
@@ -137,6 +137,7 @@ export default {
         this.jobStyles = this.keyByValues(this.App.jobStyles)
 
         this.getJob()
+        this.$refs.title.focus()
     },
 
     methods: {
@@ -158,16 +159,15 @@ export default {
             this.form.put(`/api/jobs/${this.job}`, {
                 onSuccess: response => {
                     if (this.checkout) {
-                        this.$router.push({
+                        return this.$router.push({
                             name: 'checkout.index',
                             params: {jobId: response.data.id}
                         })
-
-                        return
                     }
 
                     this.$router.push({name: 'jobs.index'})
-                }
+                },
+                onFailure: () => this.$refs.title.focus()
             })
         },
     }

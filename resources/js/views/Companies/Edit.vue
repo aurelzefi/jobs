@@ -20,7 +20,7 @@
                     <template #form>
                         <div class="col-span-6 sm:col-span-4">
                             <app-label for="name">{{ __('Name') }}</app-label>
-                            <app-input id="name" type="text" class="mt-1 block w-full" v-model="form.name" />
+                            <app-input id="name" type="text" class="mt-1 block w-full" v-model="form.name" ref="name" />
                             <app-input-error :message="form.errors.name" class="mt-2" />
                         </div>
 
@@ -106,8 +106,6 @@ import AppTextarea from '../../components/Textarea'
 import AppLayout from '../../layouts/AppLayout'
 
 export default {
-    props: ['company'],
-
     components: {
         ActionMessage,
         AppButton,
@@ -123,6 +121,8 @@ export default {
         AppTextarea,
         AppLayout
     },
+
+    props: ['company'],
 
     data() {
         return {
@@ -143,6 +143,8 @@ export default {
 
     mounted() {
         this.getCompany()
+
+        this.$refs.name.focus()
     },
 
     methods: {
@@ -165,7 +167,8 @@ export default {
             }
 
             this.form.post(`/api/companies/${this.company}/update`, {
-                onSuccess: () => this.$router.push({name: 'companies.index'})
+                onSuccess: () => this.$router.push({name: 'companies.index'}),
+                onFailure: () => this.$refs.name.focus()
             })
         },
 

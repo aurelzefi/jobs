@@ -2,7 +2,7 @@
     <app-layout>
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                {{ ('Create Job') }}
+                {{ ('Create New Job') }}
             </h2>
         </template>
 
@@ -20,7 +20,7 @@
                     <template #form>
                         <div class="col-span-6 sm:col-span-4">
                             <app-label for="title">{{ __('Title') }}</app-label>
-                            <app-input id="title" type="text" class="mt-1 block w-full" v-model="form.title" />
+                            <app-input id="title" type="text" class="mt-1 block w-full" v-model="form.title" ref="title" />
                             <app-input-error :message="form.errors.title" class="mt-2" />
                         </div>
 
@@ -132,6 +132,8 @@ export default {
     mounted() {
         this.jobTypes = this.keyByValues(this.App.jobTypes)
         this.jobStyles = this.keyByValues(this.App.jobStyles)
+
+        this.$refs.title.focus()
     },
 
     methods: {
@@ -148,7 +150,8 @@ export default {
                     }
 
                     this.$router.push({name: 'jobs.index'})
-                }
+                },
+                onFailure: () => this.$refs.title.focus()
             })
         },
     }

@@ -2,7 +2,7 @@
     <app-layout>
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                {{ ('Create Alert') }}
+                {{ ('Edit Alert') }}
             </h2>
         </template>
 
@@ -20,7 +20,7 @@
                     <template #form>
                         <div class="col-span-6 sm:col-span-4">
                             <app-label for="name">{{ __('Name') }}</app-label>
-                            <app-input id="name" type="text" class="mt-1 block w-full" v-model="form.name" />
+                            <app-input id="name" type="text" class="mt-1 block w-full" v-model="form.name" ref="name" />
                             <app-input-error :message="form.errors.name" class="mt-2" />
                         </div>
 
@@ -119,8 +119,6 @@ import AppSelect from '../../components/Select'
 import AppLayout from '../../layouts/AppLayout'
 
 export default {
-    props: ['alert'],
-
     components: {
         ActionMessage,
         AppButton,
@@ -134,6 +132,8 @@ export default {
         AppSelect,
         AppLayout
     },
+
+    props: ['alert'],
 
     data() {
         return {
@@ -159,6 +159,7 @@ export default {
         this.form.job_styles = this.App.jobStyles
 
         this.getAlert()
+        this.$refs.name.focus()
     },
 
     methods: {
@@ -178,7 +179,8 @@ export default {
 
         update() {
             this.form.put(`/api/alerts/${this.alert}`, {
-                onSuccess: () => this.$router.push({name: 'alerts.index'})
+                onSuccess: () => this.$router.push({name: 'alerts.index'}),
+                onFailure: () => this.$refs.name.focus()
             })
         },
 

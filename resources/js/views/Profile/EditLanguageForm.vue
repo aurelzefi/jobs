@@ -37,29 +37,29 @@ import AppLabel from '../../components/Label'
 import AppSelect from '../../components/Select'
 
 export default {
-        components: {
-            ActionMessage,
-            AppButton,
-            FormSection,
-            AppInputError,
-            AppLabel,
-            AppSelect
-        },
+    components: {
+        ActionMessage,
+        AppButton,
+        FormSection,
+        AppInputError,
+        AppLabel,
+        AppSelect
+    },
 
-        props: ['user', 'locales'],
+    props: ['user', 'locales'],
 
-        data() {
-            return {
-                form: this.$form.create({
-                    locale: this.user.locale,
-                })
-            }
-        },
+    data() {
+        return {
+            form: this.$form.create({
+                locale: this.user.locale,
+            })
+        }
+    },
 
-        methods: {
-            updateLocale() {
-                this.form.put('/api/user/locale')
-            }
+    methods: {
+        updateLocale() {
+            this.form.put('/api/user/locale')
         }
     }
+}
 </script>

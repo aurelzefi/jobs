@@ -2,7 +2,7 @@
     <app-layout>
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                {{ ('Create Company') }}
+                {{ ('Create New Company') }}
             </h2>
         </template>
 
@@ -20,7 +20,7 @@
                     <template #form>
                         <div class="col-span-6 sm:col-span-4">
                             <app-label for="name">{{ __('Name') }}</app-label>
-                            <app-input id="name" type="text" class="mt-1 block w-full" v-model="form.name" />
+                            <app-input id="name" type="text" class="mt-1 block w-full" v-model="form.name" ref="name" />
                             <app-input-error :message="form.errors.name" class="mt-2" />
                         </div>
 
@@ -135,7 +135,7 @@ export default {
     },
 
     mounted() {
-
+        this.$refs.name.focus()
     },
 
     methods: {
@@ -145,7 +145,8 @@ export default {
             }
 
             this.form.post('/api/companies', {
-                onSuccess: () => this.$router.push({name: 'companies.index'})
+                onSuccess: () => this.$router.push({name: 'companies.index'}),
+                onFailure: () => this.$refs.name.focus()
             })
         },
 

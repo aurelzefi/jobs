@@ -52,8 +52,6 @@ import CreateBasicPostForm from './CreateBasicPostForm'
 import CreatePinnedPostForm from './CreatePinnedPostForm'
 
 export default {
-    props: ['jobId'],
-
     components: {
         ActionSection,
         SectionBorder,
@@ -61,6 +59,8 @@ export default {
         CreateBasicPostForm,
         CreatePinnedPostForm
     },
+
+    props: ['jobId'],
 
     data() {
         return {

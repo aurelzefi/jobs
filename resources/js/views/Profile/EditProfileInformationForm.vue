@@ -58,7 +58,7 @@ export default {
         return {
             form: this.$form.create({
                 name: this.user.name,
-                email: this.user.email,
+                email: this.user.email
             })
         }
     },
@@ -66,7 +66,7 @@ export default {
     methods: {
         updateProfileInformation() {
             this.form.put('/api/user/profile', {
-                onSuccess: (response) => this.App.user = response.data
+                onSuccess: response => this.App.user = response.data
             })
         }
     }

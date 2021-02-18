@@ -31,11 +31,11 @@ import ActionSection from '../../components/ActionSection'
 import PaypalSmartButtons from '../../components/PaypalSmartButtons'
 
 export default {
-    props: ['job'],
-
     components: {
         ActionSection,
         PaypalSmartButtons
-    }
+    },
+
+    props: ['job'],
 }
 </script>

@@ -50,13 +50,13 @@ import AppButton from '../../components/Button'
 import PaypalSmartButtons from '../../components/PaypalSmartButtons'
 
 export default {
-    props: ['job'],
-
     components: {
         ActionSection,
         AppButton,
         PaypalSmartButtons
     },
+
+    props: ['job'],
 
     data() {
         return {
