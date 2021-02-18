@@ -34,20 +34,20 @@ class DatabaseSeeder extends Seeder
 
     protected function seedForUser(User $user): void
     {
-        $companies = Company::factory(rand(0, 3))->for($user)->create();
+        $companies = Company::factory(rand(0, 5))->for($user)->create();
 
         $companies->each(function (Company $company) use ($user) {
-            $jobs = Job::factory(rand(0, 3))->for($company)->create();
+            $jobs = Job::factory(rand(0, 5))->for($company)->create();
 
             $jobs->each(function (Job $job) use ($user) {
-                Order::factory(rand(0, 3))->for($user)->for($job)->create();
+                Order::factory(rand(0, 5))->for($user)->for($job)->create();
             });
         });
 
-        $alerts = Alert::factory(rand(0, 3))->for($user)->create();
+        $alerts = Alert::factory(rand(0, 5))->for($user)->create();
 
         $alerts->each(function (Alert $alert) {
-            Keyword::factory(rand(1, 3))->for($alert)->create();
+            Keyword::factory(rand(1, 5))->for($alert)->create();
         });
     }
 }
