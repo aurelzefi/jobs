@@ -29,19 +29,20 @@ class CompanyRequest extends FormRequest
 
     public function fields(): array
     {
-        $fields = $this->only([
+        return collect($this->only([
             'country_id',
             'name',
             'description',
             'website',
             'address',
             'city',
-        ]);
+        ]))->merge(['logo' => $this->logo()])->filter()->toArray();
+    }
 
+    protected function logo()
+    {
         if ($this->hasFile('logo')) {
-            $fields['logo'] = $this->file('logo')->store('images', 'public');
+            return $this->file('logo')->store('images', 'public');
         }
-
-        return $fields;
     }
 }
