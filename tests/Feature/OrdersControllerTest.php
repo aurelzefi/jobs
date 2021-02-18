@@ -31,7 +31,9 @@ class OrdersControllerTest extends TestCase
         $company = Company::factory()->for($user)->create();
         $job = Job::factory()->for($company)->create();
 
-        Order::factory(3)->for($job)->create();
+        Order::factory(3)->for($user)->for($job)->create([
+            'paid_at' => now(),
+        ]);
 
         $response = $this->actingAs($user)->get('/api/orders');
 
@@ -43,7 +45,7 @@ class OrdersControllerTest extends TestCase
         $user = User::factory()->create();
         $company = Company::factory()->for($user)->create();
         $job = Job::factory()->for($company)->create();
-        $order = Order::factory()->for($job)->create();
+        $order = Order::factory()->for($user)->for($job)->create();
 
         $response = $this->actingAs($user)->get("/api/orders/{$order->id}");
 

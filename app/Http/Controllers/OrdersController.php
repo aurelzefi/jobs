@@ -12,11 +12,7 @@ class OrdersController extends Controller
 {
     public function index(Request $request): JsonResponse
     {
-        $orders = Order::with('job')
-                    ->forUser($request->user())
-                    ->paid()
-                    ->orderByDesc('paid_at')
-                    ->get();
+        $orders = $request->user()->orders()->with('job')->paid()->get();
 
         return response()->json($orders);
     }

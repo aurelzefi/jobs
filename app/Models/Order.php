@@ -33,16 +33,14 @@ class Order extends Model
         return $this->belongsTo(Job::class);
     }
 
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
     public function isPaid(): bool
     {
         return ! is_null($this->paid_at);
-    }
-
-    public function scopeForUser(Builder $query, User $user): Builder
-    {
-        return $query->whereHas('job.company', function (Builder $query) use ($user) {
-            $query->where('user_id', $user->id);
-        });
     }
 
     public function scopePaid(Builder $query): Builder

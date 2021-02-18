@@ -18,10 +18,11 @@ class CreateOrderController extends Controller
         $type = $request->input('type');
         $amount = config("app.orders.{$type}");
 
-        $order = $payment->withType($type)->withAmount($amount)->create();
+        $paypalOrder = $payment->withType($type)->withAmount($amount)->create();
 
-        $order = $job->orders()->create([
-            'paypal_order_id' => $order->id(),
+        $order = $request->user()->orders()->create([
+            'job_id' => $job->id,
+            'paypal_order_id' => $paypalOrder->id(),
             'type' => $type,
             'amount' => $amount,
         ]);

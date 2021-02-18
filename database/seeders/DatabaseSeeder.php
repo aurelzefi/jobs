@@ -10,7 +10,6 @@ use App\Models\Job;
 use App\Models\Keyword;
 use App\Models\Order;
 use App\Models\User;
-use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -19,32 +18,36 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(CountriesSeeder::class);
 
-        User::factory()
-            ->has($this->seedCompanies())
-            ->has($this->seedAlerts())
-            ->create([
-                'name' => 'Aurel Zefi',
-                'email' => 'aurelzefi1994@gmail.com',
-            ]);
+        $user = User::factory()->create([
+            'name' => 'Aurel Zefi',
+            'email' => 'aurelzefi1994@gmail.com',
+        ]);
+
+        $this->seedForUser($user);
 
         for ($i = 0; $i < 10; $i++) {
-            User::factory()->has($this->seedCompanies())
-                ->has($this->seedAlerts())
-                ->create();
+            $user = User::factory()->create();
+
+            $this->seedForUser($user);
         }
     }
 
-    protected function seedCompanies(): Factory
+    protected function seedForUser(User $user): void
     {
-        return Company::factory(rand(0, 3))->has(
-            Job::factory(rand(0, 3))->has(Order::factory())
-        );
-    }
+        $companies = Company::factory(rand(0, 3))->for($user)->create();
 
-    protected function seedAlerts(): Factory
-    {
-        return Alert::factory(rand(0, 3))->has(
-            Keyword::factory(rand(1, 3))
-        );
+        $companies->each(function (Company $company) use ($user) {
+            $jobs = Job::factory(rand(0, 3))->for($company)->create();
+
+            $jobs->each(function (Job $job) use ($user) {
+                Order::factory(rand(0, 3))->for($user)->for($job)->create();
+            });
+        });
+
+        $alerts = Alert::factory(rand(0, 3))->for($user)->create();
+
+        $alerts->each(function (Alert $alert) {
+            Keyword::factory(rand(1, 3))->for($alert)->create();
+        });
     }
 }

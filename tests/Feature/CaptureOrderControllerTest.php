@@ -34,7 +34,7 @@ class CaptureOrderControllerTest extends TestCase
         $company = Company::factory()->for($user)->create();
         $job = Job::factory()->for($company)->create();
 
-        $order = Order::factory()->for($job)->create([
+        $order = Order::factory()->for($user)->for($job)->create([
             'capture_id' => null,
             'paid_at' => null,
         ]);
@@ -54,7 +54,7 @@ class CaptureOrderControllerTest extends TestCase
         $company = Company::factory()->for($user)->create();
         $job = Job::factory()->for($company)->create();
 
-        $order = Order::factory()->for($job)->create([
+        $order = Order::factory()->for($user)->for($job)->create([
             'capture_id' => 'fake-capture-id',
             'paid_at' => now(),
         ]);

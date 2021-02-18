@@ -14,13 +14,16 @@ class CreateFreeOrderController extends Controller
 {
     public function __invoke(Request $request, Job $job): JsonResponse
     {
-        if ($request->user()->hasNoFreeOrdersLeft()) {
+        $this->authorize('update', $job);
+
+        if (! $request->user()->isEligibleForFreeOrders()) {
             throw ValidationException::withMessages([
                 'order' => __('You are no longer eligible for a free order.'),
             ]);
         }
 
-        $order = $job->orders()->create([
+        $order = $request->user()->orders()->create([
+            'job_id' => $job->id,
             'type' => Order::TYPE_BASIC,
             'amount' => 0,
             'paid_at' => now(),

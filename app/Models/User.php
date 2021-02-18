@@ -46,19 +46,19 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
         return $this->hasManyThrough(Job::class, Company::class);
     }
 
-    public function isEligibleForFreeOrder(): bool
+    public function orders(): HasMany
     {
-        return Order::forUser($this)->free()->count() < config('app.free_orders_amount');
+        return $this->hasMany(Order::class)->orderByDesc('paid_at');
+    }
+
+    public function isEligibleForFreeOrders(): bool
+    {
+        return $this->orders()->free()->count() < config('app.free_orders_amount');
     }
 
     public function freeOrdersLeft(): int
     {
-        return config('app.free_orders_amount') - Order::forUser($this)->free()->count();
-    }
-
-    public function hasNoFreeOrdersLeft(): bool
-    {
-        return $this->freeOrdersLeft() === 0;
+        return config('app.free_orders_amount') - $this->orders()->free()->count();
     }
 
     public function getFreeOrdersLeftAttribute(): int

@@ -34,6 +34,8 @@ class CreateFreeOrderControllerTest extends TestCase
         $response = $this->actingAs($user)->post("/api/jobs/{$job->id}/orders/free");
 
         $response->assertJson([
+            'user_id' => $user->id,
+            'job_id' => $job->id,
             'amount' => 0,
         ]);
     }
@@ -44,7 +46,7 @@ class CreateFreeOrderControllerTest extends TestCase
         $company = Company::factory()->for($user)->create();
         $job = Job::factory()->for($company)->create();
 
-        Order::factory(3)->for($job)->create([
+        Order::factory(3)->for($job)->for($user)->create([
             'amount' => 0,
             'paid_at' => now(),
         ]);

@@ -34,7 +34,7 @@ class CreateOrderControllerTest extends TestCase
         $company = Company::factory()->for($user)->create();
         $job = Job::factory()->for($company)->create();
 
-        $order = Order::factory()->for($job)->make();
+        $order = Order::factory()->for($user)->for($job)->make();
 
         $this->mockPayment();
 
@@ -43,6 +43,8 @@ class CreateOrderControllerTest extends TestCase
         ]);
 
         $response->assertJson([
+            'user_id' => $user->id,
+            'job_id' => $job->id,
             'paypal_order_id' => 'fake-id',
             'type' => $order->type,
             'amount' => $order->amount,
