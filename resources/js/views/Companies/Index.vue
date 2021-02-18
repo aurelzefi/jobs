@@ -53,7 +53,7 @@
                         </div>
 
                         <div v-else>
-                            {{ __('You have not created any alerts yet.') }}
+                            {{ __('You have not created any companies yet.') }}
                         </div>
                     </template>
                 </action-section>

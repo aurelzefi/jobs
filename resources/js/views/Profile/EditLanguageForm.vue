@@ -5,7 +5,7 @@
         </template>
 
         <template #description>
-            {{ __('Description here') }}
+            {{ __('Manage the default language you want to use. We use when sending you emails regarding your activity.') }}
         </template>
 
         <template #form>
@@ -18,11 +18,11 @@
 
         <template #actions>
             <action-message :on="form.successful" class="mr-3">
-                {{ __('Updated.') }}
+                {{ __('Saved.') }}
             </action-message>
 
             <app-button :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                {{ __('Update') }}
+                {{ __('Save') }}
             </app-button>
         </template>
     </form-section>

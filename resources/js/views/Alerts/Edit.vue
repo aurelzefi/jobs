@@ -96,7 +96,7 @@
 
                     <template #actions>
                         <app-button :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                            {{ __('Update') }}
+                            {{ __('Save') }}
                         </app-button>
                     </template>
                 </form-section>

@@ -5,21 +5,29 @@
         </template>
 
         <template #description>
-            {{ __('The order will be posted on our dashboard and will remain active for 30 days.') }}
+            {{ __('The job will be posted and will remain active for 30 days. No worries, we will notify you when the job is about to expire so you can renew it.') }}
         </template>
 
         <template #content>
             <template v-if="App.user.free_orders_left > 0">
-                <h2 class="text-4xl font-medium text-gray-900">
-                    &euro;{{ App.orders.basic / 100 }}
-                </h2>
+                <div class="flex items-center">
+                    <h2 class="text-4xl font-medium text-gray-900">
+                        &euro;{{ App.orders.basic / 100 }}
+                    </h2>
+
+                    <span class="ml-2 text-sm text-gray-600">
+                        for 30 days
+                    </span>
+                </div>
 
                 <h3 class="mt-3 text-lg font-medium text-gray-900">
                     {{ __('You are still eligible for free orders.') }}
                 </h3>
 
                 <div class="mt-3 max-w-xl text-sm text-gray-600">
-                    {{ __('It is not necessary to pay for this order. Of course, if you decide to pay anyway, it will not affect the amount of free orders available to you.') }}
+                    <p>
+                        {{ __('It is not necessary to pay for this order. Of course, if you decide to pay anyway, it will not affect the amount of free orders available to you.') }}
+                    </p>
                 </div>
 
                 <div class="flex mt-5">
@@ -30,7 +38,7 @@
             </template>
 
             <div class="max-w-sm mt-5">
-                <paypal-smart-buttons :job="job" type="basic"/>
+                <paypal-smart-buttons :job="job" type="basic" />
             </div>
         </template>
     </action-section>

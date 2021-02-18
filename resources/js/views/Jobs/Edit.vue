@@ -63,11 +63,11 @@
 
                     <template #actions>
                         <app-button class="ml-3" :class="{ 'opacity-25': form.processing }" :disabled="form.processing" @click.native="checkout = false">
-                            {{ __('Update') }}
+                            {{ __('Save') }}
                         </app-button>
 
                         <app-button class="ml-3" :class="{ 'opacity-25': form.processing }" :disabled="form.processing" @click.native="checkout = true" v-show="! active">
-                            {{ __('Update And Checkout') }}
+                            {{ __('Save And Checkout') }}
                         </app-button>
                     </template>
                 </form-section>
@@ -150,7 +150,7 @@ export default {
                     this.form.city = response.data.city
                     this.form.type = response.data.type
                     this.form.style = response.data.style
-                    this.isActive = response.data.is_active
+                    this.active = response.data.is_active
                 })
         },
 

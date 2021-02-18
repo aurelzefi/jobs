@@ -9,18 +9,19 @@
         <div>
             <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
                 <div>
-                    <update-profile-information-form :user="App.user"/>
-                    <section-border />
-                </div>
-
-                <div>
-                    <update-password-form/>
+                    <edit-profile-information-form :user="App.user"/>
 
                     <section-border />
                 </div>
 
                 <div>
-                    <update-language-form :user="App.user" :locales="App.locales"/>
+                    <edit-password-form/>
+
+                    <section-border />
+                </div>
+
+                <div>
+                    <edit-language-form :user="App.user" :locales="App.locales"/>
                 </div>
             </div>
         </div>
@@ -30,17 +31,17 @@
 <script>
 import SectionBorder from '../../components/SectionBorder'
 import AppLayout from '../../layouts/AppLayout'
-import UpdateLanguageForm from './UpdateLanguageForm'
-import UpdatePasswordForm from './UpdatePasswordForm'
-import UpdateProfileInformationForm from './UpdateProfileInformationForm'
+import EditLanguageForm from './EditLanguageForm'
+import EditPasswordForm from './EditPasswordForm'
+import EditProfileInformationForm from './EditProfileInformationForm'
 
 export default {
     components: {
         SectionBorder,
         AppLayout,
-        UpdateLanguageForm,
-        UpdatePasswordForm,
-        UpdateProfileInformationForm
+        EditLanguageForm,
+        EditPasswordForm,
+        EditProfileInformationForm
     }
 }
 </script>

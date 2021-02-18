@@ -5,14 +5,18 @@
         </template>
 
         <template #description>
-            {{ __('The order will be posted on our dashboard and it will be pinned at the top. It will remain active for 30 days.') }}
+            {{ __('The job will be posted and will be pinned at the top. It will remain active for 30 days. No worries, we will notify you when the job is about to expire so you can renew it.') }}
         </template>
 
         <template #content>
-            <div class="max-w-xl text-sm text-gray-600">
+            <div class="flex items-center">
                 <h2 class="text-4xl font-medium text-gray-900">
                     &euro;{{ App.orders.pinned / 100 }}
                 </h2>
+
+                <span class="ml-2 text-sm text-gray-600">
+                    for 30 days
+                </span>
             </div>
 
             <div class="max-w-sm mt-5">

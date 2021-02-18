@@ -14,7 +14,7 @@
                     </template>
 
                     <template #description>
-                        {{ __('Description Here') }}
+                        {{ __('Here you will find all your orders. We display only your completed orders.') }}
                     </template>
 
                     <template #content>
@@ -29,6 +29,10 @@
                                         {{ ucfirst(order.type) }}
                                     </div>
 
+                                    <div>
+                                        {{ order.paid_at }}
+                                    </div>
+
                                     <div class="ml-6">
                                         &euro;{{ order.amount / 100 }}
                                     </div>
@@ -37,7 +41,7 @@
                         </div>
 
                         <div v-else>
-                            {{ __('You don\'t have any orders.') }}
+                            {{ __('You don\'t have any orders yet.') }}
                         </div>
                     </template>
                 </action-section>
