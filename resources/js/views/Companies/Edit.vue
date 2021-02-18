@@ -2,7 +2,7 @@
     <app-layout>
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                {{ ('Create Company') }}
+                {{ ('Edit Company') }}
             </h2>
         </template>
 
@@ -54,7 +54,7 @@
                             <app-input-error :message="form.errors.website" class="mt-2" />
                         </div>
 
-                        <div class="col-span-6 sm:col-span-4">
+                        <div class="col-span-6 sm:col-span-4" v-if="form.name">
                             <input type="file" class="hidden" ref="logo" @change="updateLogoPreview">
 
                             <app-label for="logo">

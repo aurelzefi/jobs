@@ -1,13 +1,175 @@
 <template>
+    <app-layout>
+        <template #header>
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                {{ ('Create Job') }}
+            </h2>
+        </template>
 
+        <div>
+            <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
+                <form-section @submitted="update">
+                    <template #title>
+                        {{ __('Title') }}
+                    </template>
+
+                    <template #description>
+                        {{ __('Description') }}
+                    </template>
+
+                    <template #form>
+                        <div class="col-span-6 sm:col-span-4">
+                            <app-label for="title">{{ __('Title') }}</app-label>
+                            <app-input id="title" type="text" class="mt-1 block w-full" v-model="form.title" />
+                            <app-input-error :message="form.errors.title" class="mt-2" />
+                        </div>
+
+                        <div class="col-span-6 sm:col-span-4">
+                            <app-label for="description">{{ __('Description') }}</app-label>
+                            <vue-editor v-model="form.description" />
+                            <app-input-error :message="form.errors.description" class="mt-2" />
+                        </div>
+
+                        <div class="col-span-6 sm:col-span-4">
+                            <app-label for="company">{{ __('Company') }}</app-label>
+                            <company-select id="company" class="mt-1 block w-full" v-model="form.company_id" />
+                            <app-input-error :message="form.errors.company_id" class="mt-2" />
+                        </div>
+
+                        <div class="col-span-6 sm:col-span-4">
+                            <app-label for="type">{{ __('Type') }}</app-label>
+                            <app-select id="type" class="mt-1 block w-full" :options="jobTypes" :default-option="__('Select a type')" v-model="form.type" />
+                            <app-input-error :message="form.errors.type" class="mt-2" />
+                        </div>
+
+                        <div class="col-span-6 sm:col-span-4">
+                            <app-label for="style">{{ __('Style') }}</app-label>
+                            <app-select id="style" class="mt-1 block w-full" :options="jobStyles" :default-option="__('Select a style')" v-model="form.style" />
+                            <app-input-error :message="form.errors.style" class="mt-2" />
+                        </div>
+
+                        <div class="col-span-6 sm:col-span-4">
+                            <app-label for="city">{{ __('City') }}</app-label>
+                            <app-input id="city" type="text" class="mt-1 block w-full" v-model="form.city" />
+                            <app-input-error :message="form.errors.city" class="mt-2" />
+                        </div>
+
+                        <div class="col-span-6 sm:col-span-4">
+                            <app-label for="country">{{ __('Country') }}</app-label>
+                            <country-select id="country" class="mt-1 block w-full" v-model="form.country_id" />
+                            <app-input-error :message="form.errors.country_id" class="mt-2" />
+                        </div>
+                    </template>
+
+                    <template #actions>
+                        <app-button class="ml-3" :class="{ 'opacity-25': form.processing }" :disabled="form.processing" @click.native="checkout = false">
+                            {{ __('Update') }}
+                        </app-button>
+
+                        <app-button class="ml-3" :class="{ 'opacity-25': form.processing }" :disabled="form.processing" @click.native="checkout = true" v-show="! active">
+                            {{ __('Update And Checkout') }}
+                        </app-button>
+                    </template>
+                </form-section>
+            </div>
+        </div>
+    </app-layout>
 </template>
 
 <script>
+import {VueEditor} from 'vue2-editor'
+import ActionMessage from '../../components/ActionMessage'
+import AppButton from '../../components/Button'
+import AppCheckbox from '../../components/Checkbox'
+import CompanySelect from '../../components/CompanySelect'
+import CountrySelect from '../../components/CountrySelect'
+import FormSection from '../../components/FormSection'
+import AppInput from '../../components/Input'
+import AppInputError from '../../components/InputError'
+import AppLabel from '../../components/Label'
+import PaypalSmartButtons from '../../components/PaypalSmartButtons'
+import SectionBorder from '../../components/SectionBorder'
+import AppSelect from '../../components/Select'
+import AppLayout from '../../layouts/AppLayout'
+
 export default {
-    name: "Edit"
+    props: ['job'],
+
+    components: {
+        VueEditor,
+        ActionMessage,
+        AppButton,
+        AppCheckbox,
+        CompanySelect,
+        CountrySelect,
+        FormSection,
+        AppInput,
+        AppInputError,
+        AppLabel,
+        PaypalSmartButtons,
+        SectionBorder,
+        AppSelect,
+        AppLayout
+    },
+
+    data() {
+        return {
+            form: this.$form.create({
+                company_id: '',
+                country_id: '',
+                title: '',
+                description: '',
+                city: '',
+                type: '',
+                style: ''
+            }),
+
+            jobTypes: {},
+            jobStyles: {},
+
+            checkout: false,
+            active: false
+        }
+    },
+
+    mounted() {
+        this.jobTypes = this.keyByValues(this.App.jobTypes)
+        this.jobStyles = this.keyByValues(this.App.jobStyles)
+
+        this.getJob()
+    },
+
+    methods: {
+        getJob() {
+            this.$http.get(`/api/jobs/${this.job}`)
+                .then(response => {
+                    this.form.company_id = response.data.company_id
+                    this.form.country_id = response.data.country_id
+                    this.form.title = response.data.title
+                    this.form.description = response.data.description
+                    this.form.city = response.data.city
+                    this.form.type = response.data.type
+                    this.form.style = response.data.style
+                    this.isActive = response.data.is_active
+                })
+        },
+
+        update() {
+            this.form.put(`/api/jobs/${this.job}`, {
+                onSuccess: response => {
+                    if (this.checkout) {
+                        this.$router.push({
+                            name: 'checkout.index',
+                            params: {jobId: response.data.id}
+                        })
+
+                        return
+                    }
+
+                    this.$router.push({name: 'jobs.index'})
+                }
+            })
+        },
+    }
 }
 </script>
-
-<style scoped>
-
-</style>

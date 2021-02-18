@@ -26,16 +26,12 @@
 
                                 <div class="flex items-center">
                                     <div>
-                                        {{ order.type }}
+                                        {{ ucfirst(order.type) }}
                                     </div>
 
                                     <div class="ml-6">
                                         &euro;{{ order.amount / 100 }}
                                     </div>
-
-                                    <router-link :to="{name: 'orders.show', params: {order: order.id}}" class="cursor-pointer ml-6 text-sm text-gray-400 underline">
-                                        {{ __('Show') }}
-                                    </router-link>
                                 </div>
                             </div>
                         </div>

@@ -31,6 +31,10 @@
                                 </div>
 
                                 <div class="flex items-center">
+                                    <div>
+                                        {{ job.is_active ? __('Active') : __('Inactive') }}
+                                    </div>
+
                                     <router-link :to="{name: 'jobs.edit', params: {job: job.id}}" class="cursor-pointer ml-6 text-sm text-gray-400 underline">
                                         {{ __('Edit') }}
                                     </router-link>

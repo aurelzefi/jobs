@@ -1,7 +1,6 @@
 import CreateAlert from './views/Alerts/Create'
 import EditAlert from './views/Alerts/Edit'
 import ListAlerts from './views/Alerts/Index'
-import ShowAlert from './views/Alerts/Show'
 import Checkout from './views/Checkout/Index'
 import CreateCompany from './views/Companies/Create'
 import EditCompany from './views/Companies/Edit'
@@ -12,7 +11,6 @@ import EditJob from './views/Jobs/Edit'
 import ListJobs from './views/Jobs/Index'
 import ShowJob from './views/Jobs/Show'
 import ListOrders from './views/Orders/Index'
-import ShowOrder from './views/Orders/Show'
 import EditProfile from './views/Profile/Edit'
 import AllJobs from './views/AllJobs'
 
@@ -34,14 +32,6 @@ export default [
         path: '/alerts/create',
         name: 'alerts.create',
         component: CreateAlert,
-        meta: {
-            middleware: 'auth'
-        }
-    },
-    {
-        path: '/alerts/:alert',
-        name: 'alerts.show',
-        component: ShowAlert,
         meta: {
             middleware: 'auth'
         }
@@ -134,14 +124,6 @@ export default [
         path: '/orders',
         name: 'orders.index',
         component: ListOrders,
-        meta: {
-            middleware: 'auth'
-        }
-    },
-    {
-        path: '/orders',
-        name: 'orders.show',
-        component: ShowOrder,
         meta: {
             middleware: 'auth'
         }

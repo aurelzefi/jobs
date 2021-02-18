@@ -62,16 +62,12 @@
                     </template>
 
                     <template #actions>
-                        <div class="text-sm text-gray-600" v-if="App.user.free_orders_left > 0">
-                            {{ __(`You are eligible for ${App.user.free_orders_left} more free orders`) }}
-                        </div>
-
                         <app-button class="ml-3" :class="{ 'opacity-25': form.processing }" :disabled="form.processing" @click.native="checkout = false">
                             {{ __('Save') }}
                         </app-button>
 
                         <app-button class="ml-3" :class="{ 'opacity-25': form.processing }" :disabled="form.processing" @click.native="checkout = true">
-                            {{ __('Checkout') }}
+                            {{ __('Save And Checkout') }}
                         </app-button>
                     </template>
                 </form-section>
@@ -141,10 +137,17 @@ export default {
     methods: {
         store() {
             this.form.post('/api/jobs', {
-                onSuccess: () => {
-                    this.$router.push({
-                        name: this.checkout ? 'checkout.index' : 'jobs.index'
-                    })
+                onSuccess: response => {
+                    if (this.checkout) {
+                        this.$router.push({
+                            name: 'checkout.index',
+                            params: {jobId: response.data.id}
+                        })
+
+                        return
+                    }
+
+                    this.$router.push({name: 'jobs.index'})
                 }
             })
         },

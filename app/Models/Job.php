@@ -61,13 +61,18 @@ class Job extends Model
         return $this->hasMany(Order::class);
     }
 
+    public function activeOrders(): HasMany
+    {
+        return $this->orders()->whereDate('paid_at', '>=', now()->subMonth()->toDateString());
+    }
+
     public function isActive(): bool
     {
-        return $this->orders()->whereDate('paid_at', '>=', now()->subMonth()->toDateString())->exists();
+        return $this->activeOrders()->exists();
     }
 
     public function getIsActiveAttribute(): bool
     {
-        return $this->isActive();
+        return $this->activeOrders->count() > 0;
     }
 }
