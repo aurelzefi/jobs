@@ -19,7 +19,7 @@ class CompanyRequest extends FormRequest
         return [
             'country_id' => ['required', Rule::exists('countries', 'id')],
             'name' => ['required', 'string', 'max:255'],
-            'logo' => ['image', 'max:1024'],
+            'logo' => ['nullable', 'image', 'max:1024'],
             'description' => ['required', 'string'],
             'website' => ['nullable', 'string', 'url', 'max:255'],
             'address' => ['required', 'string', 'max:255'],

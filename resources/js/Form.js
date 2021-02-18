@@ -6,12 +6,19 @@ export default class Form {
         this.errors = {}
         this.successful = false
         this.processing = false
+        this.hasFile = false
 
         for (const key in data) {
             if (data.hasOwnProperty(key)) {
                 this[key] = data[key]
             }
         }
+    }
+
+    asFormData() {
+        this.hasFile = true
+
+        return this
     }
 
     formatErrors(errors) {
@@ -35,11 +42,7 @@ export default class Form {
         this.processing = true
         this.errors = {}
 
-       const data = _.pickBy(this, (value, key) => {
-            return ! _.includes(['http', 'errors', 'successful', 'processing'], key)
-        })
-
-        this.http[method](uri, data)
+        this.http[method](uri, this.getData())
             .then(response => {
                 this.successful = true
                 this.processing = false
@@ -60,5 +63,25 @@ export default class Form {
                     onFailure(error)
                 }
             })
+    }
+
+    getData() {
+        const data = _.pickBy(this, (value, key) => {
+            return ! _.includes(['http', 'errors', 'successful', 'processing', 'hasFile'], key)
+        })
+
+        if (this.hasFile) {
+            const formData = new FormData();
+
+            for (let key in data) {
+                if (data.hasOwnProperty(key)) {
+                    formData.append(key, data[key])
+                }
+            }
+
+            return formData
+        }
+
+        return data
     }
 }

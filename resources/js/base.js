@@ -28,6 +28,10 @@ export default {
             }
 
             return result
-        }
+        },
+
+        imageUrl(path) {
+            return process.env.MIX_APP_URL + '/' + path
+        },
     }
 }

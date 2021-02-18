@@ -34,10 +34,14 @@ Route::apiResource('alerts', AlertsController::class)
 
 Route::apiResource('companies', CompaniesController::class)
     ->middleware(['auth', 'verified'])
-    ->except('show');
+    ->except(['show', 'update']);
 
 Route::apiResource('companies', CompaniesController::class)
     ->only('show');
+
+Route::post('/companies/{company}/update', [CompaniesController::class, 'update'])
+    ->middleware(['auth', 'verified'])
+    ->name('companies.update');
 
 Route::apiResource('jobs', JobsController::class)
     ->middleware(['auth', 'verified'])
