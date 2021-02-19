@@ -18,5 +18,10 @@
     "remote": "Remote",
     "optional": "Optional",
     "basic": "Basic",
-    "pinned": "Pinned"
+    "pinned": "Pinned",
+    "full-time": "Full-time",
+    "part-time": "Part-time",
+    "freelance": "Freelance",
+    "contract": "Contract",
+    "internship": "Internship"
 }
