@@ -78,7 +78,6 @@
 
 <script>
 import ActionLink from '../../components/ActionLink'
-import ActionSection from '../../components/ActionSection'
 import DangerButton from '../../components/DangerButton'
 import DialogModal from '../../components/DialogModal'
 import SecondaryButton from '../../components/SecondaryButton'
@@ -88,7 +87,6 @@ import AppLayout from '../../layouts/AppLayout'
 export default {
     components: {
         ActionLink,
-        ActionSection,
         DangerButton,
         DialogModal,
         SecondaryButton,

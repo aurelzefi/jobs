@@ -8,75 +8,75 @@
 
         <div>
             <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
-                <action-section>
-                    <template #title>
-                        {{ __('Companies') }}
-                    </template>
-
-                    <template #description>
-                        {{ __('Description Here') }}
-                    </template>
-
+                <table-section :count="companies.length" :headers="tableHeaders" :has-table-actions="true">
                     <template #actions>
                         <action-link :to="{name: 'companies.create'}">
                             {{ __('Create New Company') }}
                         </action-link>
                     </template>
 
-                    <template #content>
-                        <div class="space-y-6" v-if="companies.length">
-                            <div class="flex items-center justify-between" v-for="company in companies" :key="company.id">
+                    <template #body>
+                        <tr v-for="company in companies">
+                            <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="flex items-center">
-                                    <div v-if="company.logo">
-                                        <img :src="imageUrl(company.logo)" :alt="company.name" class="rounded-full h-10 w-10 object-cover">
+                                    <div class="flex-shrink-0 h-10 w-10" v-if="company.logo">
+                                        <img class="h-10 w-10 rounded-full" :src="imageUrl(company.logo)" :alt="company.name">
                                     </div>
 
-                                    <div v-else>
-
-                                    </div>
-
-                                    <span class="ml-2">
+                                    <div class="ml-4 text-sm font-medium text-gray-900">
                                         {{ company.name }}
-                                    </span>
+                                    </div>
                                 </div>
+                            </td>
 
-                                <div class="flex items-center">
-                                    <router-link :to="{name: 'companies.edit', params: {company: company.id}}" class="cursor-pointer ml-6 text-sm text-gray-400 underline">
-                                        {{ __('Edit') }}
-                                    </router-link>
-
-                                    <button class="cursor-pointer ml-6 text-sm text-red-500" @click="confirmCompanyDeletion(company)">
-                                        {{ __('Delete') }}
-                                    </button>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="text-sm text-gray-900">
+                                    {{ company.city }}
                                 </div>
-                            </div>
-                        </div>
+                            </td>
 
-                        <div v-else>
-                            {{ __('You don\'t have any companies.') }}
-                        </div>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="text-sm text-gray-900">
+                                    {{ date(company.created_at) }}
+                                </div>
+                            </td>
 
-                        <dialog-modal :show="confirmingCompanyDeletion" @close="closeModal">
-                            <template #title>
-                                {{ __('Delete Company') }}
-                            </template>
+                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                <router-link :to="{name: 'companies.edit', params: {company: company.id}}" class="text-indigo-600 hover:text-indigo-900">
+                                    {{ __('Edit') }}
+                                </router-link>
 
-                            <template #content>
-                                {{ __('Are you sure you want to delete this company?') }}
-                            </template>
-
-                            <template #footer>
-                                <secondary-button @click.native="closeModal">
-                                    {{ __('Close') }}
-                                </secondary-button>
-
-                                <danger-button class="ml-2" @click.native="deleteCompany" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                                    {{ __('Delete Company') }}
-                                </danger-button>
-                            </template>
-                        </dialog-modal>
+                                <button class="ml-6 text-red-600 hover:text-red-900 focus:outline-none" @click="confirmCompanyDeletion(company)">
+                                    {{ __('Delete') }}
+                                </button>
+                            </td>
+                        </tr>
                     </template>
-                </action-section>
+
+                    <template #empty>
+                        {{ __('You don\'t have any companies.') }}
+                    </template>
+
+                    <dialog-modal :show="confirmingCompanyDeletion" @close="closeModal">
+                        <template #title>
+                            {{ __('Delete Company') }}
+                        </template>
+
+                        <template #content>
+                            {{ __('Are you sure you want to delete this company?') }}
+                        </template>
+
+                        <template #footer>
+                            <secondary-button @click.native="closeModal">
+                                {{ __('Close') }}
+                            </secondary-button>
+
+                            <danger-button class="ml-2" @click.native="deleteCompany" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                                {{ __('Delete Company') }}
+                            </danger-button>
+                        </template>
+                    </dialog-modal>
+                </table-section>
             </div>
         </div>
     </app-layout>
@@ -84,25 +84,31 @@
 
 <script>
 import ActionLink from '../../components/ActionLink'
-import ActionSection from '../../components/ActionSection'
 import DangerButton from '../../components/DangerButton'
 import DialogModal from '../../components/DialogModal'
 import SecondaryButton from '../../components/SecondaryButton'
+import TableSection from '../../components/TableSection'
 import AppLayout from '../../layouts/AppLayout'
 
 export default {
     components: {
         ActionLink,
-        ActionSection,
         DangerButton,
         DialogModal,
         SecondaryButton,
+        TableSection,
         AppLayout
     },
 
     data() {
         return {
             companies: [],
+
+            tableHeaders: [
+                'Name',
+                'City',
+                'Created At'
+            ],
 
             currentCompany: null,
             confirmingCompanyDeletion: false,
