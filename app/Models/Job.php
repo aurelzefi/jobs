@@ -63,7 +63,7 @@ class Job extends Model
 
     public function activeOrders(): HasMany
     {
-        return $this->orders()->whereDate('paid_at', '>=', now()->subMonth()->toDateString());
+        return $this->orders()->whereDate('paid_at', '>=', now()->subDays(30)->toDateString());
     }
 
     public function isActive(): bool
