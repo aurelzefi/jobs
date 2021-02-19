@@ -33,7 +33,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
 
     public function companies(): HasMany
     {
-        return $this->hasMany(Company::class);
+        return $this->hasMany(Company::class)->orderByDesc('created_at');
     }
 
     public function alerts(): HasMany
@@ -43,7 +43,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
 
     public function jobs(): HasManyThrough
     {
-        return $this->hasManyThrough(Job::class, Company::class);
+        return $this->hasManyThrough(Job::class, Company::class)->orderByDesc('created_at');
     }
 
     public function orders(): HasMany

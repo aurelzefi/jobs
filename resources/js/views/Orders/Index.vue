@@ -69,7 +69,7 @@ export default {
             orders: [],
 
             tableHeaders: [
-                'ID',
+                'Paypal ID',
                 'Job',
                 'Amount',
                 'Type',

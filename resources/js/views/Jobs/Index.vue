@@ -24,15 +24,13 @@
                             </td>
 
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm text-gray-900">
-                                    {{ __(job.type) }}
-                                </div>
-                            </td>
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800" v-if="job.is_active">
+                                    {{ __('Active') }}
+                                </span>
 
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm text-gray-900">
-                                    {{ __(job.style) }}
-                                </div>
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800" v-else>
+                                    {{ __('Inactive') }}
+                                </span>
                             </td>
 
                             <td class="px-6 py-4 whitespace-nowrap">
@@ -106,8 +104,7 @@ export default {
 
             tableHeaders: [
                 'Title',
-                'Type',
-                'Style',
+                'Active',
                 'Created At'
             ],
 
