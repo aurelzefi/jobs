@@ -76,14 +76,14 @@ class Payment
             'intent' => 'CAPTURE',
             'application_context' => [
                 'brand_name' => config('app.name'),
-                'locale' => config('app.locale'),
+                'locale' => app()->getLocale(),
                 'user_action' => 'PAY_NOW',
             ],
             'purchase_units' => [
                 [
                     'description' => sprintf('%s - %s Job Post', config('app.name'), ucfirst($this->type)),
                     'amount' => [
-                        'currency_code' => 'EUR',
+                        'currency_code' => config('services.paypal.currency'),
                         'value' => $this->amount / 100,
                     ]
                 ],

@@ -78,24 +78,32 @@ trait JobScopes
 
     public function scopeAddedLastThirtyDays(Builder $query): Builder
     {
-        return $query->withLastPaidAt()->havingRaw('date(last_paid_at) >= ?', [now()->subDays(30)->toDateString()]);
+        return $query->withLastPaidAt()->havingRaw(
+            'date(last_paid_at) >= ?', [now()->subDays(30)->toDateString()]
+        );
     }
 
     public function scopeAddedLastWeek(Builder $query): Builder
     {
-        return $query->withLastPaidAt()->havingRaw('date(last_paid_at) >= ? and date(last_paid_at) <= ?', [
-            now()->subWeek()->toDateString(), now()->subDay()->toDateString(),
-        ]);
+        return $query->withLastPaidAt()->havingRaw(
+            'date(last_paid_at) >= ? and date(last_paid_at) <= ?', [
+                now()->subWeek()->toDateString(), now()->subDay()->toDateString(),
+            ]
+        );
     }
 
     public function scopeAddedYesterday(Builder $query): Builder
     {
-        return $query->withLastPaidAt()->havingRaw('date(last_paid_at) = ?', [now()->subDay()->toDateString()]);
+        return $query->withLastPaidAt()->havingRaw(
+            'date(last_paid_at) = ?', [now()->subDay()->toDateString()]
+        );
     }
 
     public function scopeExpireToday(Builder $query): Builder
     {
-        return $query->withLastPaidAt()->havingRaw('date(last_paid_at) = ?', [now()->subDays(30)->toDateString()]);
+        return $query->withLastPaidAt()->havingRaw(
+            'date(last_paid_at) = ?', [now()->subDays(30)->toDateString()]
+        );
     }
 
     public function scopeOrderByPinnedDesc(Builder $query): Builder
