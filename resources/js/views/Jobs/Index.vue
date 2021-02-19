@@ -8,69 +8,75 @@
 
         <div>
             <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
-                <action-section>
-                    <template #title>
-                        {{ __('Jobs') }}
-                    </template>
-
-                    <template #description>
-                        {{ __('Description Here') }}
-                    </template>
-
+                <table-section :count="jobs.length" :headers="tableHeaders" :has-table-actions="true">
                     <template #actions>
                         <action-link :to="{name: 'jobs.create'}">
                             {{ __('Create New Job') }}
                         </action-link>
                     </template>
 
-                    <template #content>
-                        <div class="space-y-6" v-if="jobs.length">
-                            <div class="flex items-center justify-between" v-for="job in jobs" :key="job.id">
-                                <div>
+                    <template #body>
+                        <tr v-for="job in jobs">
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="text-sm text-gray-900">
                                     {{ job.title }}
                                 </div>
+                            </td>
 
-                                <div class="flex items-center">
-                                    <div>
-                                        {{ job.is_active ? __('Active') : __('Inactive') }}
-                                    </div>
-
-                                    <router-link :to="{name: 'jobs.edit', params: {job: job.id}}" class="cursor-pointer ml-6 text-sm text-gray-400 underline">
-                                        {{ __('Edit') }}
-                                    </router-link>
-
-                                    <button class="cursor-pointer ml-6 text-sm text-red-500" @click="confirmJobDeletion(job)">
-                                        {{ __('Delete') }}
-                                    </button>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="text-sm text-gray-900">
+                                    {{ __(job.type) }}
                                 </div>
-                            </div>
-                        </div>
+                            </td>
 
-                        <div v-else>
-                            {{ __('You don\'t have any jobs.') }}
-                        </div>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="text-sm text-gray-900">
+                                    {{ __(job.style) }}
+                                </div>
+                            </td>
 
-                        <dialog-modal :show="confirmingJobDeletion" @close="closeModal">
-                            <template #title>
-                                {{ __('Delete Job') }}
-                            </template>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="text-sm text-gray-900">
+                                    {{ date(job.created_at) }}
+                                </div>
+                            </td>
 
-                            <template #content>
-                                {{ __('Are you sure you want to delete this job?') }}
-                            </template>
+                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                <router-link :to="{name: 'jobs.edit', params: {job: job.id}}" class="text-indigo-600 hover:text-indigo-900">
+                                    {{ __('Edit') }}
+                                </router-link>
 
-                            <template #footer>
-                                <secondary-button @click.native="closeModal">
-                                    {{ __('Close') }}
-                                </secondary-button>
-
-                                <danger-button class="ml-2" @click.native="deleteJob" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                                    {{ __('Delete Job') }}
-                                </danger-button>
-                            </template>
-                        </dialog-modal>
+                                <button class="ml-6 text-red-600 hover:text-red-900 focus:outline-none" @click="confirmJobDeletion(job)">
+                                    {{ __('Delete') }}
+                                </button>
+                            </td>
+                        </tr>
                     </template>
-                </action-section>
+
+                    <template #empty>
+                        {{ __('You don\'t have any jobs.') }}
+                    </template>
+
+                    <dialog-modal :show="confirmingJobDeletion" @close="closeModal">
+                        <template #title>
+                            {{ __('Delete Job') }}
+                        </template>
+
+                        <template #content>
+                            {{ __('Are you sure you want to delete this job?') }}
+                        </template>
+
+                        <template #footer>
+                            <secondary-button @click.native="closeModal">
+                                {{ __('Close') }}
+                            </secondary-button>
+
+                            <danger-button class="ml-2" @click.native="deleteJob" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                                {{ __('Delete Job') }}
+                            </danger-button>
+                        </template>
+                    </dialog-modal>
+                </table-section>
             </div>
         </div>
     </app-layout>
@@ -78,25 +84,32 @@
 
 <script>
 import ActionLink from '../../components/ActionLink'
-import ActionSection from '../../components/ActionSection'
 import DangerButton from '../../components/DangerButton'
 import DialogModal from '../../components/DialogModal'
 import SecondaryButton from '../../components/SecondaryButton'
+import TableSection from '../../components/TableSection'
 import AppLayout from '../../layouts/AppLayout'
 
 export default {
     components: {
         ActionLink,
-        ActionSection,
         DangerButton,
         DialogModal,
         SecondaryButton,
+        TableSection,
         AppLayout
     },
 
     data() {
         return {
             jobs: [],
+
+            tableHeaders: [
+                'Title',
+                'Type',
+                'Style',
+                'Created At'
+            ],
 
             currentJob: null,
             confirmingJobDeletion: false,

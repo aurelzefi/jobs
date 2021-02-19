@@ -31,12 +31,6 @@
 
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="text-sm text-gray-900">
-                                    {{ company.city }}
-                                </div>
-                            </td>
-
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm text-gray-900">
                                     {{ date(company.created_at) }}
                                 </div>
                             </td>
@@ -106,7 +100,6 @@ export default {
 
             tableHeaders: [
                 'Name',
-                'City',
                 'Created At'
             ],
 
