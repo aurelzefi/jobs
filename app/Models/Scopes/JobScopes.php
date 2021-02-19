@@ -67,12 +67,14 @@ trait JobScopes
             });
         }
 
-        if (isset($input['from_created_at'])) {
-            $query->whereDate('created_at', '>=', $input['from_created_at']);
+        $query->withLastPaidAt();
+
+        if (isset($input['from_added_at'])) {
+            $query->havingRaw('date(last_paid_at) >= ?', [$input['from_added_at']]);
         }
 
-        if (isset($input['to_created_at'])) {
-            $query->whereDate('created_at', '<=', $input['to_created_at']);
+        if (isset($input['to_added_at'])) {
+            $query->havingRaw('date(last_paid_at) <= ?', [$input['to_added_at']]);
         }
 
         return $query->addedLastThirtyDays()->orderByPinnedDesc()->orderByLastPaidAtDesc();
@@ -80,7 +82,7 @@ trait JobScopes
 
     public function scopeAddedLastThirtyDays(Builder $query): Builder
     {
-        return $query->withLastPaidAt()->havingRaw(
+        return $query->havingRaw(
             'date(last_paid_at) >= ?', [now()->subDays(30)->toDateString()]
         );
     }

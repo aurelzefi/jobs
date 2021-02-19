@@ -421,41 +421,35 @@ class AllJobsControllerTest extends TestCase
         ]);
     }
 
-    public function test_jobs_can_be_searched_for_from_created_at_date()
+    public function test_jobs_can_be_searched_for_from_added_at_date()
     {
         $company = Company::factory()->create();
 
-        $jobOne = Job::factory()->for($company)->create(['created_at' => now()]);
-        $jobTwo = Job::factory()->for($company)->create(['created_at' => now()->subDay()]);
-
-        Job::factory()->for($company)->create(['created_at' => now()->subDays(2)]);
-        Job::factory()->for($company)->create(['created_at' => now()->subDays(3)]);
+        $jobOne = Job::factory()->for($company)->create();
+        $jobTwo = Job::factory()->for($company)->create();
 
         Order::factory()->for($jobOne)->create([
             'type' => Order::TYPE_BASIC,
             'capture_id' => 'fake-capture-id',
-            'paid_at' => now()->subDays(3),
+            'paid_at' => now(),
         ]);
 
         Order::factory()->for($jobTwo)->create([
             'type' => Order::TYPE_BASIC,
             'capture_id' => 'fake-capture-id',
-            'paid_at' => now()->subDays(2),
+            'paid_at' => now()->subDay(),
         ]);
 
         $parameters = http_build_query([
-            'from_created_at' => now()->subDay()->toDateString(),
+            'from_added_at' => now()->toDateString(),
         ]);
 
         $response = $this->get("/api/jobs/all?{$parameters}");
 
-        $response->assertJsonCount(2, 'data');
+        $response->assertJsonCount(1, 'data');
 
         $response->assertJson([
             'data' => [
-                [
-                    'title' => $jobTwo->title,
-                ],
                 [
                     'title' => $jobOne->title,
                 ],
@@ -463,41 +457,35 @@ class AllJobsControllerTest extends TestCase
         ]);
     }
 
-    public function test_jobs_can_be_searched_for_to_created_at_date()
+    public function test_jobs_can_be_searched_for_to_added_at_date()
     {
         $company = Company::factory()->create();
 
-        $jobOne = Job::factory()->for($company)->create(['created_at' => now()->subDays(2)]);
-        $jobTwo = Job::factory()->for($company)->create(['created_at' => now()->subDays(3)]);
-
-        Job::factory()->for($company)->create(['created_at' => now()]);
-        Job::factory()->for($company)->create(['created_at' => now()->subDay()]);
+        $jobOne = Job::factory()->for($company)->create();
+        $jobTwo = Job::factory()->for($company)->create();
 
         Order::factory()->for($jobOne)->create([
             'type' => Order::TYPE_BASIC,
             'capture_id' => 'fake-capture-id',
-            'paid_at' => now()->subDays(3),
+            'paid_at' => now()->subDay(),
         ]);
 
         Order::factory()->for($jobTwo)->create([
             'type' => Order::TYPE_BASIC,
             'capture_id' => 'fake-capture-id',
-            'paid_at' => now()->subDays(2),
+            'paid_at' => now(),
         ]);
 
         $parameters = http_build_query([
-            'to_created_at' => now()->subDays(2)->toDateString(),
+            'to_added_at' => now()->subDay()->toDateString(),
         ]);
 
         $response = $this->get("/api/jobs/all?{$parameters}");
 
-        $response->assertJsonCount(2, 'data');
+        $response->assertJsonCount(1, 'data');
 
         $response->assertJson([
             'data' => [
-                [
-                    'title' => $jobTwo->title,
-                ],
                 [
                     'title' => $jobOne->title,
                 ],
