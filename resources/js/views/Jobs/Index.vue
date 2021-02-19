@@ -17,7 +17,7 @@
 
                     <template #body>
                         <tr v-for="job in jobs">
-                            <td class="px-6 py-4 whitespace-nowrap">
+                            <td class="px-6 py-4">
                                 <div class="text-sm text-gray-900">
                                     {{ job.title }}
                                 </div>

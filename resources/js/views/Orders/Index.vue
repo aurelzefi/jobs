@@ -11,13 +11,13 @@
                 <table-section :count="orders.length" :headers="tableHeaders">
                     <template #body>
                         <tr v-for="order in orders">
-                            <td class="px-6 py-4 whitespace-nowrap">
+                            <td class="px-6 py-4">
                                 <div class="text-sm text-gray-900">
                                     {{ order.paypal_order_id ? order.paypal_order_id : '-' }}
                                 </div>
                             </td>
 
-                            <td class="px-6 py-4 whitespace-nowrap">
+                            <td class="px-6 py-4">
                                 <div class="text-sm text-gray-900">
                                     {{ order.job ? order.job.title : '-' }}
                                 </div>

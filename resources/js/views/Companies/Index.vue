@@ -17,7 +17,7 @@
 
                     <template #body>
                         <tr v-for="company in companies">
-                            <td class="px-6 py-4 whitespace-nowrap">
+                            <td class="px-6 py-4">
                                 <div class="flex items-center">
                                     <div class="flex-shrink-0 h-10 w-10" v-if="company.logo">
                                         <img class="h-10 w-10 rounded-full" :src="imageUrl(company.logo)" :alt="company.name">
