@@ -24,6 +24,10 @@
                                     {{ order.job ? order.job.title : '-' }}
                                 </div>
 
+                                <div>
+                                    {{ ucfirst(order.type) + ' Job Post' }}
+                                </div>
+
                                 <div class="flex items-center">
                                     <div>
                                         {{ ucfirst(order.type) }}

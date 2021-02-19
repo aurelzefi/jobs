@@ -38,7 +38,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
 
     public function alerts(): HasMany
     {
-        return $this->hasMany(Alert::class);
+        return $this->hasMany(Alert::class)->orderByDesc('created_at');
     }
 
     public function jobs(): HasManyThrough

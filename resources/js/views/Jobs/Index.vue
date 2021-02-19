@@ -61,7 +61,7 @@
 
                             <template #footer>
                                 <secondary-button @click.native="closeModal">
-                                    {{ __('Nevermind') }}
+                                    {{ __('Close') }}
                                 </secondary-button>
 
                                 <danger-button class="ml-2" @click.native="deleteJob" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">

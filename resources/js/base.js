@@ -1,3 +1,5 @@
+import moment from 'moment'
+
 export default {
     data() {
         return {
@@ -36,6 +38,18 @@ export default {
 
         ucfirst(string) {
             return string.charAt(0).toUpperCase() + string.slice(1)
+        },
+
+        locale() {
+            return document.documentElement.lang
+        },
+
+        readableTimestamp(timestamp) {
+            return moment(timestamp).format('YYYY-MM-DD HH:mm:ss')
+        },
+
+        date(timestamp) {
+            return moment(timestamp).format('YYYY-MM-DD')
         }
     }
 }
