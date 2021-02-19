@@ -366,7 +366,7 @@ class AllJobsControllerTest extends TestCase
         ]);
 
         $parameters = http_build_query([
-            'keywords' => ['one', 'three', 'four'],
+            'keywords' => 'one,three,four',
         ]);
 
         $response = $this->get("/api/jobs/all?{$parameters}");
@@ -405,7 +405,7 @@ class AllJobsControllerTest extends TestCase
 
         $parameters = http_build_query([
             'has_all_keywords' => true,
-            'keywords' => ['one', 'description'],
+            'keywords' => 'one,description',
         ]);
 
         $response = $this->get("/api/jobs/all?{$parameters}");

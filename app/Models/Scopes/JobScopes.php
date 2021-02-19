@@ -47,16 +47,18 @@ trait JobScopes
             $query->whereIn('style', $input['styles']);
         }
 
+        $keywords = isset($input['keywords']) ? explode(',', $input['keywords']) : [];
+
         if (isset($input['has_all_keywords'])) {
-            foreach ($input['keywords'] ?? [] as $keyword) {
+            foreach ($keywords as $keyword) {
                 $query->where(function (Builder $query) use ($keyword) {
                     $query->where('title', 'like', "%{$keyword}%")
                         ->orWhere('description', 'like', "%{$keyword}%");
                 });
             }
         } else {
-            $query->where(function (Builder $query) use ($input) {
-                foreach ($input['keywords'] ?? [] as $keyword) {
+            $query->where(function (Builder $query) use ($keywords) {
+                foreach ($keywords as $keyword) {
                     $query->orWhere(function (Builder $query) use ($keyword) {
                         $query->where('title', 'like', "%{$keyword}%")
                             ->orWhere('description', 'like', "%{$keyword}%");
