@@ -50,6 +50,10 @@ export default {
 
         date(timestamp) {
             return moment(timestamp).format('YYYY-MM-DD')
+        },
+
+        dateForHumans(timestamp) {
+            return moment(timestamp).fromNow()
         }
     }
 }

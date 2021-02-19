@@ -28,8 +28,8 @@
                                     {{ __('Active') }}
                                 </span>
 
-                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800" v-else>
-                                    {{ __('Expired') }}
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800" v-else>
+                                    {{ __('Inactive') }}
                                 </span>
                             </td>
 
@@ -40,7 +40,11 @@
                             </td>
 
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                <router-link :to="{name: 'jobs.edit', params: {job: job.id}}" class="text-indigo-600 hover:text-indigo-900">
+                                <router-link :to="{name: 'jobs.checkout', params: {jobId: job.id}}" class="text-indigo-600 hover:text-indigo-900" v-if="! job.is_active">
+                                    {{ __('Renew') }}
+                                </router-link>
+
+                                <router-link :to="{name: 'jobs.edit', params: {job: job.id}}" class="ml-6 text-indigo-600 hover:text-indigo-900">
                                     {{ __('Edit') }}
                                 </router-link>
 

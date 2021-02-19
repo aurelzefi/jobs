@@ -23,6 +23,10 @@
                                         <img class="h-10 w-10 rounded-full" :src="imageUrl(company.logo)" :alt="company.name">
                                     </div>
 
+                                    <div class="text-gray-500" v-else>
+                                        <company-icon class="h-10 w-10" />
+                                    </div>
+
                                     <div class="ml-4 text-sm font-medium text-gray-900">
                                         {{ company.name }}
                                     </div>
@@ -78,6 +82,7 @@
 
 <script>
 import ActionLink from '../../components/ActionLink'
+import CompanyIcon from '../../components/CompanyIcon'
 import DangerButton from '../../components/DangerButton'
 import DialogModal from '../../components/DialogModal'
 import SecondaryButton from '../../components/SecondaryButton'
@@ -87,6 +92,7 @@ import AppLayout from '../../layouts/AppLayout'
 export default {
     components: {
         ActionLink,
+        CompanyIcon,
         DangerButton,
         DialogModal,
         SecondaryButton,

@@ -160,7 +160,7 @@ export default {
                 onSuccess: response => {
                     if (this.checkout) {
                         return this.$router.push({
-                            name: 'checkout.index',
+                            name: 'jobs.checkout',
                             params: {jobId: response.data.id}
                         })
                     }

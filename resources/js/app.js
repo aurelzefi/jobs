@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import axios from 'axios'
 import Base from './base'
+import moment from 'moment'
 import Routes from './routes'
 import VueI18n from 'vue-i18n'
 import VueRouter from 'vue-router'
@@ -9,6 +10,24 @@ import PortalVue from 'portal-vue'
 import AlLocale from './lang/al.json'
 import EnLocale from './lang/en.json'
 import FormCreator from './FormCreator'
+
+moment.locale('en', {
+    relativeTime : {
+        future: "in %s",
+        past: "%s",
+        s:  "s",
+        m:  "1min",
+        mm: "%dmin",
+        h:  "1h",
+        hh: "%dh",
+        d:  "1d",
+        dd: "%dd",
+        M:  "1mth",
+        MM: "%dmth",
+        y:  "1y",
+        yy: "%dy"
+    }
+});
 
 let locale = document.documentElement.lang
 let token = document.head.querySelector('meta[name="csrf-token"]')

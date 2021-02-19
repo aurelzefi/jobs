@@ -67,7 +67,11 @@ export default {
         store() {
             this.form.post(`/api/jobs/${this.job.id}/orders/free`, {
                 onSuccess: () => {
-                    this.$emit('store:order')
+                    this.$root.banner.message = this.__(
+                        'Your order has been successfully completed. It is now listed on our Jobs page.'
+                    )
+
+                    this.$router.push({name: 'jobs.all'})
                 }
             })
         },

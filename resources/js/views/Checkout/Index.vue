@@ -16,13 +16,13 @@
 
                 <template v-else>
                     <div>
-                        <create-basic-post-form :job="job" @store:order="updateJob" />
+                        <create-basic-post-form :job="job" />
 
                         <section-border />
                     </div>
 
                     <div>
-                        <create-pinned-post-form class="mt-10 sm:mt-0" :job="job" @store:order="updateJob" />
+                        <create-pinned-post-form class="mt-10 sm:mt-0" :job="job" />
 
                         <section-border />
                     </div>
@@ -66,12 +66,6 @@ export default {
                 .then(response => {
                     this.job = response.data
                 })
-        },
-
-        updateJob() {
-            this.getJob()
-
-            this.$root.banner.message = this.__('Your order has been successfully completed. It is now listed on our Jobs page.')
         }
     }
 }

@@ -12,7 +12,7 @@ class AllJobsController extends Controller
 {
     public function __invoke(Request $request): JsonResponse
     {
-        $jobs = Job::forInput($request->all())->paginate();
+        $jobs = Job::with(['company', 'country'])->forInput($request->all())->paginate();
 
         return response()->json($jobs);
     }

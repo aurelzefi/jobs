@@ -154,7 +154,7 @@ export default {
                     this.form.country_id = response.data.country_id
                     this.form.name = response.data.name
                     this.form.description = response.data.description
-                    this.form.website = response.data.website
+                    this.form.website = response.data.website ?? ''
                     this.form.address = response.data.website
                     this.form.city = response.data.city
                     this.currentLogo = response.data.logo

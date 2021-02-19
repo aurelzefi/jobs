@@ -45,7 +45,11 @@ export default {
         onApprove() {
             return this.$http.put(`/api/orders/${this.order.id}/capture`)
                 .then(() => {
-                    this.$emit('store:order')
+                    this.$root.banner.message = this.__(
+                        'Your order has been successfully completed. It is now listed on our Jobs page.'
+                    )
+
+                    this.$router.push({name: 'jobs.all'})
                 })
                 .catch(() => {
                     this.showDangerBanner()
@@ -54,7 +58,7 @@ export default {
 
         showDangerBanner() {
             this.$root.banner.style = 'danger'
-            this.$root.banner.message = this.__('The payment for this order has failed. Please try again.')
+            this.$root.banner.message = this.__('The payment for this order has failed. Please try again later.')
         }
     }
 }

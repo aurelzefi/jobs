@@ -20,7 +20,7 @@
             </div>
 
             <div class="max-w-sm mt-5">
-                <paypal-smart-buttons :job="job" type="pinned" @store:order="$emit('store:order')"/>
+                <paypal-smart-buttons :job="job" type="pinned" />
             </div>
         </template>
     </action-section>
