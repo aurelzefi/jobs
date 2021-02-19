@@ -2,7 +2,7 @@
     <div>
         <div class="mt-5 md:mt-0">
             <div class="shadow overflow-hidden sm:rounded-md">
-                <div class="flex items-center justify-end px-4 py-3 bg-gray-50 text-right sm:px-6" v-if="hasActions">
+                <div class="flex items-center justify-end px-4 py-3 bg-gray-50 border-b border-gray-200 text-right sm:px-6" v-if="hasActions">
                     <slot name="actions"></slot>
                 </div>
 
@@ -41,7 +41,17 @@
 
 <script>
 export default {
-    props: ['count', 'headers', 'hasTableActions'],
+    props: {
+        count: {
+            default: 0,
+        },
+        headers: {
+            default: []
+        },
+        hasTableActions: {
+            default: false
+        }
+    },
 
     computed: {
         hasActions() {

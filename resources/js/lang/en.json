@@ -16,5 +16,7 @@
     "Job Styles": "Job Styles",
     "office": "Office",
     "remote": "Remote",
-    "optional": "Optional"
+    "optional": "Optional",
+    "basic": "Basic",
+    "pinned": "Pinned"
 }
