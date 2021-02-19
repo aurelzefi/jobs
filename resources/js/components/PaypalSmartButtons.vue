@@ -45,17 +45,11 @@ export default {
         onApprove() {
             return this.$http.put(`/api/orders/${this.order.id}/capture`)
                 .then(() => {
-                    this.showSuccessBanner()
+                    this.$emit('store:order')
                 })
                 .catch(() => {
                     this.showDangerBanner()
                 })
-        },
-
-        showSuccessBanner() {
-            this.$root.banner.message = this.__('Your order has been successfully completed. It is now listed on our Jobs page.')
-
-            this.$router.push({name: 'jobs.all'})
         },
 
         showDangerBanner() {

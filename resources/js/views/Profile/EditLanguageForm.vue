@@ -5,7 +5,7 @@
         </template>
 
         <template #description>
-            {{ __('Manage the default language you want to use. We use when sending you emails regarding your activity.') }}
+            {{ __('Manage the default language you want to use. We use this when sending you emails regarding your activity.') }}
         </template>
 
         <template #form>

@@ -5,7 +5,7 @@
         </template>
 
         <template #description>
-            {{ __('The job will be posted and will remain active for 30 days. No worries, we will notify you when the job is about to expire so you can renew it.') }}
+            {{ __('The job will be posted and will remain active for 30 days. No worries, we will notify you when the job is about to expire so you can renew it if you want.') }}
         </template>
 
         <template #content>
@@ -67,9 +67,7 @@ export default {
         store() {
             this.form.post(`/api/jobs/${this.job.id}/orders/free`, {
                 onSuccess: () => {
-                    this.$root.banner.message = this.__('Your order has been successfully completed. It is now listed on our Jobs page.')
-
-                    this.$router.push({name: 'jobs.all'})
+                    this.$emit('store:order')
                 }
             })
         },

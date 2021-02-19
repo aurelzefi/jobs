@@ -5,7 +5,7 @@
         </template>
 
         <template #description>
-            {{ __('The job will be posted and will be pinned at the top. It will remain active for 30 days. No worries, we will notify you when the job is about to expire so you can renew it.') }}
+            {{ __('The job will be posted and will be pinned at the top. It will remain active for 30 days. No worries, we will notify you when the job is about to expire so you can renew it if you want.') }}
         </template>
 
         <template #content>
@@ -20,7 +20,7 @@
             </div>
 
             <div class="max-w-sm mt-5">
-                <paypal-smart-buttons :job="job" type="pinned" />
+                <paypal-smart-buttons :job="job" type="pinned" @store:order="$emit('store:order')"/>
             </div>
         </template>
     </action-section>

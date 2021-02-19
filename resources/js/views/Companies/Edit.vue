@@ -26,7 +26,7 @@
 
                         <div class="col-span-6 sm:col-span-4">
                             <app-label for="description">{{ __('Description') }}</app-label>
-                            <app-textarea id="description" type="text" rows="8" class="mt-1 block w-full" v-model="form.description" />
+                            <app-textarea id="description" type="text" rows="6" class="mt-1 block w-full" v-model="form.description" />
                             <app-input-error :message="form.errors.description" class="mt-2" />
                         </div>
 

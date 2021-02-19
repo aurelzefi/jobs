@@ -22,6 +22,12 @@ class CreateFreeOrderController extends Controller
             ]);
         }
 
+        if ($job->isActive()) {
+            throw ValidationException::withMessages([
+                'job' => __('This job is already active.'),
+            ]);
+        }
+
         $order = $request->user()->orders()->create([
             'job_id' => $job->id,
             'type' => Order::TYPE_BASIC,

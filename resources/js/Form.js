@@ -6,7 +6,7 @@ export default class Form {
         this.errors = {}
         this.successful = false
         this.processing = false
-        this.hasFile = false
+        this.shouldBeFormData = false
 
         for (const key in data) {
             if (data.hasOwnProperty(key)) {
@@ -16,13 +16,17 @@ export default class Form {
     }
 
     asFormData() {
-        this.hasFile = true
+        this.shouldBeFormData = true
 
         return this
     }
 
     formatErrors(errors) {
         return _.mapValues(errors, error => error[0])
+    }
+
+    get(uri, {onSuccess, onFailure} = {}) {
+        this.action('get', uri, onSuccess, onFailure)
     }
 
     post(uri, {onSuccess, onFailure} = {}) {
@@ -70,18 +74,18 @@ export default class Form {
             return ! _.includes(['http', 'errors', 'successful', 'processing', 'hasFile'], key)
         })
 
-        if (this.hasFile) {
-            const formData = new FormData();
-
-            for (let key in data) {
-                if (data.hasOwnProperty(key)) {
-                    formData.append(key, data[key])
-                }
-            }
-
-            return formData
+        if (! this.shouldBeFormData) {
+            return data
         }
 
-        return data
+        const formData = new FormData()
+
+        for (let key in data) {
+            if (data.hasOwnProperty(key)) {
+                formData.append(key, data[key])
+            }
+        }
+
+        return formData
     }
 }

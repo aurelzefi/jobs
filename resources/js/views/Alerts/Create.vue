@@ -45,6 +45,7 @@
                         <div class="col-span-6 sm:col-span-4">
                             <app-label for="keywords">{{ __('Keywords') }}</app-label>
                             <app-input id="keywords" type="text" class="mt-1 block w-full" v-model="form.keywords" />
+                            <secondary-text>{{ __('A comma separated list of keywords.') }}</secondary-text>
                             <app-input-error :message="form.errors.keywords" class="mt-2" />
                         </div>
 
@@ -115,6 +116,7 @@ import FormSection from '../../components/FormSection'
 import AppInput from '../../components/Input'
 import AppInputError from '../../components/InputError'
 import AppLabel from '../../components/Label'
+import SecondaryText from '../../components/SecondaryText'
 import SectionBorder from '../../components/SectionBorder'
 import AppSelect from '../../components/Select'
 import AppLayout from '../../layouts/AppLayout'
@@ -129,6 +131,7 @@ export default {
         AppInput,
         AppInputError,
         AppLabel,
+        SecondaryText,
         SectionBorder,
         AppSelect,
         AppLayout
