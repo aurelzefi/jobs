@@ -8,26 +8,56 @@
 
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="shadow overflow-hidden sm:rounded-md">
+                    <div class="px-4 py-5 bg-white sm:p-6">
+                        <div class="md:flex items-center justify-between">
+                            <form @submit.prevent="pushRouter">
+                                <div class="sm:flex items-center">
+                                    <app-input id="query" type="text" class="min-w-full" :placeholder="__('Search by job title or description')" v-model="form.query" />
+
+                                    <app-button class="mt-2 sm:mt-0 sm:ml-2">
+                                        {{ __('Search') }}
+                                    </app-button>
+                                </div>
+                            </form>
+
+                            <div class="mt-2 sm:mt-0">
+                                <app-button type="button" @click.native="showSearchModal">
+                                    {{ __('Advanced Search') }}
+                                </app-button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div v-if="! jobs.length">
+                    <div class="mt-4 bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                        <div class="p-6 bg-white border-b border-gray-200">
+                            {{ __('No jobs for this search.') }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-4 bg-white overflow-hidden shadow-sm sm:rounded-lg" v-if="jobs.length">
                     <router-link v-for="job in jobs" :key="job.id" :to="{name: 'jobs.show', params: {job: job.id}}" class="block p-4 bg-white hover:bg-gray-50 border-b border-gray-200">
                         <div class="flex justify-between">
                             <div class="flex items-center">
-                                <div class="flex-shrink-0 h-14 w-14" v-if="job.company.logo">
+                                <router-link :to="{name: 'companies.show', params: {company: job.company_id}}" class="flex-shrink-0 h-14 w-14" v-if="job.company.logo">
                                     <img class="h-14 w-14 rounded-full" :src="imageUrl(job.company.logo)" :alt="job.company.logo">
-                                </div>
+                                </router-link>
 
-                                <div class="text-gray-500" v-else>
+                                <router-link :to="{name: 'companies.show', params: {company: job.company_id}}" class="text-gray-500" v-else>
                                     <company-icon class="h-14 w-14" />
-                                </div>
+                                </router-link>
 
                                 <div class="ml-4">
                                     <div class="text-gray-900">
                                         {{ job.title }}
                                     </div>
 
-                                    <div class="mt-1 text-sm text-gray-500">
+                                    <router-link :to="{name: 'companies.show', params: {company: job.company_id}}" class="mt-1 block text-sm text-gray-500 hover:underline">
                                         {{ job.company.name }}
-                                    </div>
+                                    </router-link>
 
                                     <div class="mt-1 text-sm text-gray-500">
                                         {{ `${__(job.type)} &#8226; ${__(job.style)} &#8226; ${job.city}` }}
@@ -51,39 +81,154 @@
                 </div>
 
                 <div class="mt-4" v-if="paginator">
-                    <pagination :paginator="paginator" :params="form.getData()" @update:page="getPage" />
+                    <pagination :paginator="paginator" :params="form.getData()" />
                 </div>
+
+                <dialog-modal :show="showingSearchModal" @close="closeModal">
+                    <template #title>
+                        {{ __('Search Jobs') }}
+                    </template>
+
+                    <template #content>
+                        <form @submit.prevent="pushRouter">
+                            <div class="col-span-6 sm:col-span-4">
+                                <app-label for="title">{{ __('Title') }}</app-label>
+                                <app-input id="title" type="text" class="mt-1 block w-full" v-model="form.title" ref="title" />
+                            </div>
+
+                            <div class="mt-6 col-span-6 sm:col-span-4">
+                                <app-label for="description">{{ __('Description') }}</app-label>
+                                <app-input id="description" type="text" class="mt-1 block w-full" v-model="form.description" />
+                            </div>
+
+                            <div class="mt-6 col-span-6 sm:col-span-4">
+                                <app-label for="city">{{ __('City') }}</app-label>
+                                <app-input id="city" type="text" class="mt-1 block w-full" v-model="form.city" />
+                            </div>
+
+                            <div class="mt-6 col-span-6 sm:col-span-4">
+                                <app-label for="country">{{ __('Country') }}</app-label>
+                                <country-select id="country" class="mt-1 block w-full" v-model="form.country_id" />
+                            </div>
+
+                            <div class="mt-6 col-span-6 sm:col-span-4">
+                                <app-label for="keywords">{{ __('Keywords') }}</app-label>
+                                <app-input id="keywords" type="text" class="mt-1 block w-full" v-model="form.keywords" />
+                                <secondary-text>{{ __('A comma separated list of keywords.') }}</secondary-text>
+                            </div>
+
+                            <div class="mt-6 col-span-6 sm:col-span-4">
+                                <app-label for="has-all-keywords">
+                                    <div class="flex items-center">
+                                        <app-checkbox id="has-all-keywords" v-model="form.has_all_keywords" />
+
+                                        <div class="ml-2">
+                                            {{ __('Should Contain All Keywords') }}
+                                        </div>
+                                    </div>
+                                </app-label>
+                            </div>
+
+                            <div class="mt-6 col-span-6 sm:col-span-4">
+                                <app-label for="job-types">
+                                    {{ __('Job Types') }}
+                                </app-label>
+
+                                <div class="mt-2 grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div v-for="type in App.jobTypes" :key="type">
+                                        <label class="flex items-center">
+                                            <app-checkbox :value="type" v-model="form.types"/>
+                                            <span class="ml-2 text-sm text-gray-600">{{ __(type) }}</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mt-6 col-span-6 sm:col-span-4">
+                                <app-label for="job-types">
+                                    {{ __('Job Styles') }}
+                                </app-label>
+
+                                <div class="mt-2 grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div v-for="style in App.jobStyles" :key="style">
+                                        <label class="flex items-center">
+                                            <app-checkbox :value="style" v-model="form.styles"/>
+                                            <span class="ml-2 text-sm text-gray-600">{{ __(style) }}</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="hidden"></button>
+                        </form>
+                    </template>
+
+                    <template #footer>
+                        <secondary-button @click.native="closeModal">
+                            {{ __('Close') }}
+                        </secondary-button>
+
+                        <app-button class="ml-2" @click.native="pushRouter" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                            {{ __('Search') }}
+                        </app-button>
+                    </template>
+                </dialog-modal>
             </div>
         </div>
     </app-layout>
 </template>
 
 <script>
+import AppButton from '../components/Button'
+import Button from '../components/Button'
+import AppCheckbox from '../components/Checkbox'
 import CompanyIcon from '../components/CompanyIcon'
-import AppLayout from '../layouts/AppLayout'
+import CountrySelect from '../components/CountrySelect'
+import DialogModal from '../components/DialogModal'
+import AppInput from '../components/Input'
+import AppLabel from '../components/Label'
 import Pagination from '../components/Pagination'
+import SecondaryButton from '../components/SecondaryButton'
+import SecondaryText from '../components/SecondaryText'
+import AppSelect from '../components/Select'
+import AppLayout from '../layouts/AppLayout'
 
 export default {
-    components: {Pagination, CompanyIcon, AppLayout},
+    components: {
+        Button,
+        AppButton,
+        AppCheckbox,
+        CompanyIcon,
+        CountrySelect,
+        DialogModal,
+        AppInput,
+        AppLabel,
+        Pagination,
+        SecondaryButton,
+        SecondaryText,
+        AppSelect,
+        AppLayout
+    },
 
     data() {
         return {
             jobs: [],
             paginator: null,
+            showingSearchModal: false,
 
             form: this.$form.create({
-                query: this.$route.query.query,
-                company: this.$route.query.company,
-                country_id: this.$route.query.country_id,
-                title: this.$route.query.title,
-                description: this.$route.query.description,
-                city: this.$route.query.city,
-                types: this.$route.query.types,
-                styles: this.$route.query.styles,
-                has_all_keywords: this.$route.query.has_all_keywords,
-                keywords: this.$route.query.keywords,
-                from_added_at: this.$route.query.from_added_at,
-                to_added_at: this.$route.query.to_added_at,
+                query: this.$route.query.query ?? '',
+                company: this.$route.query.company ?? '',
+                country_id: this.$route.query.country_id ?? '',
+                title: this.$route.query.title ?? '',
+                description: this.$route.query.description ?? '',
+                city: this.$route.query.city ?? '',
+                types: this.$route.query.types ?? '',
+                styles: this.$route.query.styles ?? '',
+                has_all_keywords: this.$route.query.has_all_keywords ?? '',
+                keywords: this.$route.query.keywords ?? '',
+                from_added_at: this.$route.query.from_added_at ?? '',
+                to_added_at: this.$route.query.to_added_at ?? '',
                 page: this.$route.query.page ?? 1,
             })
         }
@@ -91,11 +236,15 @@ export default {
 
     watch: {
         '$route' () {
+            this.form.page = this.$route.query.page
             this.getJobs()
         }
     },
 
     mounted() {
+        this.form.types = this.App.jobTypes
+        this.form.styles = this.App.jobStyles
+
         this.getJobs()
     },
 
@@ -109,13 +258,33 @@ export default {
             })
         },
 
-        getPage(page) {
-            this.form.page = page
+        pushRouter() {
+            this.showingSearchModal = false
+
+            if (this.noChanges()) {
+                return
+            }
 
             this.$router.push({
                 name: 'jobs.all',
                 query: this.form.getData()
             })
+        },
+
+        noChanges() {
+            return JSON.stringify(this.form.getData()) === JSON.stringify(this.$route.query)
+        },
+
+        showSearchModal() {
+            this.showingSearchModal = true
+
+            setTimeout(() => {
+                this.$refs.title.focus()
+            }, 200)
+        },
+
+        closeModal() {
+            this.showingSearchModal = false
         }
     }
 }

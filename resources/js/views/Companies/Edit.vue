@@ -155,7 +155,7 @@ export default {
                     this.form.name = response.data.name
                     this.form.description = response.data.description
                     this.form.website = response.data.website ?? ''
-                    this.form.address = response.data.website
+                    this.form.address = response.data.address
                     this.form.city = response.data.city
                     this.currentLogo = response.data.logo
                 })

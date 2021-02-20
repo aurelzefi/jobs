@@ -5,15 +5,15 @@
                 {{ __('&laquo; Previous') }}
             </span>
 
-            <button @click="getPreviousPage" v-else class="relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 leading-5 rounded-md hover:text-gray-500 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150">
+            <router-link :to="getRouteForPreviousPage()" v-else class="relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 leading-5 rounded-md hover:text-gray-500 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150">
                 {{ __('&laquo; Previous') }}
-            </button>
+            </router-link>
 
-            <button @click="getNextPage" v-if="hasMorePages" class="relative inline-flex items-center px-4 py-2 ml-3 text-sm font-medium text-gray-700 bg-white border border-gray-300 leading-5 rounded-md hover:text-gray-500 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150">
+            <router-link :to="getRouteForNextPage()" v-if="hasMorePages" class="relative inline-flex items-center px-4 py-2 ml-3 text-sm font-medium text-gray-700 bg-white border border-gray-300 leading-5 rounded-md hover:text-gray-500 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150">
                 {{ __('Next &raquo;') }}
-            </button>
+            </router-link>
 
-            <span v-if="! hasMorePages" class="relative inline-flex items-center px-4 py-2 ml-3 text-sm font-medium text-gray-500 bg-white border border-gray-300 cursor-default leading-5 rounded-md">
+            <span v-else class="relative inline-flex items-center px-4 py-2 ml-3 text-sm font-medium text-gray-500 bg-white border border-gray-300 cursor-default leading-5 rounded-md">
                 {{ __('Next &raquo;') }}
             </span>
         </div>
@@ -33,52 +33,23 @@
 
             <div>
                 <span class="relative z-0 inline-flex shadow-sm rounded-md">
-                    <span v-if="onFirstPage" aria-disabled="true" :aria-label="__('&laquo; Previous')">
-                        <span class="relative inline-flex items-center px-2 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 cursor-default rounded-l-md leading-5" aria-hidden="true">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
-                            </svg>
-                        </span>
-                    </span>
-
-                    <button @click="getPreviousPage" v-else rel="prev" class="relative inline-flex items-center px-2 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-l-md leading-5 hover:text-gray-400 focus:z-10 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:text-gray-500 transition ease-in-out duration-150" :aria-label="__('&laquo; Previous')">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
-                        </svg>
-                    </button>
-
                     <template v-for="link in paginator.links">
                         <template v-if="link.url">
                             <span aria-current="page" v-if="currentPage === link.label">
-                                <span v-html="link.label" class="relative inline-flex items-center px-4 py-2 -ml-px text-sm font-medium text-gray-500 bg-white border border-gray-300 cursor-default leading-5">
+                                <span v-html="link.label" :class="{ 'rounded-l-md': isThePreviousLink(link), 'rounded-r-md': isTheNextLink(link) }" class="relative inline-flex items-center px-4 py-2 -ml-px text-sm font-medium text-gray-500 bg-white border border-gray-300 cursor-default leading-5">
 
                                 </span>
                             </span>
 
-                            <button @click="getPage(link.label)" v-else v-html="link.label" :aria-label="__('Go to page') + ' ' + link.label" class="relative inline-flex items-center px-4 py-2 -ml-px text-sm font-medium text-gray-700 bg-white border border-gray-300 leading-5 hover:text-gray-500 focus:z-10 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150">
-
-                            </button>
+                            <router-link :to="getPageForLabel(link.label)" v-else v-html="link.label" :aria-label="__('Go to page') + ' ' + link.label" :class="{ 'rounded-l-md': isThePreviousLink(link), 'rounded-r-md': isTheNextLink(link) }" class="relative inline-flex items-center px-4 py-2 -ml-px text-sm font-medium text-gray-700 bg-white border border-gray-300 leading-5 hover:text-gray-500 focus:z-10 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150">
+                            </router-link>
                         </template>
 
                         <span aria-disabled="true" v-else>
-                            <span v-html="link.label" class="relative inline-flex items-center px-4 py-2 -ml-px text-sm font-medium text-gray-700 bg-white border border-gray-300 cursor-default leading-5">
-
+                            <span v-html="link.label" :class="{ 'rounded-l-md': isThePreviousLink(link), 'rounded-r-md': isTheNextLink(link) }" class="relative inline-flex items-center px-4 py-2 -ml-px text-sm font-medium text-gray-700 bg-white border border-gray-300 cursor-default leading-5">
                             </span>
                         </span>
                     </template>
-
-                    <button @click="getNextPage" v-if="hasMorePages" :aria-label="__('Next &raquo;')" rel="next" class="relative inline-flex items-center px-2 py-2 -ml-px text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-r-md leading-5 hover:text-gray-400 focus:z-10 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:text-gray-500 transition ease-in-out duration-150">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
-                        </svg>
-                    </button>
-
-                    <span v-else aria-disabled="true" :aria-label="__('Next &raquo;')">
-                        <span class="relative inline-flex items-center px-2 py-2 -ml-px text-sm font-medium text-gray-500 bg-white border border-gray-300 cursor-default rounded-r-md leading-5" aria-hidden="true">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
-                            </svg>
-                        </span>
                     </span>
                 </span>
             </div>
@@ -87,10 +58,7 @@
 </template>
 
 <script>
-import Button from './Button'
-
 export default {
-    components: {Button},
     props: ['paginator', 'params'],
 
     computed: {
@@ -120,20 +88,60 @@ export default {
 
         currentPage() {
             return this.paginator.current_page
-        }
+        },
+    },
+
+
+    mounted() {
+        //
     },
 
     methods: {
-        getPreviousPage() {
-            this.$emit('update:page', this.currentPage--)
+        getRouteForPreviousPage() {
+            let params = Object.assign({
+                page: this.currentPage - 1
+            }, this.params)
+
+            return {
+                name: 'jobs.all',
+                query: params
+            }
         },
 
-        getNextPage() {
-            this.$emit('update:page', this.currentPage++)
+        getRouteForNextPage() {
+            let params = Object.assign({
+                page: this.currentPage + 1
+            }, this.params)
+
+            return {
+                name: 'jobs.all',
+                query: params
+            }
         },
 
-        getPage(page) {
-            this.$emit('update:page', page)
+        getPageForLabel(label) {
+            let params = Object.assign({}, this.params)
+
+            if (label === this.__('Next &raquo;')) {
+                params.page = this.currentPage + 1
+            } else if (label === this.__('&laquo; Previous')) {
+                params.page = this.currentPage - 1
+            } else {
+                params.page = label
+            }
+
+            return {
+                name: 'jobs.all',
+                query: params
+            }
+        },
+
+        isThePreviousLink(link) {
+            return link.label === this.__('&laquo; Previous')
+        },
+
+        isTheNextLink(link) {
+            return link.label === this.__('Next &raquo;')
         }
     }
 }
