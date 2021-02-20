@@ -22,20 +22,16 @@
                                 </nav-link>
 
                                 <template v-if="App.user">
-                                    <nav-link :to="{name: 'alerts.index'}" :active="$route.name.includes('alerts')">
-                                        {{ __('Alerts') }}
+                                    <nav-link :to="{name: 'jobs.create'}" :active="$route.name.includes('jobs.create')">
+                                        {{ __('Post a Job') }}
                                     </nav-link>
 
-                                    <nav-link :to="{name: 'companies.index'}" :active="$route.name.includes('companies')">
-                                        {{ __('Companies') }}
-                                    </nav-link>
-
-                                    <nav-link :to="{name: 'jobs.index'}" :active="['jobs.index', 'jobs.create', 'jobs.edit'].includes($route.name)">
+                                    <nav-link :to="{name: 'jobs.index'}" :active="['jobs.index', 'jobs.edit'].includes($route.name)">
                                         {{ __('Jobs') }}
                                     </nav-link>
 
-                                    <nav-link :to="{name: 'orders.index'}" :active="$route.name.includes('orders')">
-                                        {{ __('Orders') }}
+                                    <nav-link :to="{name: 'alerts.index'}" :active="$route.name.includes('alerts')">
+                                        {{ __('Alerts') }}
                                     </nav-link>
                                 </template>
                             </div>
@@ -60,6 +56,16 @@
                                     <dropdown-link :to="{name: 'user.profile'}">
                                         {{ __('Profile') }}
                                     </dropdown-link>
+
+                                    <dropdown-link :to="{name: 'companies.index'}">
+                                        {{ __('Companies') }}
+                                    </dropdown-link>
+
+                                    <dropdown-link :to="{name: 'orders.index'}">
+                                        {{ __('Orders') }}
+                                    </dropdown-link>
+
+                                    <hr>
 
                                     <!-- Authentication -->
                                     <form :action="logoutLink" method="POST">
@@ -107,20 +113,16 @@
                         </responsive-nav-link>
 
                         <template v-if="App.user">
-                            <responsive-nav-link :to="{name: 'alerts.index'}" :active="$route.name.includes('alerts')">
-                                {{ __('Alerts') }}
+                            <responsive-nav-link :to="{name: 'jobs.create'}" :active="$route.name.includes('jobs.create')">
+                                {{ __('Post a Job') }}
                             </responsive-nav-link>
 
-                            <responsive-nav-link :to="{name: 'companies.index'}" :active="$route.name.includes('companies')">
-                                {{ __('Companies') }}
-                            </responsive-nav-link>
-
-                            <responsive-nav-link :to="{name: 'jobs.index'}" :active="['jobs.index', 'jobs.create', 'jobs.edit'].includes($route.name)">
+                            <responsive-nav-link :to="{name: 'jobs.index'}" :active="['jobs.index', 'jobs.edit'].includes($route.name)">
                                 {{ __('Jobs') }}
                             </responsive-nav-link>
 
-                            <responsive-nav-link :to="{name: 'orders.index'}" :active="$route.name.includes('orders')">
-                                {{ __('Orders') }}
+                            <responsive-nav-link :to="{name: 'alerts.index'}" :active="$route.name.includes('alerts')">
+                                {{ __('Alerts') }}
                             </responsive-nav-link>
                         </template>
 
@@ -145,14 +147,27 @@
                             </div>
 
                             <div class="ml-3">
-                                <div class="font-medium text-base text-gray-800">{{ App.user.name }}</div>
-                                <div class="font-medium text-sm text-gray-500">{{ App.user.email }}</div>
+                                <div class="font-medium text-base text-gray-800">
+                                    {{ App.user.name }}
+                                </div>
+
+                                <div class="font-medium text-sm text-gray-500">
+                                    {{ App.user.email }}
+                                </div>
                             </div>
                         </div>
 
                         <div class="mt-3 space-y-1">
                             <responsive-nav-link :to="{name: 'user.profile'}" :active="$route.name === 'user.profile'">
                                 {{ __('Profile') }}
+                            </responsive-nav-link>
+
+                            <responsive-nav-link :to="{name: 'companies.index'}" :active="$route.name.includes('companies')">
+                                {{ __('Companies') }}
+                            </responsive-nav-link>
+
+                            <responsive-nav-link :to="{name: 'orders.index'}" :active="$route.name.includes('orders')">
+                                {{ __('Orders') }}
                             </responsive-nav-link>
 
                             <!-- Authentication -->
