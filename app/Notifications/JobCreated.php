@@ -34,8 +34,13 @@ class JobCreated extends Notification implements ShouldQueue
     {
         return (new MailMessage())
                     ->line(__('New job added matching your ":alert" alert.', ['alert' => $this->alert->name]))
-                    ->action(__('View Job'), url('/')) // to be defined on when frontend is built
+                    ->action(__('View Job'), $this->url($notifiable))
                     ->line(__('Thank you for using our application!'));
+    }
+
+    protected function url($notifiable): string
+    {
+        return url("/{$notifiable->locale}/jobs/{$this->job->id}");
     }
 
     public function toArray($notifiable): array

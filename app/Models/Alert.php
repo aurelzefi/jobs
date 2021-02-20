@@ -47,6 +47,11 @@ class Alert extends Model
         return $this->hasMany(Keyword::class);
     }
 
+    public function stringKeywords(): string
+    {
+        return $this->keywords()->pluck('word')->implode(',');
+    }
+
     public function getJobTypesAttribute(): array
     {
         return explode(',', $this->attributes['job_types']);

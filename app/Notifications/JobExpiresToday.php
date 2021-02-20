@@ -31,8 +31,13 @@ class JobExpiresToday extends Notification implements ShouldQueue
         return (new MailMessage())
                     ->line(__('Your posted job ":job" expires today.', ['job' => $this->job->title]))
                     ->line(__('If you wish for your post to remain active, you can renew it by clicking the link below.'))
-                    ->action(__('Go To Renew Post'), url('/')) // to be defined when frontend is built
+                    ->action(__('Go To Renew Post'), $this->url($notifiable))
                     ->line(__('Thank you for using our application!'));
+    }
+
+    protected function url($notifiable): string
+    {
+        return url("/{$notifiable->locale}/jobs/{$this->job->id}/checkout");
     }
 
     public function toArray($notifiable): array
