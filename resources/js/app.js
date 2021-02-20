@@ -11,7 +11,7 @@ import AlLocale from './lang/al.json'
 import EnLocale from './lang/en.json'
 import FormCreator from './FormCreator'
 
-moment.locale('en', {
+moment.updateLocale('en', {
     relativeTime : {
         future: "in %s",
         past: "%s",
