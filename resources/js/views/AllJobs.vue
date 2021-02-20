@@ -12,16 +12,16 @@
                     <div class="px-4 py-5 bg-white sm:p-6">
                         <div class="md:flex items-center justify-between">
                             <form @submit.prevent="pushRouter">
-                                <div class="sm:flex items-center">
+                                <div class="md:flex items-center">
                                     <app-input id="query" type="text" class="min-w-full" :placeholder="__('Search by job title or description')" v-model="form.query" />
 
-                                    <app-button class="mt-2 sm:mt-0 sm:ml-2">
+                                    <app-button class="mt-2 md:mt-0 md:ml-2">
                                         {{ __('Search') }}
                                     </app-button>
                                 </div>
                             </form>
 
-                            <div class="mt-2 sm:mt-0">
+                            <div class="mt-2 md:mt-0">
                                 <app-button type="button" @click.native="showSearchModal">
                                     {{ __('Advanced Search') }}
                                 </app-button>
@@ -102,6 +102,11 @@
                             </div>
 
                             <div class="mt-6 col-span-6 sm:col-span-4">
+                                <app-label for="company">{{ __('Company') }}</app-label>
+                                <app-input id="company" type="text" class="mt-1 block w-full" v-model="form.company" />
+                            </div>
+
+                            <div class="mt-6 col-span-6 sm:col-span-4">
                                 <app-label for="city">{{ __('City') }}</app-label>
                                 <app-input id="city" type="text" class="mt-1 block w-full" v-model="form.city" />
                             </div>
@@ -159,6 +164,20 @@
                                 </div>
                             </div>
 
+<!--                            <div class="mt-6 col-span-6 sm:col-span-4">-->
+<!--                                <div class="grid grid-cols-2">-->
+<!--                                    <div class="col-span-1">-->
+<!--                                        <app-label for="from-added-date">{{ __('From Added Date') }}</app-label>-->
+<!--                                        <app-input id="added-from-date" type="date" class="mt-1 block w-full" v-model="form.from_added_at" />-->
+<!--                                    </div>-->
+
+<!--                                    <div class="ml-2 col-span-1">-->
+<!--                                        <app-label for="to-added-date">{{ __('To Added Date') }}</app-label>-->
+<!--                                        <app-input id="to-added-date" type="date" class="mt-1 block w-full" v-model="form.to_added_at" />-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+
                             <button type="submit" class="hidden"></button>
                         </form>
                     </template>
@@ -180,7 +199,6 @@
 
 <script>
 import AppButton from '../components/Button'
-import Button from '../components/Button'
 import AppCheckbox from '../components/Checkbox'
 import CompanyIcon from '../components/CompanyIcon'
 import CountrySelect from '../components/CountrySelect'
@@ -195,7 +213,6 @@ import AppLayout from '../layouts/AppLayout'
 
 export default {
     components: {
-        Button,
         AppButton,
         AppCheckbox,
         CompanyIcon,

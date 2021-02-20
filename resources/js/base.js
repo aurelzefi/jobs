@@ -48,6 +48,10 @@ export default {
             return moment(timestamp).format('YYYY-MM-DD HH:mm:ss')
         },
 
+        moment(timestamp) {
+            return moment(timestamp)
+        },
+
         date(timestamp) {
             return moment(timestamp).format('YYYY-MM-DD')
         },
