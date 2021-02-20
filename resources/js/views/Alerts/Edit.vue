@@ -70,7 +70,7 @@
                                 <div v-for="type in App.jobTypes" :key="type">
                                     <label class="flex items-center">
                                         <app-checkbox :value="type" v-model="form.job_types"/>
-                                        <span class="ml-2 text-sm text-gray-600">{{ (type) }}</span>
+                                        <span class="ml-2 text-sm text-gray-600">{{ __(type) }}</span>
                                     </label>
                                 </div>
                             </div>
