@@ -37,10 +37,10 @@ class DatabaseSeeder extends Seeder
         $companies = Company::factory(rand(0, 5))->for($user)->create();
 
         $companies->each(function (Company $company) use ($user) {
-            $jobs = Job::factory(rand(0, 5))->for($company)->create();
+            $jobs = Job::factory(rand(10, 15))->for($company)->create();
 
             $jobs->each(function (Job $job) use ($user) {
-                Order::factory(rand(0, 5))->for($user)->for($job)->create();
+                Order::factory(rand(1, 5))->for($user)->for($job)->create();
             });
         });
 

@@ -46,7 +46,9 @@ export default class Form {
         this.processing = true
         this.errors = {}
 
-        this.http[method](uri, this.getData())
+        let data = method === 'get' ? {params: this.getData()} : this.getData()
+
+        this.http[method](uri, data)
             .then(response => {
                 this.successful = true
                 this.processing = false
@@ -71,7 +73,7 @@ export default class Form {
 
     getData() {
         const data = _.pickBy(this, (value, key) => {
-            return ! _.includes(['http', 'errors', 'successful', 'processing', 'hasFile'], key)
+            return ! _.includes(['http', 'errors', 'successful', 'processing', 'shouldBeFormData'], key)
         })
 
         if (! this.shouldBeFormData) {

@@ -42,12 +42,16 @@
                                     </svg>
                                 </div>
 
-                                <div class="ml-6 text-sm text-gray-900" :title="readableTimestamp(job.last_paid_at)">
+                                <div class="ml-4 text-sm text-gray-900" :title="readableTimestamp(job.last_paid_at)">
                                     {{ dateForHumans(job.last_paid_at) }}
                                 </div>
                             </div>
                         </div>
                     </router-link>
+                </div>
+
+                <div class="mt-4" v-if="paginator">
+                    <pagination :paginator="paginator" :params="form.getData()" @update:page="getPage" />
                 </div>
             </div>
         </div>
@@ -57,28 +61,37 @@
 <script>
 import CompanyIcon from '../components/CompanyIcon'
 import AppLayout from '../layouts/AppLayout'
+import Pagination from '../components/Pagination'
 
 export default {
-    components: {CompanyIcon, AppLayout},
+    components: {Pagination, CompanyIcon, AppLayout},
 
     data() {
         return {
             jobs: [],
+            paginator: null,
 
             form: this.$form.create({
-                query: '',
-                company: '',
-                country_id: '',
-                title: '',
-                description: '',
-                city: '',
-                types: [],
-                styles: [],
-                has_all_keywords: true,
-                keywords: '',
-                from_added_at: '',
-                to_added_at: ''
+                query: this.$route.query.query,
+                company: this.$route.query.company,
+                country_id: this.$route.query.country_id,
+                title: this.$route.query.title,
+                description: this.$route.query.description,
+                city: this.$route.query.city,
+                types: this.$route.query.types,
+                styles: this.$route.query.styles,
+                has_all_keywords: this.$route.query.has_all_keywords,
+                keywords: this.$route.query.keywords,
+                from_added_at: this.$route.query.from_added_at,
+                to_added_at: this.$route.query.to_added_at,
+                page: this.$route.query.page ?? 1,
             })
+        }
+    },
+
+    watch: {
+        '$route' () {
+            this.getJobs()
         }
     },
 
@@ -90,8 +103,18 @@ export default {
         getJobs() {
             this.form.get('/api/jobs/all', {
                 onSuccess: response => {
+                    this.paginator = response.data
                     this.jobs = response.data.data
                 }
+            })
+        },
+
+        getPage(page) {
+            this.form.page = page
+
+            this.$router.push({
+                name: 'jobs.all',
+                query: this.form.getData()
             })
         }
     }
