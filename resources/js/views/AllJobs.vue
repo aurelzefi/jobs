@@ -246,7 +246,26 @@ export default {
                 to_added_at: this.$route.query.to_added_at ?? '',
                 page: this.$route.query.page ?? 1,
             }),
+
+            countries: {}
         }
+    },
+
+    beforeRouteEnter(to, from, next) {
+        axios.get('/api/countries')
+            .then(countries => {
+                axios.get('/api/jobs/all')
+                    .then(jobs => {
+                        next(vm => {
+                            vm.countries = vm.lodash.mapValues(
+                                countries.data, country => country.name
+                            )
+
+                            vm.paginator = jobs
+                            vm.jobs = jobs.data.data
+                        })
+                    })
+            })
     },
 
     watch: {
@@ -259,10 +278,6 @@ export default {
     mounted() {
         this.form.types = this.App.jobTypes
         this.form.styles = this.App.jobStyles
-
-        this.getCountries({
-            onSuccess: () => this.getJobs()
-        })
     },
 
     methods: {
