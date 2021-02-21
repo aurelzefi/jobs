@@ -130,6 +130,8 @@ trait JobScopes
                     ->orderByDesc('paid_at')
                     ->limit(1);
             }
+        ])->withCasts([
+            'last_paid_at' => 'datetime',
         ]);
     }
 

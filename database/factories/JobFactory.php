@@ -19,7 +19,7 @@ class JobFactory extends Factory
             'company_id' => Company::factory(),
             'country_id' => Country::query()->inRandomOrder()->first(),
             'title' => $this->faker->words(rand(1, 3), true),
-            'description' => $this->faker->text,
+            'description' => $this->faker->paragraphs(10, true),
             'city' => $this->faker->city,
             'type' => $this->faker->randomElement(Job::TYPES),
             'style' => $this->faker->randomElement(Job::STYLES),

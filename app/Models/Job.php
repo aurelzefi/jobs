@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Job extends Model
 {
@@ -42,10 +43,6 @@ class Job extends Model
 
     protected $guarded = [];
 
-    protected $appends  = [
-        'is_active',
-    ];
-
     public function company(): BelongsTo
     {
         return $this->belongsTo(Company::class);
@@ -61,18 +58,20 @@ class Job extends Model
         return $this->hasMany(Order::class);
     }
 
-    public function activeOrders(): HasMany
+    public function activeOrder(): HasOne
     {
-        return $this->orders()->whereDate('paid_at', '>=', now()->subDays(30)->toDateString());
+        return $this->hasOne(Order::class)->whereDate(
+            'paid_at', '>=', now()->subDays(30)->toDateString()
+        );
     }
 
     public function isActive(): bool
     {
-        return $this->activeOrders()->exists();
+        return $this->activeOrder()->exists();
     }
 
     public function getIsActiveAttribute(): bool
     {
-        return $this->activeOrders->count() > 0;
+        return (bool) $this->activeOrder;
     }
 }

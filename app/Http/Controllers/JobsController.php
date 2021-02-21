@@ -14,7 +14,7 @@ class JobsController extends Controller
 {
     public function index(Request $request): JsonResponse
     {
-        $jobs = $request->user()->jobs()->with('activeOrders')->get();
+        $jobs = $request->user()->jobs()->with('activeOrder')->get()->append('is_active');
 
         return response()->json($jobs);
     }
@@ -30,6 +30,10 @@ class JobsController extends Controller
 
     public function show(Job $job): JsonResponse
     {
+        $this->authorize('view', $job);
+
+        $job->load(['company', 'activeOrder']);
+
         return response()->json($job);
     }
 

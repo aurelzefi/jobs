@@ -94,7 +94,7 @@ export default [
         }
     },
     {
-        path: '/jobs/:job',
+        path: '/jobs/:jobId',
         name: 'jobs.show',
         component: ShowJob,
         props: true,

@@ -39,7 +39,7 @@
                 </div>
 
                 <div class="mt-4 bg-white overflow-hidden shadow-sm sm:rounded-lg" v-if="jobs.length">
-                    <router-link v-for="job in jobs" :key="job.id" :to="{name: 'jobs.show', params: {job: job.id}}" class="block p-4 bg-white hover:bg-gray-50 border-b border-gray-200">
+                    <router-link v-for="job in jobs" :key="job.id" :to="{name: 'jobs.show', params: {jobId: job.id}}" class="block p-4 bg-white hover:bg-gray-50 border-b border-gray-200">
                         <div class="flex justify-between">
                             <div class="flex items-center">
                                 <router-link :to="{name: 'companies.show', params: {company: job.company_id}}" class="flex-shrink-0 h-14 w-14" v-if="job.company.logo">
