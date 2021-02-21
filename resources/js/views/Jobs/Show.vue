@@ -6,7 +6,7 @@
             </h2>
         </template>
 
-        <div v-if="job">
+        <div>
             <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
                 <action-section>
                     <template #title>
@@ -78,17 +78,21 @@ export default {
         }
     },
 
+    beforeRouteEnter(to, from, next) {
+        axios.get(`/api/jobs/${to.params.jobId}`)
+            .then(response => {
+                next(vm => {
+                    vm.job = response.data
+                })
+            })
+    },
+
     mounted() {
-        this.getJob()
+        //
     },
 
     methods: {
-        getJob() {
-            this.$http.get(`/api/jobs/${this.jobId}`)
-                .then(response => {
-                    this.job = response.data
-                })
-        }
+        //
     }
 }
 </script>

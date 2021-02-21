@@ -78,17 +78,13 @@ export default {
         }
     },
 
-    mounted() {
-        this.getOrders()
-    },
-
-    methods: {
-        getOrders() {
-            this.$http.get('/api/orders')
-                .then(response => {
-                    this.orders = response.data
+    beforeRouteEnter(to, from, next) {
+        axios.get('/api/orders')
+            .then(response => {
+                next(vm => {
+                    vm.orders = response.data
                 })
-        }
+            })
     }
 }
 </script>

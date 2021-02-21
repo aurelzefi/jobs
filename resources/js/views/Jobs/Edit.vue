@@ -124,36 +124,45 @@ export default {
             jobStyles: {},
 
             checkout: false,
-            active: false
+            active: false,
+
+            countries: {}
         }
+    },
+
+    beforeRouteEnter(to, from, next) {
+        axios.get('/api/countries')
+            .then(countries => {
+                axios.get('/api/companies')
+                    .then(companies => {
+                        axios.get(`/api/jobs/${to.params.job}`)
+                            .then(job => {
+                                next(vm => {
+                                    vm.countries = vm.lodash.mapValues(countries.data, country => country.name)
+                                    vm.companies = vm.lodash.mapValues(vm.lodash.mapKeys(companies.data, 'id'), 'name')
+
+                                    vm.form.company_id = job.data.company_id
+                                    vm.form.country_id = job.data.country_id
+                                    vm.form.title = job.data.title
+                                    vm.form.description = job.data.description
+                                    vm.form.city = job.data.city
+                                    vm.form.type = job.data.type
+                                    vm.form.style = job.data.style
+                                    vm.active = job.data.is_active
+                                })
+                            })
+                    })
+            })
     },
 
     mounted() {
         this.jobTypes = this.keyByValues(this.App.jobTypes)
         this.jobStyles = this.keyByValues(this.App.jobStyles)
 
-        this.getCountries({
-            onSuccess: () => this.getJob()
-        })
-
         this.$refs.title.focus()
     },
 
     methods: {
-        getJob() {
-            this.$http.get(`/api/jobs/${this.job}`)
-                .then(response => {
-                    this.form.company_id = response.data.company_id
-                    this.form.country_id = response.data.country_id
-                    this.form.title = response.data.title
-                    this.form.description = response.data.description
-                    this.form.city = response.data.city
-                    this.form.type = response.data.type
-                    this.form.style = response.data.style
-                    this.active = response.data.is_active
-                })
-        },
-
         update() {
             this.form.put(`/api/jobs/${this.job}`, {
                 onSuccess: response => {

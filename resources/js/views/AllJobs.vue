@@ -30,14 +30,6 @@
                     </div>
                 </div>
 
-                <div v-if="! jobs.length">
-                    <div class="mt-4 bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                        <div class="p-6 bg-white border-b border-gray-200">
-                            {{ __('No jobs for this search.') }}
-                        </div>
-                    </div>
-                </div>
-
                 <div class="mt-4 bg-white overflow-hidden shadow-sm sm:rounded-lg" v-if="jobs.length">
                     <router-link v-for="job in jobs" :key="job.id" :to="{name: 'jobs.show', params: {jobId: job.id}}" class="block p-4 bg-white hover:bg-gray-50 border-b border-gray-200">
                         <div class="flex justify-between">
@@ -78,6 +70,14 @@
                             </div>
                         </div>
                     </router-link>
+                </div>
+
+                <div v-else>
+                    <div class="mt-4 bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                        <div class="p-6 bg-white border-b border-gray-200">
+                            {{ __('No jobs for this search.') }}
+                        </div>
+                    </div>
                 </div>
 
                 <div class="mt-4" v-if="paginator">
@@ -261,7 +261,7 @@ export default {
                                 countries.data, country => country.name
                             )
 
-                            vm.paginator = jobs
+                            vm.paginator = jobs.data
                             vm.jobs = jobs.data.data
                         })
                     })

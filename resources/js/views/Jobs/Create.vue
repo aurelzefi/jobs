@@ -121,8 +121,24 @@ export default {
             jobTypes: {},
             jobStyles: {},
 
-            checkout: false
+            checkout: false,
+
+            countries: {},
+            companies: {}
         }
+    },
+
+    beforeRouteEnter(to, from, next) {
+        axios.get('/api/countries')
+            .then(countries => {
+                axios.get('/api/companies')
+                    .then(companies => {
+                        next(vm => {
+                            vm.countries = vm.lodash.mapValues(countries.data, country => country.name)
+                            vm.companies = vm.lodash.mapValues(vm.lodash.mapKeys(companies.data, 'id'), 'name')
+                        })
+                    })
+            })
     },
 
     mounted() {
@@ -130,10 +146,6 @@ export default {
         this.jobStyles = this.keyByValues(this.App.jobStyles)
 
         this.$refs.title.focus()
-
-        this.getCountries({
-            onSuccess: () => this.getCompanies()
-        })
     },
 
     methods: {

@@ -14,6 +14,10 @@ class JobPolicy
 
     public function view(?User $user, Job $job): bool
     {
+        if ($user && $user->id === $job->company->user_id) {
+            return true;
+        }
+
         return $job->isActive();
     }
 

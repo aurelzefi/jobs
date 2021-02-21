@@ -118,6 +118,15 @@ export default {
         }
     },
 
+    beforeRouteEnter(to, from, next) {
+        axios.get('/api/jobs')
+            .then(response => {
+                next(vm => {
+                    vm.jobs = response.data
+                })
+            })
+    },
+
     mounted() {
         this.getJobs()
     },
