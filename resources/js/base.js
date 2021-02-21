@@ -7,6 +7,8 @@ export default {
             App: window.App,
             paypal: window.paypal,
 
+            lodash: _,
+
             countries: {},
             companies: {}
         }
@@ -98,6 +100,6 @@ export default {
                         onFailure(error)
                     }
                 })
-        },
+        }
     }
 }

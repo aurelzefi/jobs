@@ -115,18 +115,20 @@ export default {
         }
     },
 
+    beforeRouteEnter(to, from, next) {
+        axios.get('/api/companies')
+            .then(response => {
+                next(vm => {
+                    vm.companies = response.data
+                })
+            })
+    },
+
     mounted() {
-        this.getCompanies()
+        //
     },
 
     methods: {
-        getCompanies() {
-            this.$http.get('/api/companies')
-                .then(response => {
-                    this.companies = response.data
-                })
-        },
-
         confirmCompanyDeletion(company) {
             this.currentCompany = company
             this.confirmingCompanyDeletion = true

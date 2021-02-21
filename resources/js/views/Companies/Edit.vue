@@ -54,7 +54,7 @@
                             <app-input-error :message="form.errors.website" class="mt-2" />
                         </div>
 
-                        <div class="col-span-6 sm:col-span-4" v-if="form.name">
+                        <div class="col-span-6 sm:col-span-4">
                             <input type="file" class="hidden" ref="logo" @change="updateLogoPreview">
 
                             <app-label for="logo">
@@ -135,32 +135,37 @@ export default {
             }).asFormData(),
 
             currentLogo: null,
-            logoPreview: null
+            logoPreview: null,
+            countries: {}
         }
     },
 
-    mounted() {
-        this.getCountries({
-            onSuccess: () => this.getCompany()
-        })
+    beforeRouteEnter(to, from, next) {
+        axios.get('/api/countries')
+            .then(countries => {
+                axios.get(`/api/companies/${to.params.company}`)
+                    .then(company => {
+                        next(vm => {
+                            vm.countries = vm.lodash.mapValues(countries.data, country => country.name)
 
+                            vm.form.country_id = company.data.country_id
+                            vm.form.name = company.data.name
+                            vm.form.description = company.data.description
+                            vm.form.website = company.data.website ?? ''
+                            vm.form.address = company.data.address
+                            vm.form.city = company.data.city
+                            vm.currentLogo = company.data.logo
+                        })
+
+                    })
+            })
+    },
+
+    mounted() {
         this.$refs.name.focus()
     },
 
     methods: {
-        getCompany() {
-            this.$http.get(`/api/companies/${this.company}`)
-                .then(response => {
-                    this.form.country_id = response.data.country_id
-                    this.form.name = response.data.name
-                    this.form.description = response.data.description
-                    this.form.website = response.data.website ?? ''
-                    this.form.address = response.data.address
-                    this.form.city = response.data.city
-                    this.currentLogo = response.data.logo
-                })
-        },
-
         update() {
             if (this.$refs.logo.files.length) {
                 this.form.logo = this.$refs.logo.files[0]

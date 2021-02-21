@@ -78,17 +78,22 @@ export default {
         }
     },
 
+    beforeRouteEnter(to, from, next) {
+        axios.get(`/api/companies/${to.params.company}`)
+            .then(response => {
+                next(vm => {
+                    vm.company = response.data
+                })
+
+            })
+    },
+
     mounted() {
-        this.getCompany()
+        //
     },
 
     methods: {
-        getCompany() {
-            this.$http.get(`/api/companies/${this.companyId}`)
-                .then(response => {
-                    this.company = response.data
-                })
-        }
+        //
     }
 }
 </script>

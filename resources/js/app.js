@@ -9,24 +9,7 @@ import PortalVue from 'portal-vue'
 import AlLocale from './lang/al.json'
 import EnLocale from './lang/en.json'
 import FormCreator from './FormCreator'
-
-// moment.updateLocale('en', {
-//     relativeTime : {
-//         future: "in %s",
-//         past: "%s",
-//         s:  "s",
-//         m:  "1min",
-//         mm: "%dmin",
-//         h:  "1h",
-//         hh: "%dh",
-//         d:  "1d",
-//         dd: "%dd",
-//         M:  "1mth",
-//         MM: "%dmth",
-//         y:  "1y",
-//         yy: "%dy"
-//     }
-// });
+import VueProgressBar from 'vue-progressbar'
 
 let locale = document.documentElement.lang
 let token = document.head.querySelector('meta[name="csrf-token"]')
@@ -35,12 +18,18 @@ if (token) {
     axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content
 }
 
-Vue.prototype.$http = axios.create()
+window.axios = axios.create()
+
+Vue.prototype.$http = window.axios
 Vue.prototype.$form = FormCreator
 
 Vue.use(VueI18n)
 Vue.use(VueRouter)
 Vue.use(PortalVue)
+Vue.use(VueProgressBar, {
+    color: '#667eea',
+    thickness: '3px'
+})
 
 Vue.mixin(Base)
 
@@ -76,7 +65,6 @@ router.beforeEach((to, from, next) => {
         next()
     }
 })
-
 
 new Vue({
     el: '#app',
