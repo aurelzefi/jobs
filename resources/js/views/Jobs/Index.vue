@@ -39,7 +39,7 @@
 
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="text-sm text-gray-900">
-                                    {{ date(job.active_order.paid_at) }}
+                                    {{ date(job.created_at) }}
                                 </div>
                             </td>
 
@@ -113,7 +113,7 @@ export default {
             tableHeaders: [
                 'Title',
                 'Active',
-                'Added At'
+                'Created At'
             ],
 
             currentJob: null,
