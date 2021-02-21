@@ -27,8 +27,7 @@ Vue.use(VueI18n)
 Vue.use(VueRouter)
 Vue.use(PortalVue)
 Vue.use(VueProgressBar, {
-    color: '#667eea',
-    thickness: '3px'
+    color: '#667eea'
 })
 
 Vue.mixin(Base)

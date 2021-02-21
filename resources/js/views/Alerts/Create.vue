@@ -148,9 +148,7 @@ export default {
                 keywords: ''
             }),
 
-            alertTypes: {},
-
-            countries: {}
+            alertTypes: {}
         }
     },
 

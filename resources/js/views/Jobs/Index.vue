@@ -127,10 +127,6 @@ export default {
             })
     },
 
-    mounted() {
-        this.getJobs()
-    },
-
     methods: {
         getJobs() {
             this.$http.get('/api/jobs')

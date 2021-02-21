@@ -124,10 +124,6 @@ export default {
             })
     },
 
-    mounted() {
-        //
-    },
-
     methods: {
         getCompanies() {
             this.$http.get('/api/companies')

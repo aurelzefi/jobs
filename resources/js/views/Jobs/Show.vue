@@ -6,7 +6,7 @@
             </h2>
         </template>
 
-        <div>
+        <div v-if="job">
             <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
                 <action-section>
                     <template #title>
@@ -85,14 +85,6 @@ export default {
                     vm.job = response.data
                 })
             })
-    },
-
-    mounted() {
-        //
-    },
-
-    methods: {
-        //
     }
 }
 </script>

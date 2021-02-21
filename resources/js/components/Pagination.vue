@@ -91,11 +91,6 @@ export default {
         },
     },
 
-
-    mounted() {
-        //
-    },
-
     methods: {
         getRouteForPreviousPage() {
             let params = Object.assign({

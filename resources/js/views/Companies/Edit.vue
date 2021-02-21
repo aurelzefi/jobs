@@ -144,13 +144,7 @@ export default {
         axios.get(`/api/companies/${to.params.company}`)
             .then(response => {
                 next(vm => {
-                    vm.form.country_id = response.data.country_id
-                    vm.form.name = response.data.name
-                    vm.form.description = response.data.description
-                    vm.form.website = response.data.website ?? ''
-                    vm.form.address = response.data.address
-                    vm.form.city = response.data.city
-                    vm.currentLogo = response.data.logo
+                    vm.setCompany(response.data)
                 })
             })
     },
@@ -160,6 +154,16 @@ export default {
     },
 
     methods: {
+        setCompany(data) {
+            this.form.country_id = data.country_id
+            this.form.name = data.name
+            this.form.description = data.description
+            this.form.website = data.website ?? ''
+            this.form.address = data.address
+            this.form.city = data.city
+            this.currentLogo = data.logo
+        },
+
         update() {
             if (this.$refs.logo.files.length) {
                 this.form.logo = this.$refs.logo.files[0]

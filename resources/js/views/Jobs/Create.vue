@@ -131,7 +131,7 @@ export default {
         axios.get('/api/companies')
             .then(response => {
                 next(vm => {
-                    vm.companies = vm.lodash.mapValues(vm.lodash.mapKeys(response.data, 'id'), 'name')
+                    vm.setCompanies(response.data)
                 })
             })
     },
@@ -144,6 +144,12 @@ export default {
     },
 
     methods: {
+        setCompanies(data) {
+            this.companies = this.lodash.mapValues(
+                this.lodash.mapKeys(data, 'id'), 'name'
+            )
+        },
+
         store() {
             this.form.post('/api/jobs', {
                 onSuccess: response => {

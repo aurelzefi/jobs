@@ -119,10 +119,6 @@ export default {
             })
     },
 
-    mounted() {
-        //
-    },
-
     methods: {
         getAlerts() {
             this.$http.get('/api/alerts')

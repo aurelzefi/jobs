@@ -126,28 +126,19 @@ export default {
             checkout: false,
             active: false,
 
-            countries: {}
+            companies: {}
         }
     },
 
     beforeRouteEnter(to, from, next) {
-        axios.get('/api/companies')
-            .then(companies => {
-                axios.get(`/api/jobs/${to.params.job}`)
-                    .then(job => {
-                        next(vm => {
-                            vm.companies = vm.lodash.mapValues(vm.lodash.mapKeys(companies.data, 'id'), 'name')
+        Promise.all([axios.get('/api/companies'), axios.get(`/api/jobs/${to.params.job}`)])
+            .then(responses => {
+                console.log(responses)
 
-                            vm.form.company_id = job.data.company_id
-                            vm.form.country_id = job.data.country_id
-                            vm.form.title = job.data.title
-                            vm.form.description = job.data.description
-                            vm.form.city = job.data.city
-                            vm.form.type = job.data.type
-                            vm.form.style = job.data.style
-                            vm.active = job.data.is_active
-                        })
-                    })
+                next(vm => {
+                    vm.setCompanies(responses[0].data)
+                    vm.setJob(responses[1].data)
+                })
             })
     },
 
@@ -159,6 +150,23 @@ export default {
     },
 
     methods: {
+        setCompanies(data) {
+            this.companies = this.lodash.mapValues(
+                this.lodash.mapKeys(data, 'id'), 'name'
+            )
+        },
+
+        setJob(data) {
+            this.form.company_id = data.company_id
+            this.form.country_id = data.country_id
+            this.form.title = data.title
+            this.form.description = data.description
+            this.form.city = data.city
+            this.form.type = data.type
+            this.form.style = data.style
+            this.active = data.is_active
+        },
+
         update() {
             this.form.put(`/api/jobs/${this.job}`, {
                 onSuccess: response => {

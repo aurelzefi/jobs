@@ -264,6 +264,7 @@ export default {
     watch: {
         '$route' () {
             this.form.page = this.$route.query.page
+
             this.getJobs()
         }
     },

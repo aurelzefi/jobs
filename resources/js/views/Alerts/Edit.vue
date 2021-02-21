@@ -159,14 +159,7 @@ export default {
         axios.get(`/api/alerts/${to.params.alert}`)
             .then(response => {
                 next(vm => {
-                    vm.form.country_id = response.data.country_id
-                    vm.form.name = response.data.name
-                    vm.form.has_all_keywords = response.data.has_all_keywords
-                    vm.form.city = response.data.city
-                    vm.form.type = response.data.type
-                    vm.form.job_types = response.data.job_types
-                    vm.form.job_styles = response.data.job_styles
-                    vm.form.keywords = vm.getKeywords(response.data)
+                    vm.setAlert(response.data)
                 })
             })
     },
@@ -181,6 +174,17 @@ export default {
     },
 
     methods: {
+        setAlert(data) {
+            this.form.country_id = data.country_id
+            this.form.name = data.name
+            this.form.has_all_keywords = data.has_all_keywords
+            this.form.city = data.city
+            this.form.type = data.type
+            this.form.job_types = data.job_types
+            this.form.job_styles = data.job_styles
+            this.form.keywords = this.stringifyKeywords(data.keywords)
+        },
+
         update() {
             this.form.put(`/api/alerts/${this.alert}`, {
                 onSuccess: () => this.$router.push({name: 'alerts.index'}),
@@ -188,8 +192,8 @@ export default {
             })
         },
 
-        getKeywords(alert) {
-            return alert.keywords.map(keyword => keyword.word).join(',')
+        stringifyKeywords(keywords) {
+            return keywords.map(keyword => keyword.word).join(',')
         }
     }
 }
