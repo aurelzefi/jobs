@@ -112,7 +112,7 @@ export default {
 
             tableHeaders: [
                 'Title',
-                'Active',
+                'Status',
                 'Created At'
             ],
 
