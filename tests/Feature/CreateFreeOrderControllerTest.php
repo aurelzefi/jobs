@@ -40,6 +40,26 @@ class CreateFreeOrderControllerTest extends TestCase
         ]);
     }
 
+    public function test_free_orders_can_be_created_if_the_job_expires_today()
+    {
+        $user = User::factory()->create();
+        $company = Company::factory()->for($user)->create();
+        $job = Job::factory()->for($company)->create();
+
+        Order::factory()->for($job)->for($user)->create([
+            'amount' => 0,
+            'paid_at' => now()->subDays(30),
+        ]);
+
+        $response = $this->actingAs($user)->post("/api/jobs/{$job->id}/orders/free");
+
+        $response->assertJson([
+            'user_id' => $user->id,
+            'job_id' => $job->id,
+            'amount' => 0,
+        ]);
+    }
+
     public function test_free_orders_cant_be_created_if_the_user_is_not_eligible()
     {
         $user = User::factory()->create();
@@ -54,5 +74,21 @@ class CreateFreeOrderControllerTest extends TestCase
         $response = $this->actingAs($user)->post("/api/jobs/{$job->id}/orders/free");
 
         $response->assertJsonValidationErrors('order');
+    }
+
+    public function test_free_orders_cant_be_created_if_the_job_is_active()
+    {
+        $user = User::factory()->create();
+        $company = Company::factory()->for($user)->create();
+        $job = Job::factory()->for($company)->create();
+
+        Order::factory()->for($job)->for($user)->create([
+            'amount' => 0,
+            'paid_at' => now(),
+        ]);
+
+        $response = $this->actingAs($user)->post("/api/jobs/{$job->id}/orders/free");
+
+        $response->assertJsonValidationErrors('job');
     }
 }

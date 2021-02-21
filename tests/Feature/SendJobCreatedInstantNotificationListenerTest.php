@@ -7,6 +7,7 @@ use App\Models\Alert;
 use App\Models\Country;
 use App\Models\Job;
 use App\Models\Keyword;
+use App\Models\Order;
 use App\Notifications\JobCreated as JobCreatedNotification;
 use Database\Seeders\CountriesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -267,7 +268,7 @@ class SendJobCreatedInstantNotificationListenerTest extends TestCase
 
     protected function job()
     {
-        return Job::factory()->create([
+        $job = Job::factory()->create([
             'country_id' => Country::query()->inRandomOrder()->first(),
             'title' => 'Custom Title',
             'description' => 'Custom Description',
@@ -275,5 +276,12 @@ class SendJobCreatedInstantNotificationListenerTest extends TestCase
             'type' => Job::TYPE_FULL_TIME,
             'style' => Job::STYLE_OFFICE,
         ]);
+
+        Order::factory()->for($job)->create([
+            'capture_id' => 'fake-capture-id',
+            'paid_at' => now(),
+        ]);
+
+        return $job;
     }
 }

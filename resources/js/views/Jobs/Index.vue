@@ -24,23 +24,27 @@
                             </td>
 
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800" v-if="job.active_order">
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800" v-if="job.active_order && ! job.expires_today">
                                     {{ __('Active') }}
                                 </span>
 
-                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800" v-else>
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-pink-100 text-pink-800" v-if="job.expires_today">
+                                    {{ __('Expires Today') }}
+                                </span>
+
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800" v-if="! job.active_order">
                                     {{ __('Inactive') }}
                                 </span>
                             </td>
 
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="text-sm text-gray-900">
-                                    {{ date(job.created_at) }}
+                                    {{ date(job.active_order.paid_at) }}
                                 </div>
                             </td>
 
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                <router-link :to="{name: 'jobs.checkout', params: {jobId: job.id}}" class="text-indigo-600 hover:text-indigo-900" v-if="! job.active_order">
+                                <router-link :to="{name: 'jobs.checkout', params: {jobId: job.id}}" class="text-indigo-600 hover:text-indigo-900" v-if="job.active_order && job.expires_today || ! job.active_order">
                                     {{ __('Renew') }}
                                 </router-link>
 
@@ -109,7 +113,7 @@ export default {
             tableHeaders: [
                 'Title',
                 'Active',
-                'Created At'
+                'Added At'
             ],
 
             currentJob: null,

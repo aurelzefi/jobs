@@ -66,7 +66,7 @@
                             {{ __('Save') }}
                         </app-button>
 
-                        <app-button class="ml-3" :class="{ 'opacity-25': form.processing }" :disabled="form.processing" @click.native="checkout = true" v-show="! active">
+                        <app-button class="ml-3" :class="{ 'opacity-25': form.processing }" :disabled="form.processing" @click.native="checkout = true" v-show="activeOrder && activeOrder.expires_today || ! activeOrder">
                             {{ __('Save And Checkout') }}
                         </app-button>
                     </template>
@@ -124,7 +124,7 @@ export default {
             jobStyles: {},
 
             checkout: false,
-            active: false,
+            activeOrder: null,
 
             companies: {}
         }
@@ -133,8 +133,6 @@ export default {
     beforeRouteEnter(to, from, next) {
         Promise.all([axios.get('/api/companies'), axios.get(`/api/jobs/${to.params.job}`)])
             .then(responses => {
-                console.log(responses)
-
                 next(vm => {
                     vm.setCompanies(responses[0].data)
                     vm.setJob(responses[1].data)
@@ -164,7 +162,7 @@ export default {
             this.form.city = data.city
             this.form.type = data.type
             this.form.style = data.style
-            this.active = data.is_active
+            this.activeOrder = data.active_order
         },
 
         update() {

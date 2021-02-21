@@ -64,9 +64,6 @@ export default [
         name: 'companies.show',
         component: ShowCompany,
         props: true,
-        meta: {
-            middleware: 'auth'
-        }
     },
     {
         path: '/companies/:company/edit',
@@ -98,9 +95,6 @@ export default [
         name: 'jobs.show',
         component: ShowJob,
         props: true,
-        meta: {
-            middleware: 'auth'
-        }
     },
     {
         path: '/jobs/:job/edit',

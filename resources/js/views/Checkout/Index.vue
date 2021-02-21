@@ -8,7 +8,7 @@
 
         <div v-if="job">
             <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg" v-if="job.active_order">
+                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg" v-if="job.active_order && ! job.expires_today">
                     <div class="p-6 bg-white border-b border-gray-200">
                         {{ __('This job is already active. No action is required.') }}
                     </div>

@@ -16,13 +16,13 @@ class CreateFreeOrderController extends Controller
     {
         $this->authorize('update', $job);
 
-        if (! $request->user()->isEligibleForFreeOrders()) {
+        if (! $request->user()->isEligibleForFreeOrder()) {
             throw ValidationException::withMessages([
                 'order' => __('You are no longer eligible for a free order.'),
             ]);
         }
 
-        if ($job->isActive()) {
+        if ($job->isActive() && $job->expiresInFuture()) {
             throw ValidationException::withMessages([
                 'job' => __('This job is already active.'),
             ]);

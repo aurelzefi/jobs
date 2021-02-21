@@ -43,6 +43,10 @@ class Job extends Model
 
     protected $guarded = [];
 
+    protected $appends = [
+        'expires_today',
+    ];
+
     public function company(): BelongsTo
     {
         return $this->belongsTo(Company::class);
@@ -63,6 +67,25 @@ class Job extends Model
         return $this->hasOne(Order::class)->whereDate(
             'paid_at', '>=', now()->subDays(30)->toDateString()
         );
+    }
+
+    public function expiresToday(): bool
+    {
+        if (is_null($this->activeOrder)) {
+            return false;
+        }
+
+        return $this->activeOrder->paid_at->toDateString() === now()->subDays(30)->toDateString();
+    }
+
+    public function expiresInFuture(): bool
+    {
+        return ! $this->expiresToday();
+    }
+
+    public function getExpiresTodayAttribute(): bool
+    {
+        return $this->expiresToday();
     }
 
     public function isActive(): bool
