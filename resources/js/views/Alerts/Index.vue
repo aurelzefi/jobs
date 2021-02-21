@@ -110,8 +110,17 @@ export default {
         }
     },
 
+    beforeRouteEnter(to, from, next) {
+        axios.get('/api/alerts')
+            .then(response => {
+                next(vm => {
+                    vm.alerts = response.data
+                })
+            })
+    },
+
     mounted() {
-        this.getAlerts()
+        //
     },
 
     methods: {

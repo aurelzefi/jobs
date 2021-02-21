@@ -148,13 +148,22 @@ export default {
                 keywords: ''
             }),
 
-            alertTypes: {}
+            alertTypes: {},
+
+            countries: {}
         }
     },
 
-    mounted() {
-        this.getCountries()
+    beforeRouteEnter(to, from, next) {
+        axios.get('/api/countries')
+            .then(response => {
+                next(vm => {
+                    vm.countries = vm.lodash.mapValues(response.data, country => country.name)
+                })
+            })
+    },
 
+    mounted() {
         this.alertTypes = this.keyByValues(this.App.alertTypes)
 
         this.form.job_types = this.App.jobTypes

@@ -39,7 +39,7 @@ const i18n = new VueI18n({
         al: AlLocale,
         en: EnLocale,
     },
-    silentTranslationWarn: true // temporary
+    silentTranslationWarn: true
 })
 
 const router = new VueRouter({

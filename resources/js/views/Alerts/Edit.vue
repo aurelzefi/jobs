@@ -149,8 +149,31 @@ export default {
                 keywords: ''
             }),
 
-            alertTypes: {}
+            alertTypes: {},
+
+            countries: {}
         }
+    },
+
+    beforeRouteEnter(to, from, next) {
+        axios.get('/api/countries')
+            .then(countries => {
+                axios.get(`/api/alerts/${to.params.alert}`)
+                    .then(alert => {
+                        next(vm => {
+                            vm.countries = vm.lodash.mapValues(countries.data, country => country.name)
+
+                            vm.form.country_id = alert.data.country_id
+                            vm.form.name = alert.data.name
+                            vm.form.has_all_keywords = alert.data.has_all_keywords
+                            vm.form.city = alert.data.city
+                            vm.form.type = alert.data.type
+                            vm.form.job_types = alert.data.job_types
+                            vm.form.job_styles = alert.data.job_styles
+                            vm.form.keywords = vm.getKeywords(alert.data)
+                        })
+                    })
+            })
     },
 
     mounted() {
@@ -159,28 +182,10 @@ export default {
         this.form.job_types = this.App.jobTypes
         this.form.job_styles = this.App.jobStyles
 
-        this.getCountries({
-            onSuccess: () => this.getAlert()
-        })
-
         this.$refs.name.focus()
     },
 
     methods: {
-        getAlert() {
-            this.$http.get(`/api/alerts/${this.alert}`)
-                .then(response => {
-                    this.form.country_id = response.data.country_id
-                    this.form.name = response.data.name
-                    this.form.has_all_keywords = response.data.has_all_keywords
-                    this.form.city = response.data.city
-                    this.form.type = response.data.type
-                    this.form.job_types = response.data.job_types
-                    this.form.job_styles = response.data.job_styles
-                    this.form.keywords = this.getKeywords(response.data)
-                })
-        },
-
         update() {
             this.form.put(`/api/alerts/${this.alert}`, {
                 onSuccess: () => this.$router.push({name: 'alerts.index'}),

@@ -44,10 +44,6 @@
                                     </div>
                                 </div>
 
-                                <div class="ml-4 text-sm text-gray-900">
-
-                                </div>
-
                                 <div class="ml-4 text-sm text-gray-900" :title="readableTimestamp(job.active_order.paid_at)">
                                     {{ dateForHumans(job.active_order.paid_at) }}
                                 </div>
