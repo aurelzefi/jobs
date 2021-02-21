@@ -9,8 +9,8 @@ export default {
     },
 
     methods: {
-        __(string) {
-            return this.$t(string)
+        __(string, parameters) {
+            return this.$t(string, parameters)
         },
 
         keyByValues(values) {

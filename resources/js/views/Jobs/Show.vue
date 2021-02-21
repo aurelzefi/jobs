@@ -2,7 +2,7 @@
     <app-layout>
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                {{ ('Job Information') }}
+                {{ ('Job Profile') }}
             </h2>
         </template>
 
@@ -10,7 +10,7 @@
             <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
                 <action-section>
                     <template #title>
-                        {{ __('Job Details') }}
+                        {{ __('Job Information') }}
                     </template>
 
                     <template #description>
@@ -21,11 +21,11 @@
                         <div class="p-4">
                             <div class="flex items-center justify-between">
                                 <div class="flex items-center">
-                                    <router-link :to="{name: 'companies.show', params: {company: job.company_id}}" class="flex-shrink-0 h-14 w-14" v-if="job.company.logo">
+                                    <router-link :to="{name: 'companies.show', params: {companyId: job.company_id}}" class="flex-shrink-0 h-14 w-14" v-if="job.company.logo">
                                         <img class="h-14 w-14 rounded-full" :src="imageUrl(job.company.logo)" :alt="job.company.logo">
                                     </router-link>
 
-                                    <router-link :to="{name: 'companies.show', params: {company: job.company_id}}" class="text-gray-500" v-else>
+                                    <router-link :to="{name: 'companies.show', params: {companyId: job.company_id}}" class="text-gray-500" v-else>
                                         <company-icon class="h-14 w-14" />
                                     </router-link>
 
@@ -34,7 +34,7 @@
                                             {{ job.title }}
                                         </div>
 
-                                        <router-link :to="{name: 'companies.show', params: {company: job.company_id}}" class="mt-1 block text-sm text-gray-500 hover:underline">
+                                        <router-link :to="{name: 'companies.show', params: {companyId: job.company_id}}" class="mt-1 block text-sm text-gray-500 hover:underline">
                                             {{ job.company.name }}
                                         </router-link>
 
@@ -42,6 +42,10 @@
                                             {{ `${__(job.type)} &#8226; ${__(job.style)} &#8226; ${job.city}` }}
                                         </div>
                                     </div>
+                                </div>
+
+                                <div class="ml-4 text-sm text-gray-900">
+
                                 </div>
 
                                 <div class="ml-4 text-sm text-gray-900" :title="readableTimestamp(job.active_order.paid_at)">

@@ -23,5 +23,7 @@
     "part-time": "Part-time",
     "freelance": "Freelance",
     "contract": "Contract",
-    "internship": "Internship"
+    "internship": "Internship",
+    "Created on {date}": "Created on {date}",
+    "Go to page {label}": "Go to page {label}"
 }

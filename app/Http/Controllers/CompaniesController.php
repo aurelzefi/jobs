@@ -28,6 +28,8 @@ class CompaniesController extends Controller
 
     public function show(Company $company): JsonResponse
     {
+        $company->load('country');
+
         return response()->json($company);
     }
 

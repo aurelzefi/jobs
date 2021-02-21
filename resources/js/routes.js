@@ -60,7 +60,7 @@ export default [
         }
     },
     {
-        path: '/companies/:company',
+        path: '/companies/:companyId',
         name: 'companies.show',
         component: ShowCompany,
         props: true,

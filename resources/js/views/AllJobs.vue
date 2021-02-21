@@ -42,11 +42,11 @@
                     <router-link v-for="job in jobs" :key="job.id" :to="{name: 'jobs.show', params: {jobId: job.id}}" class="block p-4 bg-white hover:bg-gray-50 border-b border-gray-200">
                         <div class="flex justify-between">
                             <div class="flex items-center">
-                                <router-link :to="{name: 'companies.show', params: {company: job.company_id}}" class="flex-shrink-0 h-14 w-14" v-if="job.company.logo">
+                                <router-link :to="{name: 'companies.show', params: {companyId: job.company_id}}" class="flex-shrink-0 h-14 w-14" v-if="job.company.logo">
                                     <img class="h-14 w-14 rounded-full" :src="imageUrl(job.company.logo)" :alt="job.company.logo">
                                 </router-link>
 
-                                <router-link :to="{name: 'companies.show', params: {company: job.company_id}}" class="text-gray-500" v-else>
+                                <router-link :to="{name: 'companies.show', params: {companyId: job.company_id}}" class="text-gray-500" v-else>
                                     <company-icon class="h-14 w-14" />
                                 </router-link>
 
@@ -55,7 +55,7 @@
                                         {{ job.title }}
                                     </div>
 
-                                    <router-link :to="{name: 'companies.show', params: {company: job.company_id}}" class="mt-1 block text-sm text-gray-500 hover:underline">
+                                    <router-link :to="{name: 'companies.show', params: {companyId: job.company_id}}" class="mt-1 block text-sm text-gray-500 hover:underline">
                                         {{ job.company.name }}
                                     </router-link>
 
