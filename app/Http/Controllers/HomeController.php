@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Models\Alert;
+use App\Models\Country;
 use App\Models\Job;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
@@ -21,6 +22,7 @@ class HomeController extends Controller
                 'jobTypes' => Job::TYPES,
                 'jobStyles' => Job::STYLES,
                 'orders' => config('app.orders'),
+                'countries' => (new Country())->getList(),
             ],
         ]);
     }

@@ -141,23 +141,17 @@ export default {
     },
 
     beforeRouteEnter(to, from, next) {
-        axios.get('/api/countries')
-            .then(countries => {
-                axios.get(`/api/companies/${to.params.company}`)
-                    .then(company => {
-                        next(vm => {
-                            vm.countries = vm.lodash.mapValues(countries.data, country => country.name)
-
-                            vm.form.country_id = company.data.country_id
-                            vm.form.name = company.data.name
-                            vm.form.description = company.data.description
-                            vm.form.website = company.data.website ?? ''
-                            vm.form.address = company.data.address
-                            vm.form.city = company.data.city
-                            vm.currentLogo = company.data.logo
-                        })
-
-                    })
+        axios.get(`/api/companies/${to.params.company}`)
+            .then(response => {
+                next(vm => {
+                    vm.form.country_id = response.data.country_id
+                    vm.form.name = response.data.name
+                    vm.form.description = response.data.description
+                    vm.form.website = response.data.website ?? ''
+                    vm.form.address = response.data.address
+                    vm.form.city = response.data.city
+                    vm.currentLogo = response.data.logo
+                })
             })
     },
 

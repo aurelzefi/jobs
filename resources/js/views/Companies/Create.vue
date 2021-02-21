@@ -99,7 +99,6 @@ import SectionBorder from '../../components/SectionBorder'
 import AppSelect from '../../components/Select'
 import AppTextarea from '../../components/Textarea'
 import AppLayout from '../../layouts/AppLayout'
-import axios from 'axios'
 
 export default {
     components: {
@@ -130,17 +129,13 @@ export default {
             }).asFormData(),
 
             logoPreview: null,
-            countries: {}
         }
     },
 
     beforeRouteEnter(to, from, next) {
-        axios.get('/api/countries')
-            .then(response => {
-                next(vm => {
-                    vm.countries = vm.lodash.mapValues(response.data, country => country.name)
-                })
-            })
+        //
+
+        next()
     },
 
     mounted() {

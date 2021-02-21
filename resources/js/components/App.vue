@@ -21,6 +21,8 @@ export default {
         this.$router.afterEach((to, from) => {
             this.$Progress.finish()
         })
+
+        this.$Progress.finish()
     }
 }
 </script>

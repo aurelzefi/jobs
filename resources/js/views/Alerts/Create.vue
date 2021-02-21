@@ -155,12 +155,9 @@ export default {
     },
 
     beforeRouteEnter(to, from, next) {
-        axios.get('/api/countries')
-            .then(response => {
-                next(vm => {
-                    vm.countries = vm.lodash.mapValues(response.data, country => country.name)
-                })
-            })
+        //
+
+        next()
     },
 
     mounted() {

@@ -129,6 +129,13 @@ export default {
     },
 
     methods: {
+        getCompanies() {
+            this.$http.get('/api/companies')
+                .then(response => {
+                    this.companies = response.data
+                })
+        },
+
         confirmCompanyDeletion(company) {
             this.currentCompany = company
             this.confirmingCompanyDeletion = true

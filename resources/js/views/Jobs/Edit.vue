@@ -131,26 +131,22 @@ export default {
     },
 
     beforeRouteEnter(to, from, next) {
-        axios.get('/api/countries')
-            .then(countries => {
-                axios.get('/api/companies')
-                    .then(companies => {
-                        axios.get(`/api/jobs/${to.params.job}`)
-                            .then(job => {
-                                next(vm => {
-                                    vm.countries = vm.lodash.mapValues(countries.data, country => country.name)
-                                    vm.companies = vm.lodash.mapValues(vm.lodash.mapKeys(companies.data, 'id'), 'name')
+        axios.get('/api/companies')
+            .then(companies => {
+                axios.get(`/api/jobs/${to.params.job}`)
+                    .then(job => {
+                        next(vm => {
+                            vm.companies = vm.lodash.mapValues(vm.lodash.mapKeys(companies.data, 'id'), 'name')
 
-                                    vm.form.company_id = job.data.company_id
-                                    vm.form.country_id = job.data.country_id
-                                    vm.form.title = job.data.title
-                                    vm.form.description = job.data.description
-                                    vm.form.city = job.data.city
-                                    vm.form.type = job.data.type
-                                    vm.form.style = job.data.style
-                                    vm.active = job.data.is_active
-                                })
-                            })
+                            vm.form.company_id = job.data.company_id
+                            vm.form.country_id = job.data.country_id
+                            vm.form.title = job.data.title
+                            vm.form.description = job.data.description
+                            vm.form.city = job.data.city
+                            vm.form.type = job.data.type
+                            vm.form.style = job.data.style
+                            vm.active = job.data.is_active
+                        })
                     })
             })
     },

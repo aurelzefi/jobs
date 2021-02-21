@@ -123,21 +123,16 @@ export default {
 
             checkout: false,
 
-            countries: {},
             companies: {}
         }
     },
 
     beforeRouteEnter(to, from, next) {
-        axios.get('/api/countries')
-            .then(countries => {
-                axios.get('/api/companies')
-                    .then(companies => {
-                        next(vm => {
-                            vm.countries = vm.lodash.mapValues(countries.data, country => country.name)
-                            vm.companies = vm.lodash.mapValues(vm.lodash.mapKeys(companies.data, 'id'), 'name')
-                        })
-                    })
+        axios.get('/api/companies')
+            .then(response => {
+                next(vm => {
+                    vm.companies = vm.lodash.mapValues(vm.lodash.mapKeys(response.data, 'id'), 'name')
+                })
             })
     },
 

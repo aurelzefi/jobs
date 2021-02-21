@@ -252,19 +252,12 @@ export default {
     },
 
     beforeRouteEnter(to, from, next) {
-        axios.get('/api/countries')
-            .then(countries => {
-                axios.get('/api/jobs/all')
-                    .then(jobs => {
-                        next(vm => {
-                            vm.countries = vm.lodash.mapValues(
-                                countries.data, country => country.name
-                            )
-
-                            vm.paginator = jobs.data
-                            vm.jobs = jobs.data.data
-                        })
-                    })
+        axios.get('/api/jobs/all')
+            .then(jobs => {
+                next(vm => {
+                    vm.paginator = jobs.data
+                    vm.jobs = jobs.data.data
+                })
             })
     },
 
