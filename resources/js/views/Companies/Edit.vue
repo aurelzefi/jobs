@@ -44,7 +44,7 @@
 
                         <div class="col-span-6 sm:col-span-4">
                             <app-label for="country">{{ __('Country') }}</app-label>
-                            <country-select id="country" class="mt-1 block w-full" v-model="form.country_id" />
+                            <app-select id="country" class="mt-1 block w-full" :options="countries" :default-option="__('Select a country')" v-model="form.country_id" />
                             <app-input-error :message="form.errors.country_id" class="mt-2" />
                         </div>
 
@@ -94,7 +94,6 @@
 import ActionMessage from '../../components/ActionMessage'
 import AppButton from '../../components/Button'
 import AppCheckbox from '../../components/Checkbox'
-import CountrySelect from '../../components/CountrySelect'
 import FormSection from '../../components/FormSection'
 import AppInput from '../../components/Input'
 import AppInputError from '../../components/InputError'
@@ -110,7 +109,6 @@ export default {
         ActionMessage,
         AppButton,
         AppCheckbox,
-        CountrySelect,
         FormSection,
         AppInput,
         AppInputError,
@@ -142,7 +140,9 @@ export default {
     },
 
     mounted() {
-        this.getCompany()
+        this.getCountries({
+            onSuccess: () => this.getCompany()
+        })
 
         this.$refs.name.focus()
     },
@@ -184,7 +184,7 @@ export default {
             };
 
             reader.readAsDataURL(this.$refs.logo.files[0]);
-        },
+        }
     }
 }
 </script>

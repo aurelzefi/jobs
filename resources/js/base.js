@@ -1,10 +1,14 @@
 import moment from 'moment'
+import _ from 'lodash'
 
 export default {
     data() {
         return {
             App: window.App,
-            paypal: window.paypal
+            paypal: window.paypal,
+
+            countries: {},
+            companies: {}
         }
     },
 
@@ -58,6 +62,42 @@ export default {
 
         dateForHumans(timestamp) {
             return moment(timestamp).fromNow()
-        }
+        },
+
+        getCountries({onSuccess, onFailure} = {}) {
+            this.$http.get('/api/countries')
+                .then(response => {
+                    this.countries = _.mapValues(response.data, country => country.name)
+
+                    if (onSuccess) {
+                        onSuccess(response)
+                    }
+                })
+                .catch(error => {
+                    if (onFailure) {
+                        onFailure(error)
+                    }
+                })
+        },
+
+        getCompanies({onSuccess, onFailure} = {}) {
+            this.$http.get('/api/companies')
+                .then(response => {
+                    this.companies = _.mapValues(_.mapKeys(response.data, company => {
+                        return company.id
+                    }), company => {
+                        return company.name
+                    })
+
+                    if (onSuccess) {
+                        onSuccess(response)
+                    }
+                })
+                .catch(error => {
+                    if (onFailure) {
+                        onFailure(error)
+                    }
+                })
+        },
     }
 }

@@ -32,7 +32,7 @@
 
                         <div class="col-span-6 sm:col-span-4">
                             <app-label for="company">{{ __('Company') }}</app-label>
-                            <company-select id="company" class="mt-1 block w-full" v-model="form.company_id" />
+                            <app-select id="company" class="mt-1 block w-full" :options="companies" :default-option="__('Select a company')" v-model="form.company_id" />
                             <app-input-error :message="form.errors.company_id" class="mt-2" />
                         </div>
 
@@ -56,7 +56,7 @@
 
                         <div class="col-span-6 sm:col-span-4">
                             <app-label for="country">{{ __('Country') }}</app-label>
-                            <country-select id="country" class="mt-1 block w-full" v-model="form.country_id" />
+                            <app-select id="country" class="mt-1 block w-full" :options="countries" :default-option="__('Select a country')" v-model="form.country_id" />
                             <app-input-error :message="form.errors.country_id" class="mt-2" />
                         </div>
                     </template>
@@ -81,8 +81,6 @@ import {VueEditor} from 'vue2-editor'
 import ActionMessage from '../../components/ActionMessage'
 import AppButton from '../../components/Button'
 import AppCheckbox from '../../components/Checkbox'
-import CompanySelect from '../../components/CompanySelect'
-import CountrySelect from '../../components/CountrySelect'
 import FormSection from '../../components/FormSection'
 import AppInput from '../../components/Input'
 import AppInputError from '../../components/InputError'
@@ -98,8 +96,6 @@ export default {
         ActionMessage,
         AppButton,
         AppCheckbox,
-        CompanySelect,
-        CountrySelect,
         FormSection,
         AppInput,
         AppInputError,
@@ -136,7 +132,10 @@ export default {
         this.jobTypes = this.keyByValues(this.App.jobTypes)
         this.jobStyles = this.keyByValues(this.App.jobStyles)
 
-        this.getJob()
+        this.getCountries({
+            onSuccess: () => this.getJob()
+        })
+
         this.$refs.title.focus()
     },
 
@@ -159,10 +158,12 @@ export default {
             this.form.put(`/api/jobs/${this.job}`, {
                 onSuccess: response => {
                     if (this.checkout) {
-                        return this.$router.push({
+                        this.$router.push({
                             name: 'jobs.checkout',
                             params: {jobId: response.data.id}
                         })
+
+                        return
                     }
 
                     this.$router.push({name: 'jobs.index'})

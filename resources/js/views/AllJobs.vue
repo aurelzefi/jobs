@@ -113,7 +113,7 @@
 
                             <div class="mt-6 col-span-6 sm:col-span-4">
                                 <app-label for="country">{{ __('Country') }}</app-label>
-                                <country-select id="country" class="mt-1 block w-full" v-model="form.country_id" />
+                                <app-select id="country" class="mt-1 block w-full" :options="countries" :default-option="__('Select a country')" v-model="form.country_id" />
                             </div>
 
                             <div class="mt-6 col-span-6 sm:col-span-4">
@@ -201,7 +201,6 @@
 import AppButton from '../components/Button'
 import AppCheckbox from '../components/Checkbox'
 import CompanyIcon from '../components/CompanyIcon'
-import CountrySelect from '../components/CountrySelect'
 import DialogModal from '../components/DialogModal'
 import AppInput from '../components/Input'
 import AppLabel from '../components/Label'
@@ -216,7 +215,6 @@ export default {
         AppButton,
         AppCheckbox,
         CompanyIcon,
-        CountrySelect,
         DialogModal,
         AppInput,
         AppLabel,
@@ -247,7 +245,7 @@ export default {
                 from_added_at: this.$route.query.from_added_at ?? '',
                 to_added_at: this.$route.query.to_added_at ?? '',
                 page: this.$route.query.page ?? 1,
-            })
+            }),
         }
     },
 
@@ -262,7 +260,9 @@ export default {
         this.form.types = this.App.jobTypes
         this.form.styles = this.App.jobStyles
 
-        this.getJobs()
+        this.getCountries({
+            onSuccess: () => this.getJobs()
+        })
     },
 
     methods: {
