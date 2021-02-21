@@ -15,7 +15,7 @@
                 </h2>
 
                 <span class="ml-2 text-sm text-gray-600">
-                    for 30 days
+                    {{ __('for 30 days') }}
                 </span>
             </div>
 

@@ -9,17 +9,17 @@
         </template>
 
         <template #content>
+            <div class="flex items-center">
+                <h2 class="text-4xl font-medium text-gray-900">
+                    &euro;{{ App.orders.basic / 100 }}
+                </h2>
+
+                <span class="ml-2 text-sm text-gray-600">
+                    {{ __('for 30 days') }}
+                </span>
+            </div>
+
             <template v-if="App.user.free_orders_left > 0">
-                <div class="flex items-center">
-                    <h2 class="text-4xl font-medium text-gray-900">
-                        &euro;{{ App.orders.basic / 100 }}
-                    </h2>
-
-                    <span class="ml-2 text-sm text-gray-600">
-                        for 30 days
-                    </span>
-                </div>
-
                 <h3 class="mt-3 text-lg font-medium text-gray-900">
                     {{ __('You are still eligible for free orders.') }}
                 </h3>

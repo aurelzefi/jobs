@@ -24,7 +24,7 @@
                             </td>
 
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800" v-if="job.is_active">
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800" v-if="job.active_order">
                                     {{ __('Active') }}
                                 </span>
 
@@ -40,7 +40,7 @@
                             </td>
 
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                <router-link :to="{name: 'jobs.checkout', params: {jobId: job.id}}" class="text-indigo-600 hover:text-indigo-900" v-if="! job.is_active">
+                                <router-link :to="{name: 'jobs.checkout', params: {jobId: job.id}}" class="text-indigo-600 hover:text-indigo-900" v-if="! job.active_order">
                                     {{ __('Renew') }}
                                 </router-link>
 

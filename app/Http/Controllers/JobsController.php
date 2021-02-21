@@ -14,7 +14,7 @@ class JobsController extends Controller
 {
     public function index(Request $request): JsonResponse
     {
-        $jobs = $request->user()->jobs()->with('activeOrder')->get()->append('is_active');
+        $jobs = $request->user()->jobs()->with('activeOrder')->get();
 
         return response()->json($jobs);
     }
