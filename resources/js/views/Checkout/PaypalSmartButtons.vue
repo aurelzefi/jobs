@@ -2,13 +2,13 @@
     <div>
         <div :id="`paypal-smart-buttons-${elementId}`"></div>
 
-        <span class="text-sm text-gray-600" v-if="creating">
+        <div class="text-sm text-center text-gray-600" v-if="creating">
             {{ __('Please wait while we\'re processing your order...') }}
-        </span>
+        </div>
 
-        <span class="text-sm text-gray-600" v-if="approving">
+        <div class="text-sm text-center text-gray-600" v-if="approving">
             {{ __('Please wait while we\'re finishing up with your order...') }}
-        </span>
+        </div>
     </div>
 </template>
 
@@ -39,7 +39,11 @@ export default {
         mountButtons() {
             this.paypal.Buttons({
                 createOrder: () => this.createOrder(),
-                onApprove: () => this.onApprove()
+                onApprove: () => this.onApprove(),
+                onCancel: () => {
+                    this.creating = false
+                    this.approving = false
+                }
             }).render(`#paypal-smart-buttons-${this.elementId}`)
         },
 
