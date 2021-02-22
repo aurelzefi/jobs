@@ -66,7 +66,7 @@ class Job extends Model
     {
         return $this->hasOne(Order::class)->whereDate(
             'paid_at', '>=', now()->subDays(30)->toDateString()
-        );
+        )->orderByDesc('paid_at');
     }
 
     public function expiresToday(): bool
@@ -91,10 +91,5 @@ class Job extends Model
     public function isActive(): bool
     {
         return $this->activeOrder()->exists();
-    }
-
-    public function getIsActiveAttribute(): bool
-    {
-        return (bool) $this->activeOrder;
     }
 }
