@@ -38,8 +38,13 @@
                                             {{ job.company.name }}
                                         </router-link>
 
-                                        <div class="mt-1 text-sm text-gray-500">
-                                            {{ `${__(job.type)} &#8226; ${__(job.style)} &#8226; ${job.city}` }}
+                                        <div class="flex mt-1 text-sm text-gray-500">
+                                            <span>{{ `${__(job.type)} &#8226; ${__(job.style)} &#8226;` }}</span>
+
+                                            <div class="flex items-center ml-1">
+                                                <location-icon class="h-4 w-4 -mt-1" />
+                                                <span>{{ job.city }}</span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -61,6 +66,7 @@
 <script>
 import ActionSection from '../../components/ActionSection'
 import CompanyIcon from '../../components/CompanyIcon'
+import LocationIcon from '../../components/LocationIcon'
 import AppLayout from '../../layouts/AppLayout'
 
 export default {
@@ -69,6 +75,7 @@ export default {
     components: {
         ActionSection,
         CompanyIcon,
+        LocationIcon,
         AppLayout
     },
 

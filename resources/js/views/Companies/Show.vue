@@ -40,7 +40,7 @@
                                             <span v-if="company.website" class="ml-1">&#8226;</span>
 
                                             <div class="flex items-center ml-1">
-                                                <location-icon class="h-4 w-4" />
+                                                <location-icon class="h-4 w-4 -mt-1" />
 
                                                 <span>
                                                     {{ `${company.address}, ${company.city}, ${company.country.name}` }}
