@@ -120,7 +120,7 @@ export default {
         AppLayout
     },
 
-    props: ['company'],
+    props: ['companyId'],
 
     data() {
         return {
@@ -141,7 +141,7 @@ export default {
     },
 
     beforeRouteEnter(to, from, next) {
-        axios.get(`/api/companies/${to.params.company}`)
+        axios.get(`/api/companies/${to.params.companyId}`)
             .then(response => {
                 next(vm => {
                     vm.setCompany(response.data)
@@ -169,7 +169,7 @@ export default {
                 this.form.logo = this.$refs.logo.files[0]
             }
 
-            this.form.post(`/api/companies/${this.company}/update`, {
+            this.form.post(`/api/companies/${this.companyId}/update`, {
                 onSuccess: () => this.$router.push({name: 'companies.index'}),
                 onFailure: () => this.$refs.name.focus()
             })

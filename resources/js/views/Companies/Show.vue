@@ -34,16 +34,22 @@
                                             {{ company.name }}
                                         </div>
 
-                                        <div class="mt-1 text-sm text-gray-500">
+                                        <div class="flex mt-1 text-sm text-gray-500">
                                             <a :href="company.website" v-if="company.website" target="_blank" class="cursor-pointer hover:underline">{{ __('Website') }}</a>
 
-                                            <span v-if="company.website">&#8226;</span>
+                                            <span v-if="company.website" class="ml-1">&#8226;</span>
 
-                                            {{ `${company.address}, ${company.city}, ${company.country.name}` }}
+                                            <div class="flex items-center ml-1">
+                                                <location-icon class="h-4 w-4" />
+
+                                                <span>
+                                                    {{ `${company.address}, ${company.city}, ${company.country.name}` }}
+                                                </span>
+                                            </div>
                                         </div>
 
                                         <div class="mt-1 text-sm text-gray-500">
-                                            {{ __('Created on {date}', {date: moment(company.created_at).format('MMMM YYYY')}) }}
+                                            {{ __('Joined {date}', {date: moment(company.created_at).format('MMMM YYYY')}) }}
                                         </div>
                                     </div>
                                 </div>
@@ -61,6 +67,7 @@
 <script>
 import ActionSection from '../../components/ActionSection'
 import CompanyIcon from '../../components/CompanyIcon'
+import LocationIcon from '../../components/LocationIcon'
 import AppLayout from '../../layouts/AppLayout'
 
 export default {
@@ -69,6 +76,7 @@ export default {
     components: {
         ActionSection,
         CompanyIcon,
+        LocationIcon,
         AppLayout
     },
 

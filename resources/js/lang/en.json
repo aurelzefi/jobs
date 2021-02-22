@@ -24,6 +24,6 @@
     "freelance": "Freelance",
     "contract": "Contract",
     "internship": "Internship",
-    "Created on {date}": "Created on {date}",
+    "Joined {date}": "Joined {date}",
     "Go to page {label}": "Go to page {label}"
 }

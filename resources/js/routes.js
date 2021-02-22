@@ -37,7 +37,7 @@ export default [
         }
     },
     {
-        path: '/alerts/:alert/edit',
+        path: '/alerts/:alertId/edit',
         name: 'alerts.edit',
         component: EditAlert,
         props: true,
@@ -49,7 +49,9 @@ export default [
         path: '/companies',
         name: 'companies.index',
         component: ListCompanies,
-        middleware: 'auth'
+        meta: {
+            middleware: 'auth'
+        }
     },
     {
         path: '/companies/create',
@@ -66,7 +68,7 @@ export default [
         props: true,
     },
     {
-        path: '/companies/:company/edit',
+        path: '/companies/:companyId/edit',
         name: 'companies.edit',
         component: EditCompany,
         props: true,
@@ -97,7 +99,7 @@ export default [
         props: true,
     },
     {
-        path: '/jobs/:job/edit',
+        path: '/jobs/:jobId/edit',
         name: 'jobs.edit',
         component: EditJob,
         props: true,

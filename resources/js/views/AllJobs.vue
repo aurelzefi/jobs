@@ -187,7 +187,7 @@
                             {{ __('Close') }}
                         </secondary-button>
 
-                        <app-button class="ml-2" @click.native="pushRouter" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                        <app-button class="ml-2" @click.native="pushRouter">
                             {{ __('Search') }}
                         </app-button>
                     </template>

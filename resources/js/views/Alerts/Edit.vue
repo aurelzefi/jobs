@@ -134,7 +134,7 @@ export default {
         AppLayout
     },
 
-    props: ['alert'],
+    props: ['alertId'],
 
     data() {
         return {
@@ -156,7 +156,7 @@ export default {
     },
 
     beforeRouteEnter(to, from, next) {
-        axios.get(`/api/alerts/${to.params.alert}`)
+        axios.get(`/api/alerts/${to.params.alertId}`)
             .then(response => {
                 next(vm => {
                     vm.setAlert(response.data)
@@ -186,7 +186,7 @@ export default {
         },
 
         update() {
-            this.form.put(`/api/alerts/${this.alert}`, {
+            this.form.put(`/api/alerts/${this.alertId}`, {
                 onSuccess: () => this.$router.push({name: 'alerts.index'}),
                 onFailure: () => this.$refs.name.focus()
             })

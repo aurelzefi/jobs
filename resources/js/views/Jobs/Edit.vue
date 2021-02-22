@@ -106,7 +106,7 @@ export default {
         AppLayout
     },
 
-    props: ['job'],
+    props: ['jobId'],
 
     data() {
         return {
@@ -131,7 +131,7 @@ export default {
     },
 
     beforeRouteEnter(to, from, next) {
-        Promise.all([axios.get('/api/companies'), axios.get(`/api/jobs/${to.params.job}`)])
+        Promise.all([axios.get('/api/companies'), axios.get(`/api/jobs/${to.params.jobId}`)])
             .then(responses => {
                 next(vm => {
                     vm.setCompanies(responses[0].data)
@@ -166,7 +166,7 @@ export default {
         },
 
         update() {
-            this.form.put(`/api/jobs/${this.job}`, {
+            this.form.put(`/api/jobs/${this.jobId}`, {
                 onSuccess: response => {
                     if (this.checkout) {
                         this.$router.push({

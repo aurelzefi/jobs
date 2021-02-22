@@ -48,7 +48,7 @@
                                     {{ __('Renew') }}
                                 </router-link>
 
-                                <router-link :to="{name: 'jobs.edit', params: {job: job.id}}" class="ml-6 text-indigo-600 hover:text-indigo-900">
+                                <router-link :to="{name: 'jobs.edit', params: {jobId: job.id}}" class="ml-6 text-indigo-600 hover:text-indigo-900">
                                     {{ __('Edit') }}
                                 </router-link>
 

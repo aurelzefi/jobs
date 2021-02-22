@@ -1,20 +1,3 @@
 {
-    "Dashboard": "Dashboard",
-    "Logout": "Logout",
-    "instant": "I mwnjwhershwm",
-    "daily": "I pwrditshwm",
-    "weekly": "I pwrjavshwm",
-    "Select a type": "Zgjidh njw tip",
-    "Select a country": "Zgjidh njw shtet",
-    "Name": "Emri",
-    "Type": "Tipi",
-    "City": "Qyteti",
-    "Country": "Shteti",
-    "Keywords": "Fjalwt ky@e",
-    "Should Contain All Keywords": "Duhet ti pwrmbajw tw gjitha fjalwt ky@e",
-    "Job Types": "Tipet e punwve",
-    "Job Styles": "Stilet e punwve",
-    "office": "Nw zyrw",
-    "remote": "Nw distancw",
-    "optional": "Opsional"
+
 }
