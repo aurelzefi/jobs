@@ -47,7 +47,7 @@
 <script>
 import ActionSection from '../../components/ActionSection'
 import AppButton from '../../components/Button'
-import PaypalSmartButtons from '../../components/PaypalSmartButtons'
+import PaypalSmartButtons from './PaypalSmartButtons'
 
 export default {
     components: {
@@ -67,11 +67,11 @@ export default {
         store() {
             this.form.post(`/api/jobs/${this.job.id}/orders/free`, {
                 onSuccess: () => {
+                    this.$router.push({name: 'jobs.all'})
+
                     this.$root.banner.message = this.__(
                         'Your order has been successfully completed. It is now listed on our Jobs page.'
                     )
-
-                    this.$router.push({name: 'jobs.all'})
                 }
             })
         },

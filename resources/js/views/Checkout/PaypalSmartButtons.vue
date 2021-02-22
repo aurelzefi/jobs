@@ -1,5 +1,15 @@
 <template>
-    <div :id="`paypal-smart-buttons-${elementId}`"></div>
+    <div>
+        <div :id="`paypal-smart-buttons-${elementId}`"></div>
+
+        <span class="text-sm text-gray-600" v-if="creating">
+            {{ __('Please wait while we\'re processing your order...') }}
+        </span>
+
+        <span class="text-sm text-gray-600" v-if="approving">
+            {{ __('Please wait while we\'re finishing up with your order...') }}
+        </span>
+    </div>
 </template>
 
 <script>
@@ -14,7 +24,10 @@ export default {
 
             elementId: this.randomString(),
 
-            order: null
+            order: null,
+
+            creating: false,
+            approving: false
         }
     },
 
@@ -31,27 +44,35 @@ export default {
         },
 
         createOrder() {
+            this.creating = true
+
             return this.$http.post(`/api/jobs/${this.job.id}/orders`, {type: this.form.type})
                 .then(response => {
+                    this.creating = false
                     this.order = response.data
 
                     return response.data.paypal_order_id
                 })
                 .catch(() => {
+                    this.creating = false
                     this.showDangerBanner()
                 })
         },
 
         onApprove() {
+            this.approving = true
+
             return this.$http.put(`/api/orders/${this.order.id}/capture`)
                 .then(() => {
+                    this.approving = false
+
+                    this.$router.push({name: 'jobs.all'})
                     this.$root.banner.message = this.__(
                         'Your order has been successfully completed. It is now listed on our Jobs page.'
                     )
-
-                    this.$router.push({name: 'jobs.all'})
                 })
                 .catch(() => {
+                    this.approving = false
                     this.showDangerBanner()
                 })
         },

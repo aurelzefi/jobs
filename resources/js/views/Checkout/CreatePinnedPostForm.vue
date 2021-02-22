@@ -28,7 +28,7 @@
 
 <script>
 import ActionSection from '../../components/ActionSection'
-import PaypalSmartButtons from '../../components/PaypalSmartButtons'
+import PaypalSmartButtons from './PaypalSmartButtons'
 
 export default {
     components: {
