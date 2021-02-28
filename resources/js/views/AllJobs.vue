@@ -141,7 +141,7 @@
 
                             <div class="mt-6 col-span-6 sm:col-span-4">
                                 <app-label for="job-types">
-                                    {{ __('Job Types') }}
+                                    {{ __('Types') }}
                                 </app-label>
 
                                 <div class="mt-2 grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -156,7 +156,7 @@
 
                             <div class="mt-6 col-span-6 sm:col-span-4">
                                 <app-label for="job-types">
-                                    {{ __('Job Styles') }}
+                                    {{ __('Styles') }}
                                 </app-label>
 
                                 <div class="mt-2 grid grid-cols-1 md:grid-cols-2 gap-4">
