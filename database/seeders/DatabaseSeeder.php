@@ -25,11 +25,9 @@ class DatabaseSeeder extends Seeder
 
         $this->seedForUser($user);
 
-        for ($i = 0; $i < 10; $i++) {
-            $user = User::factory()->create();
-
+        User::factory(10)->create()->each(function (User $user) {
             $this->seedForUser($user);
-        }
+        });
     }
 
     protected function seedForUser(User $user): void
