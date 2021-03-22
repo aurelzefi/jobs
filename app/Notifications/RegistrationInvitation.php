@@ -46,7 +46,7 @@ class RegistrationInvitation extends Notification implements ShouldQueue
     {
         return URL::temporarySignedRoute(
             'register.invitation',
-            now()->addHour(),
+            now()->addHours(2),
             [
                 'email' => $this->email,
                 'hash' => sha1($this->email),
