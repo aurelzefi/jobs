@@ -40,7 +40,7 @@
                     </a>
 
                     <a href="{{ url('/jobs/all') }}" class="items-center px-4 py-2 bg-gray-white border border-gray-900 rounded-md font-semibold text-xs text-black uppercase tracking-widest hover:bg-gray-200 focus:outline-none focus:border-gray-400 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150">
-                        {{ __('All Jobs')  }}
+                        {{ __('View Jobs')  }}
                     </a>
                 </div>
             </div>
